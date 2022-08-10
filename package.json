@@ -1,0 +1,22 @@
+{
+  "name": "enginette",
+  "version": "1.0.0",
+  "description": "A engine downloader for the engine-sim",
+  "main": "main.js",
+  "scripts": {
+    "test": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DDev247/enginette.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DDev247/enginette/issues"
+  },
+  "homepage": "https://github.com/DDev247/enginette#readme",
+  "devDependencies": {
+    "electron": "^20.0.1"
+  }
+}
