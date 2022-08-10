@@ -1,2 +1,2 @@
 # enginette
-A engine downloaded for the engine-sim by ange-yaghi
+A engine editor for the engine-sim by ange-yaghi
