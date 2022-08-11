@@ -1,9 +1,0 @@
-@font-face {
-    font-family: "vcr";
-    src: url(vcr.ttf) format("truetype");
-}
-
-body {
-    font-family: vcr;
-    background-color: rgb(25, 25, 25);
-}
