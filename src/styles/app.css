@@ -12,6 +12,7 @@ html, body {
 }
 
 #root, #root > .app {
+    background-color: #EEEEEE;
     width: 100%;
     height: 100%;
 }

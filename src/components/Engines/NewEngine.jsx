@@ -1,54 +1,51 @@
+import { useState } from "react";
 import styled from "styled-components";
+import edit from "../../images/edit.svg";
 import deleteIcon from "../../images/delete.svg";
-
-const EngineDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: white;
-    align-items: center;
-    border-radius: 20px;
-    box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
-    width: 100%;
-    height: 76px;
-    padding 0 15px;
-    margin-top: 5px;
-
-    > p {
-        drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-    }
-
-    > input {
-        drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-        font-style: normal;
-        font-weight: 400;
-        border-radius: 10px;
-        font-size: 24px;
-    }
-`;
+import { EngineDiv, Right } from "./Engine";
 
 const Left = styled.div`
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	> img {
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+	}
+	> input {
+		padding: 10px 15px;
+		border-radius: 2em;
+		font-size: 20px;
+		color: #080b2d;
+		outline: none;
+		border: 1px solid #8794b0;
+	}
 `;
 
-let title = "My new engine";
+const NewEngine = ({ close }) => {
+	const [name, setName] = useState("");
+	const handleNameChange = (e) => {
+		setName(e.target.value);
+	};
 
-const NewEngine = () => {
-    return (
-        <EngineDiv>
-            <input value={title}/>
-            <Left>
-                <img src={deleteIcon} alt="Delete"/>
-            </Left>
-        </EngineDiv>
-    )
+	return (
+		<EngineDiv>
+			<Left>
+				<input
+					type="text"
+					placeholder="My badass engine"
+					value={name}
+					onChange={handleNameChange}
+				/>
+				<img src={edit} alt="edit" />
+			</Left>
+			<Right>
+				<img src={deleteIcon} alt="Delete" onClick={close} />
+			</Right>
+		</EngineDiv>
+	);
 };
 
 export default NewEngine;

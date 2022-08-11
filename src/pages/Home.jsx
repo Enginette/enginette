@@ -1,90 +1,82 @@
 import styled from "styled-components";
 import plus from "../images/plus.svg";
-import Engine from "../components/Engines/Engine.jsx";
-import NewEngine from "../components/Engines/NewEngine.jsx";
+import Engine from "../components/Engines/Engine";
+import NewEngine from "../components/Engines/NewEngine";
+import { useState } from "react";
 
 const HomeDiv = styled.div`
-    background-color: black;
-    display: flex;
-    justify-content: center;
-
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: calc(100% - 70px);
 `;
 
-const EngineSelectorDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    background-color: white;
-    align-items: center;
-    border-radius: 20px;
-    box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
-    width: 641px;
-    height: 653px;
-    margin-top: 7%;
-    margin-bottom: 7%;
-
-    > h1 {
-        color: #080B2D;
-        font-size: 48px;
-        font-weight: bold;
-        margin-top: 10px;
-        drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    }
+const EngineSelector = styled.div`
+	padding: 20px;
+	border-radius: 20px;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 650px;
+	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
+	> h1 {
+		font-size: 48px;
+		color: #080b2d;
+		margin-bottom: 20px;
+	}
 `;
 
-const EngineSelectorGroup5 = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
+const Selector = styled.div`
+	width: 100%;
 `;
 
-const EngineSelectorGroup3 = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    width: 100%;
-    padding: 0px 15px;
-    > h1 {
-        color: #080B2D;
-        font-size: 32px;
-        margin-right: 20px;
-        drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    }
+const Top = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 15px;
+	> h3 {
+		color: #031b4e;
+		font-size: 32px;
+		font-weight: 500;
+	}
+	> img {
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+	}
 `;
 
-const EngineSelectorGroup5Inner = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: transparent;
-    align-items: center;
-    width 100%;
-    padding: 15px;
+const Engines = styled.div`
+	width: 100%;
 `;
 
 const Home = () => {
-    return (
-        <HomeDiv>
-            <EngineSelectorDiv>
-                <h1>Enginette</h1>
+	const [isNewActive, setIsNewActive] = useState(false);
+	const toggleIsNewActive = () => {
+		setIsNewActive(!isNewActive);
+	};
 
-                <EngineSelectorGroup5>
-
-                    <EngineSelectorGroup3>
-                        <h1>Engines</h1>
-                        <img src={plus} alt="plus"/>
-                    </EngineSelectorGroup3>
-
-                    <EngineSelectorGroup5Inner>
-                        <Engine></Engine>
-                        <NewEngine></NewEngine>
-                    </EngineSelectorGroup5Inner>
-
-                </EngineSelectorGroup5>
-            </EngineSelectorDiv>
-        </HomeDiv>
-    )
+	return (
+		<HomeDiv>
+			<EngineSelector>
+				<h1>Enginette</h1>
+				<Selector>
+					<Top>
+						<h3>Engines</h3>
+						<img src={plus} onClick={toggleIsNewActive} />
+					</Top>
+					<Engines>
+						<Engine>Honda v12</Engine>
+						{isNewActive && <NewEngine close={toggleIsNewActive} />}
+					</Engines>
+				</Selector>
+			</EngineSelector>
+		</HomeDiv>
+	);
 };
 
 export default Home;
