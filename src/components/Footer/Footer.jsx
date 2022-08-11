@@ -36,6 +36,12 @@ const Right = styled.div`
 		color: white;
 		margin-right: 10px;
 	}
+	> a {
+		font-size: 20px;
+		color: white;
+		margin-right: 10px;
+		text-decoration: none;
+	}
 	> img {
 		width: 50px;
 		height: 50px;
@@ -50,8 +56,8 @@ const Footer = () => {
 				<p>Made with ❤️ by Pooria and DDev</p>
 			</Left>
 			<Right>
-				<p>Get patcher</p>
-				<img src={github} alt="github" />
+				<a href="https://github.com/DDev247/enginette-client">Get the patcher</a>
+				<a href="https://github.com/DDev247/enginette"><img src={github} alt="github" /></a>
 			</Right>
 		</FooterDiv>
 	);
