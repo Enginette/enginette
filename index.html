@@ -8,10 +8,48 @@
         <!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
     </head>
     <body>
-        
 
-        <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+        <h1>Enginette</h1>
+        <h2>General</h2>
+
+        <input id="engine-name" type="text" value="My Engine"> <span class="text">Engine Name</span> <br>
+
+        <h2>Engine</h2>
+
+        <select name="engine type" id="select-engine-type">
+            <option value="I3">I3</option>
+            <option value="I4">I4</option>
+            <option value="I5">I5</option>
+            <option value="I6">I6</option>
+        </select> <span class="text">Select engine type</span> <br>
+
+        <input id="displacement" type="number" value="2" min="1" max="20"> <span class="text">Select engine displacement (in liters)</span> <br>
+        <input id="maxRpm" type="number" value="5000" min="3000" max="10000"> <span class="text">Select engine redline (in rpm)</span> <br>
+        <!--<input type="number" value="5000" min="3000" max="10000"> <span class="text">Select engine bore (in mm)</span> <br> -->
+
+        <h2>Ignition</h2>
+
+        <select name="ignition timing type" id="select-timing-type">
+            <option value="Normal">Normal</option>
+            <option value="Agressive">Agressive (might not run)</option>
+            <option value="Optimal">Optimal</option>
+        </select> <span class="text">Select ignition timing type</span> <br>
+
+        <input type="number" value="750" min="450" max="2500"> <span class="text">Select starter rpm</span> <br>
+        <input type="number" value="100" min="25" max="500"> <span class="text">Select starter torque (in lb-ft)</span> <br>
+
+        <h2>Generation</h2>
+
+        <button id="genBtn">Generate</button>
+        <button id="fileBtn">Set files</button>
+        <button id="runBtn">Run Simulator</button>
+
+        <h2>Result</h2>
+        <div id="result" class="text">
+
+        </div>
+
+        <script src="enginette_gen.js"></script>
+
     </body>
 </html>

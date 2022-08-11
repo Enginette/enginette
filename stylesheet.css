@@ -7,3 +7,19 @@ body {
     font-family: vcr;
     background-color: rgb(25, 25, 25);
 }
+
+h1 {
+    color: white;
+}
+
+h2 {
+    color: white;
+}
+
+p {
+    color: white;
+}
+
+.text {
+    color: white;
+}
