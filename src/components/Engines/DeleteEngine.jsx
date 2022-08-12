@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Database from "../../database/database";
 import plus from "../../images/plus.svg";
 
 const DeleteEngineDiv = styled.div`
@@ -63,16 +64,35 @@ const Top = styled.div`
 	}
 `;
 
-const DeleteEngine = ({ cancel, name = "Honda v12" }) => {
+const DeleteEngine = ({
+	clickedEngine,
+	setClickedEngine,
+	toggleIsDeleteActive,
+	engines,
+	setEngines,
+}) => {
+	const handleCloseClick = () => {
+		setClickedEngine(null);
+		toggleIsDeleteActive();
+	};
+	const handleDeleteClick = () => {
+		Database.Engines.remove(clickedEngine);
+		setEngines(engines.filter((engine) => engine !== clickedEngine));
+		handleCloseClick();
+	};
 	return (
 		<DeleteEngineDiv>
 			<DeleteConfirmation>
 				<Top>
-					<h3>{name}</h3>
-					<img src={plus} alt="cancelButton" onClick={cancel} />
+					<h3>{clickedEngine}</h3>
+					<img
+						src={plus}
+						alt="cancelButton"
+						onClick={handleCloseClick}
+					/>
 				</Top>
 				<p>Are you sure you want to delete this design?</p>
-				<button>Delete</button>
+				<button onClick={handleDeleteClick}>Delete</button>
 			</DeleteConfirmation>
 		</DeleteEngineDiv>
 	);
