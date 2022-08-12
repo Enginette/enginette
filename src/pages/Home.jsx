@@ -2,7 +2,9 @@ import styled from "styled-components";
 import plus from "../images/plus.svg";
 import Engine from "../components/Engines/Engine";
 import NewEngine from "../components/Engines/NewEngine";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import DeleteEngine from "../components/Engines/DeleteEngine";
+import Database from "../database/database";
 
 const HomeDiv = styled.div`
 	display: flex;
@@ -21,6 +23,7 @@ const EngineSelector = styled.div`
 	align-items: center;
 	width: 650px;
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
+	position: relative;
 	> h1 {
 		font-size: 48px;
 		color: #080b2d;
@@ -55,23 +58,56 @@ const Engines = styled.div`
 `;
 
 const Home = () => {
+	const [engines, setEngines] = useState([]);
+	const [clickedEngine, setClickedEngine] = useState(null);
 	const [isNewActive, setIsNewActive] = useState(false);
 	const toggleIsNewActive = () => {
 		setIsNewActive(!isNewActive);
 	};
 
+	const [isDeleteActive, setIsDeleteActive] = useState(false);
+	const toggleIsDeleteActive = () => {
+		setIsDeleteActive(!isDeleteActive);
+	};
+
+	useEffect(() => {
+		setEngines(Database.Engines.all());
+	}, []);
+
 	return (
 		<HomeDiv>
 			<EngineSelector>
+				{isDeleteActive && (
+					<DeleteEngine
+						clickedEngine={clickedEngine}
+						setClickedEngine={setClickedEngine}
+						toggleIsDeleteActive={toggleIsDeleteActive}
+						engines={engines}
+						setEngines={setEngines}
+					/>
+				)}
 				<h1>Enginette</h1>
 				<Selector>
 					<Top>
 						<h3>Engines</h3>
-						<img src={plus} onClick={toggleIsNewActive} />
+						<img src={plus} onClick={toggleIsNewActive} alt="New" />
 					</Top>
 					<Engines>
-						<Engine>Honda v12</Engine>
-						{isNewActive && <NewEngine close={toggleIsNewActive} />}
+						{engines.map((engine) => (
+							<Engine
+								setClickedEngine={setClickedEngine}
+								toggleIsDeleteActive={toggleIsDeleteActive}
+							>
+								{engine}
+							</Engine>
+						))}
+						{isNewActive && (
+							<NewEngine
+								close={toggleIsNewActive}
+								engines={engines}
+								setEngines={setEngines}
+							/>
+						)}
 					</Engines>
 				</Selector>
 			</EngineSelector>
