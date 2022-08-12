@@ -98,8 +98,9 @@ const Home = () => {
 						<img src={plus} onClick={toggleIsNewActive} alt="New" />
 					</Top>
 					<Engines>
-						{engines.map((engine) => (
+						{engines.map((engine, index) => (
 							<Engine
+								key={index}
 								setClickedEngine={setClickedEngine}
 								toggleIsDeleteActive={toggleIsDeleteActive}
 							>
