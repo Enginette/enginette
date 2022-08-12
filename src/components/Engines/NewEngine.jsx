@@ -24,9 +24,26 @@ const Left = styled.div`
 	}
 `;
 
+const createAndEdit = () =>
+{
+	// TODO: Create database entry and open editor
+}
+
+const listOfEngines = [
+	"Toyota 2JZ GTE",
+	"Nissan RB32",
+	"Big block V8",
+	"Small block V8",
+	"Honda B-Series VTEC",
+	"GM LS V8",
+	"BMW N54"
+]
+
 const NewEngine = ({ close }) => {
 	const [name, setName] = useState("");
 	const handleNameChange = (e) => {
+		if(e.target.value.length === 0)
+			e.target.placeholder = listOfEngines[Math.floor(Math.random() * listOfEngines.length)];
 		setName(e.target.value);
 	};
 
@@ -35,11 +52,11 @@ const NewEngine = ({ close }) => {
 			<Left>
 				<input
 					type="text"
-					placeholder="My badass engine"
+					placeholder={listOfEngines[Math.floor(Math.random() * listOfEngines.length)]}
 					value={name}
 					onChange={handleNameChange}
 				/>
-				<img src={edit} alt="edit" />
+				<img src={edit} alt="edit" onClick={createAndEdit} />
 			</Left>
 			<Right>
 				<img src={deleteIcon} alt="Delete" onClick={close} />

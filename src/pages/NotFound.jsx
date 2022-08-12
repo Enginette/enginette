@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ErrDiv = styled.div`
     background-color: white;
-    height: 100%;
+    height: calc(100% - 70px);
     display: flex;
     flex-direction: column;
     align-items: center;
