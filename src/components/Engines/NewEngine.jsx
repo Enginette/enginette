@@ -47,9 +47,13 @@ const NewEngine = ({ close, engines, setEngines }) => {
 		setName(e.target.value);
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = (e) => {
+		e.preventDefault();
 		if (Database.Engines.exists(name)) {
 			alert("Engine already exists.");
+			return;
+		} else if (name.length === 0) {
+			alert("Please fill the name");
 			return;
 		}
 
