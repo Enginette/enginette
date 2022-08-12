@@ -3,15 +3,19 @@ import styled from "styled-components";
 import edit from "../../images/edit.svg";
 import deleteIcon from "../../images/delete.svg";
 import { EngineDiv, Right } from "./Engine";
+import Database from "../../database/database";
 
-const Left = styled.div`
+const Left = styled.form`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
-	> img {
+	> button {
 		width: 30px;
 		height: 30px;
+		border: none;
+		outline: none;
+		background-color: white;
 		cursor: pointer;
 	}
 	> input {
@@ -24,11 +28,6 @@ const Left = styled.div`
 	}
 `;
 
-const createAndEdit = () =>
-{
-	// TODO: Create database entry and open editor
-}
-
 const listOfEngines = [
 	"Toyota 2JZ GTE",
 	"Nissan RB32",
@@ -36,27 +35,45 @@ const listOfEngines = [
 	"Small block V8",
 	"Honda B-Series VTEC",
 	"GM LS V8",
-	"BMW N54"
-]
+	"BMW N54",
+];
 
-const NewEngine = ({ close }) => {
+const NewEngine = ({ close, engines, setEngines }) => {
 	const [name, setName] = useState("");
 	const handleNameChange = (e) => {
-		if(e.target.value.length === 0)
-			e.target.placeholder = listOfEngines[Math.floor(Math.random() * listOfEngines.length)];
+		if (e.target.value.length === 0)
+			e.target.placeholder =
+				listOfEngines[Math.floor(Math.random() * listOfEngines.length)];
 		setName(e.target.value);
+	};
+
+	const handleSubmit = () => {
+		if (Database.Engines.exists(name)) {
+			alert("Engine already exists.");
+			return;
+		}
+
+		Database.Engines.add(name);
+		setEngines([...engines, name]);
+		close();
 	};
 
 	return (
 		<EngineDiv>
-			<Left>
+			<Left onSubmit={handleSubmit}>
 				<input
 					type="text"
-					placeholder={listOfEngines[Math.floor(Math.random() * listOfEngines.length)]}
+					placeholder={
+						listOfEngines[
+							Math.floor(Math.random() * listOfEngines.length)
+						]
+					}
 					value={name}
 					onChange={handleNameChange}
 				/>
-				<img src={edit} alt="edit" onClick={createAndEdit} />
+				<button type="submit">
+					<img src={edit} alt="edit" />
+				</button>
 			</Left>
 			<Right>
 				<img src={deleteIcon} alt="Delete" onClick={close} />

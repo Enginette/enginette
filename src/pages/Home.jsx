@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import plus from "../images/plus.svg";
-import x from "../images/x.svg";
 import Engine from "../components/Engines/Engine";
 import NewEngine from "../components/Engines/NewEngine";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeleteEngine from "../components/Engines/DeleteEngine";
+import Database from "../database/database";
 
 const HomeDiv = styled.div`
 	display: flex;
@@ -58,6 +58,8 @@ const Engines = styled.div`
 `;
 
 const Home = () => {
+	const [engines, setEngines] = useState([]);
+	const [clickedEngine, setClickedEngine] = useState(null);
 	const [isNewActive, setIsNewActive] = useState(false);
 	const toggleIsNewActive = () => {
 		setIsNewActive(!isNewActive);
@@ -68,11 +70,21 @@ const Home = () => {
 		setIsDeleteActive(!isDeleteActive);
 	};
 
+	useEffect(() => {
+		setEngines(Database.Engines.all());
+	}, []);
+
 	return (
 		<HomeDiv>
 			<EngineSelector>
 				{isDeleteActive && (
-					<DeleteEngine cancel={toggleIsDeleteActive} />
+					<DeleteEngine
+						clickedEngine={clickedEngine}
+						setClickedEngine={setClickedEngine}
+						toggleIsDeleteActive={toggleIsDeleteActive}
+						engines={engines}
+						setEngines={setEngines}
+					/>
 				)}
 				<h1>Enginette</h1>
 				<Selector>
@@ -81,10 +93,21 @@ const Home = () => {
 						<img src={plus} onClick={toggleIsNewActive} alt="New" />
 					</Top>
 					<Engines>
-						<Engine deleteClick={toggleIsDeleteActive}>
-							Honda v12
-						</Engine>
-						{isNewActive && <NewEngine close={toggleIsNewActive} />}
+						{engines.map((engine) => (
+							<Engine
+								setClickedEngine={setClickedEngine}
+								toggleIsDeleteActive={toggleIsDeleteActive}
+							>
+								{engine}
+							</Engine>
+						))}
+						{isNewActive && (
+							<NewEngine
+								close={toggleIsNewActive}
+								engines={engines}
+								setEngines={setEngines}
+							/>
+						)}
 					</Engines>
 				</Selector>
 			</EngineSelector>

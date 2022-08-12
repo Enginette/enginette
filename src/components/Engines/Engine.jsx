@@ -30,31 +30,31 @@ const Right = styled.div`
 	cursor: pointer;
 `;
 
-const downloadEngine = () =>
-{
+const downloadEngine = () => {
 	// TODO: Add database retrieving code and
 	// make it downloadable
-}
+};
 
-const openEditor = () =>
-{
+const openEditor = () => {
 	// TODO: Open editor with this engine
-}
+};
 
-const deleteEngine = () =>
-{
-	// TODO: Delete database entry about this engine
-}
-
-const Engine = ({ children, deleteClick }) => {
-
+const Engine = ({ children, setClickedEngine, toggleIsDeleteActive }) => {
+	const handleClick = () => {
+		setClickedEngine(children);
+		toggleIsDeleteActive();
+	};
 	return (
 		<EngineDiv>
 			<p>{children}</p>
 			<Right>
-				<img src={downloadIcon} alt="Download" onClick={downloadEngine} />
+				<img
+					src={downloadIcon}
+					alt="Download"
+					onClick={downloadEngine}
+				/>
 				<img src={editIcon} alt="Edit" onClick={openEditor} />
-				<img src={deleteIcon} alt="Delete" onClick={deleteClick} />
+				<img src={deleteIcon} alt="Delete" onClick={handleClick} />
 			</Right>
 		</EngineDiv>
 	);
