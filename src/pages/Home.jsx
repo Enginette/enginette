@@ -14,7 +14,6 @@ const HomeDiv = styled.div`
 `;
 
 const EngineSelector = styled.div`
-	padding: 20px;
 	border-radius: 20px;
 	background-color: white;
 	display: flex;
@@ -25,6 +24,8 @@ const EngineSelector = styled.div`
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
 	position: relative;
 	> h1 {
+		padding: 0 20px;
+		padding-top: 20px;
 		font-size: 48px;
 		color: #080b2d;
 		margin-bottom: 20px;
@@ -36,11 +37,12 @@ const Selector = styled.div`
 `;
 
 const Top = styled.div`
+	padding: 0 20px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 15px;
+
 	> h3 {
 		color: #031b4e;
 		font-size: 32px;
@@ -55,6 +57,9 @@ const Top = styled.div`
 
 const Engines = styled.div`
 	width: 100%;
+	max-height: 50vh;
+	padding: 15px 20px;
+	overflow-y: auto;
 `;
 
 const Home = () => {
@@ -93,8 +98,9 @@ const Home = () => {
 						<img src={plus} onClick={toggleIsNewActive} alt="New" />
 					</Top>
 					<Engines>
-						{engines.map((engine) => (
+						{engines.map((engine, index) => (
 							<Engine
+								key={index}
 								setClickedEngine={setClickedEngine}
 								toggleIsDeleteActive={toggleIsDeleteActive}
 							>
