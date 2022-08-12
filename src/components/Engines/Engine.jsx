@@ -2,7 +2,7 @@ import styled from "styled-components";
 import downloadIcon from "../../images/download.svg";
 import editIcon from "../../images/edit.svg";
 import deleteIcon from "../../images/delete.svg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const EngineDiv = styled.div`
 	display: flex;
@@ -36,11 +36,6 @@ const downloadEngine = () => {
 	// make it downloadable
 };
 
-const openEditor = (children) => {
-	// TODO: Open editor with this engine
-	window.location.href = "/engines/" + children + "/edit/general"
-};
-
 const Engine = ({ children, setClickedEngine, toggleIsDeleteActive }) => {
 	const handleClick = () => {
 		setClickedEngine(children);
@@ -55,7 +50,9 @@ const Engine = ({ children, setClickedEngine, toggleIsDeleteActive }) => {
 					alt="Download"
 					onClick={downloadEngine}
 				/>
-				<Link href={`/engines/${children}/edit/general`}><img src={editIcon} alt="Edit" /></Link>
+				<Link to={`/engines/${children}/edit/general`}>
+					<img src={editIcon} alt="Edit" />
+				</Link>
 				<img src={deleteIcon} alt="Delete" onClick={handleClick} />
 			</Right>
 		</EngineDiv>
