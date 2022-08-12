@@ -34,6 +34,7 @@ const Right = styled.div`
 const downloadEngine = () => {
 	// TODO: Add database retrieving code and
 	// make it downloadable
+	alert("Coming soon!");
 };
 
 const Engine = ({ children, setClickedEngine, toggleIsDeleteActive }) => {
