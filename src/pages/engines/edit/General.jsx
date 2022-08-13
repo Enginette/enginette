@@ -12,6 +12,21 @@ const GeneralDiv = styled.div`
 	flex-direction: column;
 `;
 
+const LoadingScreen = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+	height: calc(100% - 70px);
+	padding: 15px;
+
+    > h1 {
+		color: #080b2d;
+        font-size: 200px;
+		font-weight: 100;
+    }
+`;
+
 const Inputs = styled.div`
 	display: flex;
 	justify-content: center;
@@ -55,7 +70,11 @@ const General = () => {
 	}, []);
 
 	if (engine === null) {
-		return <h1>Loading...</h1>;
+		return (
+            <LoadingScreen>
+                <h1>Loading...</h1>
+            </LoadingScreen>
+        );
 	} else if (engine === undefined) {
 		navigate("/");
 		return;
@@ -188,4 +207,5 @@ const General = () => {
 	);
 };
 
+export { LoadingScreen };
 export default General;

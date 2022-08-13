@@ -34,14 +34,19 @@ const EngineSelector = styled.div`
 
 const Selector = styled.div`
 	width: 100%;
+	padding: 15px 20px;
 `;
 
 const Top = styled.div`
-	padding: 0 20px;
+	//padding: 0 20px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	> h1 {
+
+	}
 
 	> h3 {
 		color: #031b4e;
@@ -58,7 +63,7 @@ const Top = styled.div`
 const Engines = styled.div`
 	width: 100%;
 	max-height: 50vh;
-	padding: 15px 20px;
+	//padding: 15px 20px;
 	overflow-y: auto;
 `;
 
@@ -120,4 +125,5 @@ const Home = () => {
 	);
 };
 
+export { Top };
 export default Home;
