@@ -13,18 +13,18 @@ const GeneralDiv = styled.div`
 `;
 
 const LoadingScreen = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
 	height: calc(100% - 70px);
 	padding: 15px;
 
-    > h1 {
+	> h1 {
 		color: #080b2d;
-        font-size: 200px;
+		font-size: 200px;
 		font-weight: 100;
-    }
+	}
 `;
 
 const Inputs = styled.div`
@@ -58,23 +58,31 @@ const Input = styled.div`
 	}
 `;
 
-const General = () => {
-	let { name } = useParams();
+const General = ({ database }) => {
+	let { id } = useParams();
+	id = parseInt(id);
+
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 
 	useEffect(() => {
-		const engine = Database.Engines.get({ name });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
-	}, []);
+		if (!database) return;
+		const stuff = async () => {
+			const engine = await Database.Engines.getById({
+				id,
+				db: database,
+			});
+			setEngine(engine);
+		};
+		stuff();
+	}, [database]);
 
 	if (engine === null) {
 		return (
-            <LoadingScreen>
-                <h1>Loading...</h1>
-            </LoadingScreen>
-        );
+			<LoadingScreen>
+				<h1>Loading...</h1>
+			</LoadingScreen>
+		);
 	} else if (engine === undefined) {
 		navigate("/");
 		return;
@@ -89,22 +97,25 @@ const General = () => {
 						type="text"
 						defaultValue={engine.name}
 						required
-						onChange={(e) => {
+						onChange={async (e) => {
 							e.target.style.border = "1px solid #8794b0";
 							if (e.target.value.length === 0) return;
-							if (Database.Engines.exists(e.target.value)) {
+
+							try {
+								await Database.Engines.update({
+									db: database,
+									id,
+									values: {
+										...engine,
+										name: e.target.value,
+									},
+								});
+								setEngine({ ...engine, name: e.target.value });
+							} catch (error) {
 								e.target.style.border = "1px solid red";
 								alert("Name already exists");
 								return;
 							}
-
-							const engineCopy = engine.copy();
-							engineCopy.name = e.target.value;
-							Database.Engines.edit({
-								name: engine.name,
-								engine: engineCopy,
-							});
-							setEngine(engineCopy);
 						}}
 					/>
 				</Input>
@@ -114,15 +125,20 @@ const General = () => {
 						type="number"
 						defaultValue={engine.starterTorque}
 						required
-						onChange={(e) => {
+						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
-							const engineCopy = engine.copy();
-							engineCopy.starterTorque = parseInt(e.target.value);
-							Database.Engines.edit({
-								name: engine.name,
-								engine: engineCopy,
+							await Database.Engines.update({
+								db: database,
+								id,
+								values: {
+									...engine,
+									starterTorque: parseInt(e.target.value),
+								},
 							});
-							setEngine(engineCopy);
+							setEngine({
+								...engine,
+								starterTorque: parseInt(e.target.value),
+							});
 						}}
 					/>
 				</Input>
@@ -132,15 +148,20 @@ const General = () => {
 						type="number"
 						defaultValue={engine.redLine}
 						required
-						onChange={(e) => {
+						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
-							const engineCopy = engine.copy();
-							engineCopy.redLine = parseInt(e.target.value);
-							Database.Engines.edit({
-								name: engine.name,
-								engine: engineCopy,
+							await Database.Engines.update({
+								db: database,
+								id,
+								values: {
+									...engine,
+									redLine: parseInt(e.target.value),
+								},
 							});
-							setEngine(engineCopy);
+							setEngine({
+								...engine,
+								redLine: parseInt(e.target.value),
+							});
 						}}
 					/>
 				</Input>
@@ -150,17 +171,22 @@ const General = () => {
 						type="text"
 						defaultValue={engine.maxTurbulenceEffect}
 						required
-						onChange={(e) => {
+						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
-							const engineCopy = engine.copy();
-							engineCopy.maxTurbulenceEffect = parseInt(
-								e.target.value
-							);
-							Database.Engines.edit({
-								name: engine.name,
-								engine: engineCopy,
+							await Database.Engines.update({
+								db: database,
+								id,
+								values: {
+									...engine,
+									maxTurbulenceEffect: parseInt(
+										e.target.value
+									),
+								},
 							});
-							setEngine(engineCopy);
+							setEngine({
+								...engine,
+								maxTurbulenceEffect: parseInt(e.target.value),
+							});
 						}}
 					/>
 				</Input>
@@ -169,17 +195,20 @@ const General = () => {
 					<input
 						type="number"
 						defaultValue={engine.burningRandomness}
-						onChange={(e) => {
+						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
-							const engineCopy = engine.copy();
-							engineCopy.burningRandomness = parseInt(
-								e.target.value
-							);
-							Database.Engines.edit({
-								name: engine.name,
-								engine: engineCopy,
+							await Database.Engines.update({
+								db: database,
+								id,
+								values: {
+									...engine,
+									burningRandomness: parseInt(e.target.value),
+								},
 							});
-							setEngine(engineCopy);
+							setEngine({
+								...engine,
+								burningRandomness: parseInt(e.target.value),
+							});
 						}}
 					/>
 				</Input>
@@ -188,17 +217,22 @@ const General = () => {
 					<input
 						type="number"
 						defaultValue={engine.maxBurningEfficiency}
-						onChange={(e) => {
+						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
-							const engineCopy = engine.copy();
-							engineCopy.maxBurningEfficiency = parseInt(
-								e.target.value
-							);
-							Database.Engines.edit({
-								name: engine.name,
-								engine: engineCopy,
+							await Database.Engines.update({
+								db: database,
+								id,
+								values: {
+									...engine,
+									maxBurningEfficiency: parseInt(
+										e.target.value
+									),
+								},
 							});
-							setEngine(engineCopy);
+							setEngine({
+								...engine,
+								maxBurningEfficiency: parseInt(e.target.value),
+							});
 						}}
 					/>
 				</Input>

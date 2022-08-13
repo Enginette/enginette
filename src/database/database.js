@@ -6,11 +6,10 @@ class Database {
 		engines.createIndex("name", "name", { unique: true });
 	};
 	static Engines = class Engines {
-		static update = async ({ db, id, newValues }) => {
+		static update = async ({ db, id, values }) => {
 			const txn = db.transaction("engines", "readwrite");
 			const objectStore = txn.objectStore("engines");
-			const engine = await objectStore.get(id);
-			await objectStore.put({ ...engine, ...newValues }, id);
+			await objectStore.put(values, id);
 		};
 		static all = async (db) => {
 			const txn = db.transaction("engines", "readonly");
@@ -20,24 +19,25 @@ class Database {
 				return { id: keys[index], ...item };
 			});
 		};
-		static add = async ({
-			db,
-			name,
-			starterTorque = 200,
-			redLine = 6000,
-			maxTurbulenceEffect = 3,
-			burningRandomness = 1,
-			maxBurningEfficiency = 0.85,
-		}) => {
+		static add = async ({ db, values }) => {
 			const tx = db.transaction("engines", "readwrite");
-			return await tx.objectStore("engines").add({
-				name,
-				starterTorque,
-				redLine,
-				maxTurbulenceEffect,
-				burningRandomness,
-				maxBurningEfficiency,
+			const id = await tx.objectStore("engines").add({
+				starterTorque: 200,
+				redLine: 6000,
+				maxTurbulenceEffect: 3,
+				burningRandomness: 1,
+				maxBurningEfficiency: 0.85,
+				...values,
 			});
+			return {
+				id,
+				starterTorque: 200,
+				redLine: 6000,
+				maxTurbulenceEffect: 3,
+				burningRandomness: 1,
+				maxBurningEfficiency: 0.85,
+				...values,
+			};
 		};
 		static remove = async ({ db, id }) => {
 			const txn = db.transaction("engines", "readwrite");

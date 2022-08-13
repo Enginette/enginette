@@ -1,5 +1,5 @@
 import "./styles/app.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -15,7 +15,6 @@ import { openDB, deleteDB, wrap, unwrap } from "idb";
 import { useState, useEffect } from "react";
 import Database from "./database/database";
 function App() {
-	const navigate = useNavigate();
 	const [database, setDatabase] = useState(null);
 
 	useEffect(() => {
@@ -38,8 +37,8 @@ function App() {
 				<Route path="/about" element={<h1>b</h1>} />
 
 				<Route
-					path="/engines/:name/edit/general"
-					element={<General></General>}
+					path="/engines/:id/edit/general"
+					element={<General database={database}></General>}
 				/>
 
 				<Route

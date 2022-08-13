@@ -65,6 +65,7 @@ const Top = styled.div`
 `;
 
 const DeleteEngine = ({
+	database,
 	clickedEngine,
 	setClickedEngine,
 	toggleIsDeleteActive,
@@ -75,11 +76,12 @@ const DeleteEngine = ({
 		setClickedEngine(null);
 		toggleIsDeleteActive();
 	};
-	const handleDeleteClick = () => {
-		Database.Engines.remove(clickedEngine);
-		setEngines(
-			engines.filter((engine) => engine.name !== clickedEngine.name)
-		);
+	const handleDeleteClick = async () => {
+		await Database.Engines.remove({
+			db: database,
+			id: clickedEngine.id,
+		});
+		setEngines(engines.filter((engine) => engine.id !== clickedEngine.id));
 		handleCloseClick();
 	};
 	return (

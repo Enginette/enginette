@@ -8,7 +8,7 @@ const HeaderCategoriesDiv = styled.div`
 `;
 
 const HeaderCategories = ({ engine }) => {
-	const baseUrl = `/engines/${engine.name}/edit/`;
+	const baseUrl = `/engines/${engine.id}/edit/`;
 	return (
 		<HeaderCategoriesDiv>
 			<Category to={baseUrl + "general"}>Engine</Category>

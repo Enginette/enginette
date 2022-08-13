@@ -34,7 +34,6 @@ const EngineSelector = styled.div`
 
 const Selector = styled.div`
 	width: 100%;
-	padding: 15px 20px;
 `;
 
 const Top = styled.div`
@@ -42,6 +41,8 @@ const Top = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 0 20px;
+	padding-top: 15px;
 
 	> h1 {
 	}
@@ -62,31 +63,37 @@ const Engines = styled.div`
 	width: 100%;
 	max-height: 50vh;
 	overflow-y: auto;
+	padding: 15px 20px;
 `;
 
 const Home = ({ database }) => {
 	const [engines, setEngines] = useState([]);
 	const [clickedEngine, setClickedEngine] = useState(null);
 	const [isNewActive, setIsNewActive] = useState(false);
+	const [isDeleteActive, setIsDeleteActive] = useState(false);
+
+	const toggleIsDeleteActive = () => {
+		setIsDeleteActive(!isDeleteActive);
+	};
 	const toggleIsNewActive = () => {
 		setIsNewActive(!isNewActive);
 	};
 
-	const [isDeleteActive, setIsDeleteActive] = useState(false);
-	const toggleIsDeleteActive = () => {
-		setIsDeleteActive(!isDeleteActive);
-	};
-
 	useEffect(() => {
-		const stuff = async () => {};
+		if (!database) return;
+		const stuff = async () => {
+			const engines = await Database.Engines.all(database);
+			setEngines(engines);
+		};
 		stuff();
-	}, []);
+	}, [database]);
 
 	return (
 		<HomeDiv>
 			<EngineSelector>
 				{isDeleteActive && (
 					<DeleteEngine
+						database={database}
 						clickedEngine={clickedEngine}
 						setClickedEngine={setClickedEngine}
 						toggleIsDeleteActive={toggleIsDeleteActive}
@@ -101,16 +108,17 @@ const Home = ({ database }) => {
 						<img src={plus} onClick={toggleIsNewActive} alt="New" />
 					</Top>
 					<Engines>
-						{engines.map((engine, index) => (
+						{engines.map((engine) => (
 							<Engine
-								key={index}
+								key={engine.id}
 								setClickedEngine={setClickedEngine}
 								toggleIsDeleteActive={toggleIsDeleteActive}
-								engine={engine}
+								{...engine}
 							/>
 						))}
 						{isNewActive && (
 							<NewEngine
+								database={database}
 								close={toggleIsNewActive}
 								engines={engines}
 								setEngines={setEngines}
