@@ -12,7 +12,7 @@ const HeaderCategories = ({ engine }) => {
 	return (
 		<HeaderCategoriesDiv>
 			<Category to={baseUrl + "general"}>Engine</Category>
-			<Category to={baseUrl + "banks/1"}>Banks</Category>
+			<Category to={baseUrl + "banks"}>Banks</Category>
 			<Category to={baseUrl + "rods/connecting/1"}>Rods</Category>
 			<Category to={baseUrl + "crankshafts/1"}>Crankshaft</Category>
 			<Category to={baseUrl + "exhausts/1"}>Exhausts</Category>

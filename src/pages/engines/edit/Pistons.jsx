@@ -6,7 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Banks";
+import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
 import { Top } from "../../Home";
 import Piston from "../../../components/Pistons/Piston";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
@@ -32,10 +32,10 @@ const Pistons = () => {
 
 	if (engine === null) {
 		return (
-            <LoadingScreen>
-                <h1>Loading...</h1>
-            </LoadingScreen>
-        );
+			<LoadingScreen>
+				<h1>Loading...</h1>
+			</LoadingScreen>
+		);
 	} else if (engine === undefined) {
 		navigate("/");
 		return;
@@ -43,70 +43,73 @@ const Pistons = () => {
 	return (
 		<PistonsDiv>
 			<Header engine={engine} />
-            <Editor>
-			    <SideBar>
-                    <Top>
-                        <h3>Pistons</h3>
-                        <img src={plus} alt="Add" />
-                    </Top>
-                    
-                    <Piston name="Piston 1" btnID={1} engineName={name}/>
-                </SideBar>
+			<Editor>
+				<SideBar>
+					<Top>
+						<h3>Pistons</h3>
+						<img src={plus} alt="Add" />
+					</Top>
 
-                <InternalEditor>
-                    <EditorTop>
-                        <h1>Intake {id}</h1>
-                        <img src={deleteIcon} alt="Delete" style={{transform: 'none'}} />
-                    </EditorTop>
+					<Piston name="Piston 1" btnID={1} engineName={name} />
+				</SideBar>
 
-                    <MyInputs>
-                        <Input>
-                            <p>Mass:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={1}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+				<InternalEditor>
+					<EditorTop>
+						<h1>Intake {id}</h1>
+						<img
+							src={deleteIcon}
+							alt="Delete"
+							style={{ transform: "none" }}
+						/>
+					</EditorTop>
+
+					<MyInputs>
+						<Input>
+							<p>Mass:</p>
+							<input
+								type="number"
+								defaultValue={1}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
 						<Input>
-                            <p>Compression height:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={1}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+							<p>Compression height:</p>
+							<input
+								type="number"
+								defaultValue={1}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
 						<Input>
-                            <p>Wrist pin Postion:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+							<p>Wrist pin Postion:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
 						<Input>
-                            <p>Displacement:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
-                    </MyInputs>
-                </InternalEditor>
-            </Editor>
-
+							<p>Displacement:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
+					</MyInputs>
+				</InternalEditor>
+			</Editor>
 		</PistonsDiv>
 	);
 };

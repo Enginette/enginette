@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Top } from "../../Home";
 import { LoadingScreen } from "./General";
 import plus from "../../../images/plus.svg";
 import Header from "../../../components/Header/Header";
 import BankInline from "../../../components/Banks/BankInline";
 import Database from "../../../database/database";
+import deleteIcon from "../../../images/delete.svg";
+import Cylinder from "../../../components/Cylinders/Cylinder";
 
 const BanksDiv = styled.div`
 	width: 100%;
@@ -31,6 +34,7 @@ const SideBar = styled.div`
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
+	gap: 15px;
 `;
 
 const InternalEditor = styled.div`
@@ -67,76 +71,43 @@ const EditorTop = styled.div`
 		font-size: 24px;
 	}
 `;
-const Top = styled.div`
+
+const Cylinders = styled.div`
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 10px;
-	> h3 {
-		font-size: 24px;
-		font-weight: 500;
-		color: #031b4e;
-	}
-	> img {
-		cursor: pointer;
-		width: 20px;
-		height: 20px;
-	}
-`;
-const InlinBanksDiv = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	gap: 5px;
-	> a {
-		text-decoration: none;
-		width: 100%;
-	}
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 20px;
 `;
 
-const Banks = ({ database }) => {
+const Bank = ({ database }) => {
 	let { id } = useParams();
 	id = parseInt(id);
 
 	const navigate = useNavigate();
-	const [engine, setEngine] = useState(null);
-	const [banks, setBanks] = useState([]);
-
-	const addBank = async () => {
-		const bank = await Database.Banks.add({
-			db: database,
-			values: {
-				engine: engine.id,
-			},
-		});
-		setBanks([...banks, bank]);
-	};
+	const [engines, setEngines] = useState([]);
+	const [bank, setBank] = useState(null);
 
 	useEffect(() => {
 		if (!database) return;
 
 		const stuff = async () => {
-			const engine = await Database.Engines.getById({
+			const bank = await Database.Banks.getById({
 				db: database,
 				id,
 			});
-			console.log(engine);
-			setEngine({ ...engine, id });
-
-			const banks = await Database.Engines.Banks.all({
+			setBank(bank);
+			const engines = await Database.Engines.Banks.all({
 				db: database,
-				id,
+				id: bank.engine,
 			});
-			setBanks(banks);
+			setEngines(engines);
 		};
 		stuff();
 	}, [database]);
-	if (engine === undefined) {
+	if (bank === undefined) {
 		navigate("/");
 		return;
-	} else if (engine === null) {
+	} else if (bank === null || !engines.length) {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
@@ -146,28 +117,56 @@ const Banks = ({ database }) => {
 
 	return (
 		<BanksDiv>
-			<Header engine={engine} />
+			<Header
+				engine={
+					engines.filter((engine) => engine.id === bank.engine)[0]
+				}
+			/>
 			<Editor>
 				<SideBar>
 					<Top>
 						<h3>Banks</h3>
-						<img src={plus} alt="Add" onClick={addBank} />
+						<img
+							style={{ height: 20, width: 20 }}
+							src={plus}
+							alt="Add"
+						/>
 					</Top>
-					<InlinBanksDiv>
-						{banks.map((bank, index) => (
-							<BankInline
-								name={`Bank ${index}`}
-								{...bank}
-								key={bank.id}
-							/>
-						))}
-					</InlinBanksDiv>
+					{/* somehow get banks */}
+					<BankInline name="Bank 1" id={0} />
+					<BankInline name="Bank 2" id={1} />
 				</SideBar>
 
-				<InternalEditor></InternalEditor>
+				<InternalEditor>
+					<EditorTop>
+						<h1>Bank {id}</h1>
+						<img
+							src={deleteIcon}
+							alt="Delete"
+							style={{ transform: "none" }}
+						/>
+					</EditorTop>
+
+					<EditorTop>
+						<h3>Cylinders</h3>
+						<img
+							src={plus}
+							alt="Plus"
+							style={{ height: "20px", width: "20px" }}
+						/>
+					</EditorTop>
+
+					{/* Somehow get bank cyls */}
+					<Cylinders>
+						<Cylinder />
+						<Cylinder />
+						<Cylinder />
+					</Cylinders>
+				</InternalEditor>
 			</Editor>
 		</BanksDiv>
 	);
 };
 
-export default Banks;
+export { SideBar, InternalEditor, Editor, EditorTop };
+export default Bank;

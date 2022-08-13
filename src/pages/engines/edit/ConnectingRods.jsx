@@ -6,7 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Inputs, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Banks";
+import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
 import { Top } from "../../Home";
 import ConnectingRod from "../../../components/Rods/ConnectingRod";
 import JournalRod from "../../../components/Rods/JournalRod";
@@ -20,10 +20,10 @@ const ConnectingRodsDiv = styled.div`
 `;
 
 const MySideBar = styled(SideBar)`
-    background-color: transparent;
-    box-shadow: none;
-    gap: 25px;
-    padding: 0px;
+	background-color: transparent;
+	box-shadow: none;
+	gap: 25px;
+	padding: 0px;
 `;
 
 const TopSideBar = styled(SideBar)`
@@ -35,9 +35,9 @@ const BottomSideBar = styled(SideBar)`
 `;
 
 const MyInputs = styled(Inputs)`
-    background-color: transparent;
-    box-shadow: none;
-    padding: 0px;
+	background-color: transparent;
+	box-shadow: none;
+	padding: 0px;
 `;
 
 const ConnectingRods = () => {
@@ -53,10 +53,10 @@ const ConnectingRods = () => {
 
 	if (engine === null) {
 		return (
-            <LoadingScreen>
-                <h1>Loading...</h1>
-            </LoadingScreen>
-        );
+			<LoadingScreen>
+				<h1>Loading...</h1>
+			</LoadingScreen>
+		);
 	} else if (engine === undefined) {
 		navigate("/");
 		return;
@@ -64,83 +64,94 @@ const ConnectingRods = () => {
 	return (
 		<ConnectingRodsDiv>
 			<Header engine={engine} />
-            <Editor>
-			    <MySideBar>
-                    <TopSideBar>
-                        <Top>
-                            <h3>Journal Rods</h3>
-                            <img src={plus} alt="Add" />
-                        </Top>
+			<Editor>
+				<MySideBar>
+					<TopSideBar>
+						<Top>
+							<h3>Journal Rods</h3>
+							<img src={plus} alt="Add" />
+						</Top>
 
-                        <JournalRod name="Journal Rod 1" btnID={1} engineName={name}/>
-                    </TopSideBar>
-                    <BottomSideBar>
-                        <Top>
-                            <h3>Connecting Rods</h3>
-                            <img src={plus} alt="Add" />
-                        </Top>
+						<JournalRod
+							name="Journal Rod 1"
+							btnID={1}
+							engineName={name}
+						/>
+					</TopSideBar>
+					<BottomSideBar>
+						<Top>
+							<h3>Connecting Rods</h3>
+							<img src={plus} alt="Add" />
+						</Top>
 
-                        <ConnectingRod name="Connecting Rod 1" btnID={1} engineName={name}/>
-                    </BottomSideBar>
-                </MySideBar>
+						<ConnectingRod
+							name="Connecting Rod 1"
+							btnID={1}
+							engineName={name}
+						/>
+					</BottomSideBar>
+				</MySideBar>
 
-                <InternalEditor>
-                    <EditorTop>
-                        <h1>Connecting Rod {id}</h1>
-                        <img src={deleteIcon} alt="Delete" style={{transform: 'none'}} />
-                    </EditorTop>
+				<InternalEditor>
+					<EditorTop>
+						<h1>Connecting Rod {id}</h1>
+						<img
+							src={deleteIcon}
+							alt="Delete"
+							style={{ transform: "none" }}
+						/>
+					</EditorTop>
 
-                    <MyInputs>
-                        <Input>
-                            <p>Mass:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={250}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+					<MyInputs>
+						<Input>
+							<p>Mass:</p>
+							<input
+								type="number"
+								defaultValue={250}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
-                        <Input>
-                            <p>Moment of inertia:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0.0015884918028487504}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+						<Input>
+							<p>Moment of inertia:</p>
+							<input
+								type="number"
+								defaultValue={0.0015884918028487504}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
-                        <Input>
-                            <p>Center of Mass:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+						<Input>
+							<p>Center of Mass:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
-                        <Input>
-                            <p>Length:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={4}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
-                    </MyInputs>
-                </InternalEditor>
-            </Editor>
-
+						<Input>
+							<p>Length:</p>
+							<input
+								type="number"
+								defaultValue={4}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
+					</MyInputs>
+				</InternalEditor>
+			</Editor>
 		</ConnectingRodsDiv>
 	);
 };
 
-export { MyInputs, MySideBar, TopSideBar, BottomSideBar, ConnectingRodsDiv }
+export { MyInputs, MySideBar, TopSideBar, BottomSideBar, ConnectingRodsDiv };
 export default ConnectingRods;

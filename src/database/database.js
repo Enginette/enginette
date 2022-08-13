@@ -4,8 +4,47 @@ class Database {
 			autoIncrement: true,
 		});
 		engines.createIndex("name", "name", { unique: true });
+
+		const banks = db.createObjectStore("banks", {
+			autoIncrement: true,
+		});
+		banks.createIndex("engine", "engine");
+	};
+	static Banks = class Banks {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("banks", "readwrite");
+			const id = await tx.objectStore("banks").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("banks", "readonly");
+			const objectStore = tx.objectStore("banks");
+			return await objectStore.get(id);
+		};
+		static remove = async ({ db, id }) => {
+			const txn = db.transaction("banks", "readwrite");
+			const objectStore = txn.objectStore("banks");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("banks", "readwrite");
+			const objectStore = txn.objectStore("banks");
+			await objectStore.put(values, id);
+		};
 	};
 	static Engines = class Engines {
+		static Banks = class Banks {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("banks", "readonly");
+				const objectStore = txn.objectStore("banks");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { id: keys[index], ...item };
+				});
+			};
+		};
 		static update = async ({ db, id, values }) => {
 			const txn = db.transaction("engines", "readwrite");
 			const objectStore = txn.objectStore("engines");

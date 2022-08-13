@@ -11,17 +11,24 @@ import Crankshafts from "./pages/engines/edit/Crankshafts";
 import Exhausts from "./pages/engines/edit/Exhausts";
 import Intakes from "./pages/engines/edit/Intakes";
 import Pistons from "./pages/engines/edit/Pistons";
-import { openDB, deleteDB, wrap, unwrap } from "idb";
+import { openDB } from "idb";
 import { useState, useEffect } from "react";
 import Database from "./database/database";
+import Bank from "./pages/engines/edit/Bank";
 function App() {
 	const [database, setDatabase] = useState(null);
 
 	useEffect(() => {
 		const stuff = async () => {
-			const version = 1;
+			const version = 2;
 			const db = await openDB("enginette", version, {
-				upgrade(db, oldVersion, newVersion, transaction) {
+				async upgrade(db, oldVersion, newVersion, transaction) {
+					const objectStores = ["engines", "banks"];
+					for (let i = 0; i < objectStores.length; i++) {
+						try {
+							await db.deleteObjectStore(objectStores[i]);
+						} catch (error) {}
+					}
 					Database.initiate(db);
 				},
 			});
@@ -40,10 +47,13 @@ function App() {
 					path="/engines/:id/edit/general"
 					element={<General database={database}></General>}
 				/>
-
 				<Route
-					path="/engines/:name/edit/banks/:id"
-					element={<Banks></Banks>}
+					path="/engines/:id/edit/banks"
+					element={<Banks database={database}></Banks>}
+				/>
+				<Route
+					path="/engines/edit/banks/:id"
+					element={<Bank database={database}></Bank>}
 				/>
 
 				<Route

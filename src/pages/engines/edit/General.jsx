@@ -72,7 +72,7 @@ const General = ({ database }) => {
 				id,
 				db: database,
 			});
-			setEngine(engine);
+			setEngine({ ...engine, id });
 		};
 		stuff();
 	}, [database]);

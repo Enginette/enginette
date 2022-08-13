@@ -6,7 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Banks";
+import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
 import { Top } from "../../Home";
 import Exhaust from "../../../components/Exhausts/Exhaust";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
@@ -32,10 +32,10 @@ const Exhausts = () => {
 
 	if (engine === null) {
 		return (
-            <LoadingScreen>
-                <h1>Loading...</h1>
-            </LoadingScreen>
-        );
+			<LoadingScreen>
+				<h1>Loading...</h1>
+			</LoadingScreen>
+		);
 	} else if (engine === undefined) {
 		navigate("/");
 		return;
@@ -43,81 +43,84 @@ const Exhausts = () => {
 	return (
 		<ExhaustsDiv>
 			<Header engine={engine} />
-            <Editor>
-			    <SideBar>
-                    <Top>
-                        <h3>Exhausts</h3>
-                        <img src={plus} alt="Add" />
-                    </Top>
-                    
-                    <Exhaust name="Exhaust 1" btnID={1} engineName={name}/>
-                </SideBar>
+			<Editor>
+				<SideBar>
+					<Top>
+						<h3>Exhausts</h3>
+						<img src={plus} alt="Add" />
+					</Top>
 
-                <InternalEditor>
-                    <EditorTop>
-                        <h1>Exhaust {id}</h1>
-                        <img src={deleteIcon} alt="Delete" style={{transform: 'none'}} />
-                    </EditorTop>
+					<Exhaust name="Exhaust 1" btnID={1} engineName={name} />
+				</SideBar>
 
-                    <MyInputs>
-                        <Input>
-                            <p>Outlet Flow Rate:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+				<InternalEditor>
+					<EditorTop>
+						<h1>Exhaust {id}</h1>
+						<img
+							src={deleteIcon}
+							alt="Delete"
+							style={{ transform: "none" }}
+						/>
+					</EditorTop>
+
+					<MyInputs>
+						<Input>
+							<p>Outlet Flow Rate:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
 						<Input>
-                            <p>Length:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+							<p>Length:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
 						<Input>
-                            <p>Flow Rate:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+							<p>Flow Rate:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
 						<Input>
-                            <p>Velocity Decay:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={1}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
+							<p>Velocity Decay:</p>
+							<input
+								type="number"
+								defaultValue={1}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
 
 						<Input>
-                            <p>Volume:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
-                    </MyInputs>
-                </InternalEditor>
-            </Editor>
-
+							<p>Volume:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
+					</MyInputs>
+				</InternalEditor>
+			</Editor>
 		</ExhaustsDiv>
 	);
 };

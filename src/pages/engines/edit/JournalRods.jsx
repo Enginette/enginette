@@ -6,11 +6,17 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { InternalEditor, Editor, EditorTop } from "./Banks";
+import { InternalEditor, Editor, EditorTop } from "./Bank";
 import { Top } from "../../Home";
 import ConnectingRod from "../../../components/Rods/ConnectingRod";
 import JournalRod from "../../../components/Rods/JournalRod";
-import { MyInputs, MySideBar, TopSideBar, BottomSideBar, ConnectingRodsDiv } from "./ConnectingRods";
+import {
+	MyInputs,
+	MySideBar,
+	TopSideBar,
+	BottomSideBar,
+	ConnectingRodsDiv,
+} from "./ConnectingRods";
 
 const JournalRodsDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
@@ -33,10 +39,10 @@ const ConnectingRods = () => {
 
 	if (engine === null) {
 		return (
-            <LoadingScreen>
-                <h1>Loading...</h1>
-            </LoadingScreen>
-        );
+			<LoadingScreen>
+				<h1>Loading...</h1>
+			</LoadingScreen>
+		);
 	} else if (engine === undefined) {
 		navigate("/");
 		return;
@@ -44,47 +50,58 @@ const ConnectingRods = () => {
 	return (
 		<ConnectingRodsDiv>
 			<Header engine={engine} />
-            <Editor>
-			    <MySideBar>
-                    <TopSideBar>
-                        <Top>
-                            <h3>Journal Rods</h3>
-                            <img src={plus} alt="Add" />
-                        </Top>
+			<Editor>
+				<MySideBar>
+					<TopSideBar>
+						<Top>
+							<h3>Journal Rods</h3>
+							<img src={plus} alt="Add" />
+						</Top>
 
-                        <JournalRod name="Journal Rod 1" btnID={1} engineName={name}/>
-                    </TopSideBar>
-                    <BottomSideBar>
-                        <Top>
-                            <h3>Connecting Rods</h3>
-                            <img src={plus} alt="Add" />
-                        </Top>
+						<JournalRod
+							name="Journal Rod 1"
+							btnID={1}
+							engineName={name}
+						/>
+					</TopSideBar>
+					<BottomSideBar>
+						<Top>
+							<h3>Connecting Rods</h3>
+							<img src={plus} alt="Add" />
+						</Top>
 
-                        <ConnectingRod name="Connecting Rod 1" btnID={1} engineName={name}/>
-                    </BottomSideBar>
-                </MySideBar>
+						<ConnectingRod
+							name="Connecting Rod 1"
+							btnID={1}
+							engineName={name}
+						/>
+					</BottomSideBar>
+				</MySideBar>
 
-                <InternalEditor>
-                    <EditorTop>
-                        <h1>Journal Rod {id}</h1>
-                        <img src={deleteIcon} alt="Delete" style={{transform: 'none'}} />
-                    </EditorTop>
+				<InternalEditor>
+					<EditorTop>
+						<h1>Journal Rod {id}</h1>
+						<img
+							src={deleteIcon}
+							alt="Delete"
+							style={{ transform: "none" }}
+						/>
+					</EditorTop>
 
-                    <MyInputs>
-                        <Input>
-                            <p>Angle:</p>
-					        <input
-					        	type="number"
-					        	defaultValue={0}
-					        	onChange={(e) => {
-					        		// TODO: implement the database shit
-					        	}}
-					        />
-                        </Input>
-                    </MyInputs>
-                </InternalEditor>
-            </Editor>
-
+					<MyInputs>
+						<Input>
+							<p>Angle:</p>
+							<input
+								type="number"
+								defaultValue={0}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
+					</MyInputs>
+				</InternalEditor>
+			</Editor>
 		</ConnectingRodsDiv>
 	);
 };
