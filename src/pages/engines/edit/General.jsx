@@ -207,5 +207,5 @@ const General = () => {
 	);
 };
 
-export { LoadingScreen };
+export { LoadingScreen, Inputs, Input };
 export default General;

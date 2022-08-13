@@ -124,7 +124,7 @@ const Banks = () => {
 
                     <EditorTop>
                         <h3>Cylinders</h3>
-                        <img src={plus} alt="Delete" style={{height: 20 + 'px', width: 20 + 'px'}} />
+                        <img src={plus} alt="Plus" style={{height: 20 + 'px', width: 20 + 'px'}} />
                     </EditorTop>
 
                     {/* Somehow get bank cyls */}
@@ -141,4 +141,5 @@ const Banks = () => {
 	);
 };
 
+export { SideBar, InternalEditor, Editor, EditorTop }
 export default Banks;

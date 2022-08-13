@@ -79,4 +79,5 @@ const BankInline = ({ name, btnID, engineName }) => {
 	);
 };
 
+export { Right, BankInlineDiv }
 export default BankInline;
