@@ -7,6 +7,10 @@ import General from "./pages/engines/edit/General";
 import Banks from "./pages/engines/edit/Banks";
 import ConnectingRods from "./pages/engines/edit/ConnectingRods";
 import JournalRods from "./pages/engines/edit/JournalRods";
+import Crankshafts from "./pages/engines/edit/Crankshafts";
+import Exhausts from "./pages/engines/edit/Exhausts";
+import Intakes from "./pages/engines/edit/Intakes";
+import Pistons from "./pages/engines/edit/Pistons";
 function App() {
 	const navigate = useNavigate();
 
@@ -23,6 +27,14 @@ function App() {
 				<Route path="/engines/:name/edit/rods/connecting/:id" element={<ConnectingRods></ConnectingRods>} />
 
 				<Route path="/engines/:name/edit/rods/journal/:id" element={<JournalRods></JournalRods>} />
+
+				<Route path="/engines/:name/edit/crankshafts/:id" element={<Crankshafts></Crankshafts>} />
+
+				<Route path="/engines/:name/edit/exhausts/:id" element={<Exhausts></Exhausts>} />
+
+				<Route path="/engines/:name/edit/intakes/:id" element={<Intakes></Intakes>} />
+
+				<Route path="/engines/:name/edit/pistons/:id" element={<Pistons></Pistons>} />
 				<Route path="*" element={<NotFound></NotFound>} />
 			</Routes>
 			<Footer></Footer>
