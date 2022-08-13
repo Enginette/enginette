@@ -46,14 +46,17 @@ const NewEngine = ({ close, engines, setEngines }) => {
 			e.target.placeholder =
 				listOfEngines[Math.floor(Math.random() * listOfEngines.length)];
 		setName(e.target.value);
+		e.target.style.border = "1px solid #8794b0";
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (Database.Engines.exists(name)) {
+			document.getElementById("name_input").style.border = "1px solid red";
 			alert("Engine already exists.");
 			return;
-		} else if (name.length === 0) {
+		} else if (name.trim().length === 0) {
+			document.getElementById("name_input").style.border = "1px solid red";
 			alert("Please fill the name");
 			return;
 		}
@@ -68,6 +71,7 @@ const NewEngine = ({ close, engines, setEngines }) => {
 		<EngineDiv>
 			<Left onSubmit={handleSubmit}>
 				<input
+					id="name_input"
 					type="text"
 					placeholder={
 						listOfEngines[

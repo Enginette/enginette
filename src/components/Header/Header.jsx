@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import back from "../../images/back.svg";
-import edit from "../../images/edit.svg";
 import HeaderCategories from "./HeaderCategories";
 import { Link } from "react-router-dom";
 
