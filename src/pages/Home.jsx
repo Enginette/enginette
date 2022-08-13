@@ -38,14 +38,12 @@ const Selector = styled.div`
 `;
 
 const Top = styled.div`
-	//padding: 0 20px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 
 	> h1 {
-
 	}
 
 	> h3 {
@@ -63,11 +61,10 @@ const Top = styled.div`
 const Engines = styled.div`
 	width: 100%;
 	max-height: 50vh;
-	//padding: 15px 20px;
 	overflow-y: auto;
 `;
 
-const Home = () => {
+const Home = ({ database }) => {
 	const [engines, setEngines] = useState([]);
 	const [clickedEngine, setClickedEngine] = useState(null);
 	const [isNewActive, setIsNewActive] = useState(false);
@@ -81,7 +78,8 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		setEngines(Database.Engines.all());
+		const stuff = async () => {};
+		stuff();
 	}, []);
 
 	return (
