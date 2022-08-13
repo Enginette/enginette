@@ -7,10 +7,13 @@ import General from "./pages/engines/edit/General";
 import Banks from "./pages/engines/edit/Banks";
 import ConnectingRods from "./pages/engines/edit/ConnectingRods";
 import JournalRods from "./pages/engines/edit/JournalRods";
+import Crankshafts from "./pages/engines/edit/Crankshafts";
+import Exhausts from "./pages/engines/edit/Exhausts";
+import Intakes from "./pages/engines/edit/Intakes";
+import Pistons from "./pages/engines/edit/Pistons";
 import { openDB, deleteDB, wrap, unwrap } from "idb";
 import { useState, useEffect } from "react";
 import Database from "./database/database";
-
 function App() {
 	const navigate = useNavigate();
 	const [database, setDatabase] = useState(null);
