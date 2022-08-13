@@ -37,21 +37,21 @@ const downloadEngine = () => {
 	alert("Coming soon!");
 };
 
-const Engine = ({ children, setClickedEngine, toggleIsDeleteActive }) => {
+const Engine = ({ engine, setClickedEngine, toggleIsDeleteActive }) => {
 	const handleClick = () => {
-		setClickedEngine(children);
+		setClickedEngine(engine);
 		toggleIsDeleteActive();
 	};
 	return (
 		<EngineDiv>
-			<p>{children}</p>
+			<p>{engine.name}</p>
 			<Right>
 				<img
 					src={downloadIcon}
 					alt="Download"
 					onClick={downloadEngine}
 				/>
-				<Link to={`/engines/${children}/edit/general`}>
+				<Link to={`/engines/${engine.name}/edit/general`}>
 					<img src={editIcon} alt="Edit" />
 				</Link>
 				<img src={deleteIcon} alt="Delete" onClick={handleClick} />

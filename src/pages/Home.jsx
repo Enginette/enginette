@@ -103,9 +103,8 @@ const Home = () => {
 								key={index}
 								setClickedEngine={setClickedEngine}
 								toggleIsDeleteActive={toggleIsDeleteActive}
-							>
-								{engine}
-							</Engine>
+								engine={engine}
+							/>
 						))}
 						{isNewActive && (
 							<NewEngine

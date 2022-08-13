@@ -8,7 +8,7 @@ const FooterDiv = styled.div`
 	height: 70px;
 	width: 100%;
 	background-color: #0069ff;
-	padding: 0 10px;
+	padding: 0 15px;
 `;
 
 const Left = styled.div`
@@ -56,8 +56,12 @@ const Footer = () => {
 				<p>Made with ❤️ by Pooria and DDev</p>
 			</Left>
 			<Right>
-				<a href="https://github.com/DDev247/enginette-client">Get the patcher</a>
-				<a href="https://github.com/DDev247/enginette"><img src={github} alt="github" /></a>
+				<a href="https://github.com/DDev247/enginette-client">
+					Get the patcher
+				</a>
+				<a href="https://github.com/DDev247/enginette">
+					<img src={github} alt="github" />
+				</a>
 			</Right>
 		</FooterDiv>
 	);

@@ -4,6 +4,7 @@ import edit from "../../images/edit.svg";
 import deleteIcon from "../../images/delete.svg";
 import { EngineDiv, Right } from "./Engine";
 import Database from "../../database/database";
+import Engine from "../../database/Engine";
 
 const Left = styled.form`
 	display: flex;
@@ -57,8 +58,9 @@ const NewEngine = ({ close, engines, setEngines }) => {
 			return;
 		}
 
-		Database.Engines.add(name);
-		setEngines([...engines, name]);
+		const engine = new Engine({ name });
+		Database.Engines.add(engine);
+		setEngines([...engines, engine]);
 		close();
 	};
 

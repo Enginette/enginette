@@ -77,14 +77,16 @@ const DeleteEngine = ({
 	};
 	const handleDeleteClick = () => {
 		Database.Engines.remove(clickedEngine);
-		setEngines(engines.filter((engine) => engine !== clickedEngine));
+		setEngines(
+			engines.filter((engine) => engine.name !== clickedEngine.name)
+		);
 		handleCloseClick();
 	};
 	return (
 		<DeleteEngineDiv>
 			<DeleteConfirmation>
 				<Top>
-					<h3>{clickedEngine}</h3>
+					<h3>{clickedEngine.name}</h3>
 					<img
 						src={plus}
 						alt="cancelButton"
