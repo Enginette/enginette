@@ -8,7 +8,7 @@ const ConnectingRodDiv = styled(BankInlineDiv)`
 `;
 
 const ConnectingRod = ({ name, btnID, engineName }) => {
-	const baseUrl = `/engines/${engineName}/edit/rods/connecting/`;
+	const baseUrl = `/engines/edit/rods/connecting/`;
 	const navigate = useNavigate();
 
     const setNav = (e) => {

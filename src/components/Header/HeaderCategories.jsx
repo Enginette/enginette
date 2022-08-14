@@ -13,11 +13,13 @@ const HeaderCategories = ({ engine }) => {
 		<HeaderCategoriesDiv>
 			<Category to={baseUrl + "general"}>Engine</Category>
 			<Category to={baseUrl + "banks"}>Banks</Category>
-			<Category to={baseUrl + "rods/connecting/1"}>Rods</Category>
-			<Category to={baseUrl + "crankshafts/1"}>Crankshaft</Category>
-			<Category to={baseUrl + "exhausts/1"}>Exhausts</Category>
-			<Category to={baseUrl + "intakes/1"}>Intakes</Category>
-			<Category to={baseUrl + "pistons/1"}>Pistons</Category>
+			<Category to={baseUrl + "rods"}>Rods</Category>
+			<Category to={baseUrl + "crankshafts"}>Crankshaft</Category>
+			<Category to={baseUrl + "exhausts"}>Exhausts</Category>
+			<Category to={baseUrl + "intakes"}>Intakes</Category>
+			<Category to={baseUrl + "pistons"}>Pistons</Category>
+			<Category to={baseUrl + "lobes"}>Lobes</Category>
+			<Category to={baseUrl + "distributor"}>Distributor</Category>
 		</HeaderCategoriesDiv>
 	);
 };

@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import deleteIcon from "../../images/delete.svg";
 import { Right, BankInlineDiv } from "../Banks/BankInline";
 
-const PistonDiv = styled(BankInlineDiv)`
+const IntakeDiv = styled(BankInlineDiv)`
     
 `;
 
-const Piston = ({ name, btnID, engineName }) => {
-	const baseUrl = `/engines/${engineName}/edit/pistons/`;
+const IntakeInline = ({ name, btnID, engineName }) => {
+	const baseUrl = `/engines/edit/intake/`;
 	const navigate = useNavigate();
 
     const setNav = (e) => {
@@ -16,13 +16,13 @@ const Piston = ({ name, btnID, engineName }) => {
     };
 
 	return (
-		<PistonDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + btnID)}>
+		<IntakeDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + btnID)}>
             <h1>{name}</h1>
             <Right>
                 <img src={deleteIcon} alt="Delete" />
             </Right>
-		</PistonDiv>
+		</IntakeDiv>
 	);
 };
 
-export default Piston;
+export default IntakeInline;

@@ -43,6 +43,7 @@ const Top = styled.div`
 	align-items: center;
 	padding: 0 20px;
 	padding-top: 15px;
+	padding-bottom: 15px;
 
 	> h1 {
 	}

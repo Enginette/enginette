@@ -7,8 +7,8 @@ const ExhaustDiv = styled(BankInlineDiv)`
     
 `;
 
-const Exhaust = ({ name, btnID, engineName }) => {
-	const baseUrl = `/engines/${engineName}/edit/exhausts/`;
+const ExhaustInline = ({ name, btnID, engineName }) => {
+	const baseUrl = `/engines/edit/exhaust/`;
 	const navigate = useNavigate();
 
     const setNav = (e) => {
@@ -25,4 +25,4 @@ const Exhaust = ({ name, btnID, engineName }) => {
 	);
 };
 
-export default Exhaust;
+export default ExhaustInline;

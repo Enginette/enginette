@@ -18,7 +18,7 @@ import {
 	ConnectingRodsDiv,
 } from "./ConnectingRods";
 
-const JournalRodsDiv = styled(ConnectingRodsDiv)`
+const RodsDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
 	height: calc(100% - 70px);
 	padding: 15px;
@@ -26,7 +26,7 @@ const JournalRodsDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const ConnectingRods = () => {
+const Rods = () => {
 	let { name, id } = useParams();
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
@@ -48,7 +48,7 @@ const ConnectingRods = () => {
 		return;
 	}
 	return (
-		<ConnectingRodsDiv>
+		<RodsDiv>
 			<Header engine={engine} />
 			<Editor>
 				<MySideBar>
@@ -80,30 +80,12 @@ const ConnectingRods = () => {
 
 				<InternalEditor>
 					<EditorTop>
-						<h1>Journal Rod {id}</h1>
-						<img
-							src={deleteIcon}
-							alt="Delete"
-							style={{ transform: "none" }}
-						/>
+						
 					</EditorTop>
-
-					<MyInputs>
-						<Input>
-							<p>Angle:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-					</MyInputs>
 				</InternalEditor>
 			</Editor>
-		</ConnectingRodsDiv>
+		</RodsDiv>
 	);
 };
 
-export default ConnectingRods;
+export default Rods;
