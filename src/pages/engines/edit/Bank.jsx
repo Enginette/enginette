@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Top } from "../../Home";
 import { LoadingScreen } from "./General";
 import plus from "../../../images/plus.svg";
 import Header from "../../../components/Header/Header";
@@ -17,7 +16,34 @@ const BanksDiv = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-
+const InlinBanksDiv = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 5px;
+	> a {
+		text-decoration: none;
+		width: 100%;
+	}
+`;
+const Top = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+	> h3 {
+		font-size: 24px;
+		font-weight: 500;
+		color: #031b4e;
+	}
+	> img {
+		cursor: pointer;
+		width: 20px;
+		height: 20px;
+	}
+`;
 const Editor = styled.div`
 	display: flex;
 	flex-direction: row;
@@ -34,7 +60,6 @@ const SideBar = styled.div`
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
 `;
 
 const InternalEditor = styled.div`
@@ -56,7 +81,6 @@ const EditorTop = styled.div`
 
 	> img {
 		cursor: pointer;
-		transform: translateX(-5px);
 	}
 
 	> h1 {
@@ -84,8 +108,36 @@ const Bank = ({ database }) => {
 	id = parseInt(id);
 
 	const navigate = useNavigate();
-	const [engines, setEngines] = useState([]);
+	const [engine, setEngine] = useState(null);
 	const [bank, setBank] = useState(null);
+	const [banks, setBanks] = useState(null);
+
+	const handleDelete = async () => {
+		const confirmation = window.confirm(`Are you sure you want to delete?`);
+		if (!confirmation) return;
+		await Database.Banks.remove({
+			db: database,
+			id,
+		});
+		if (banks.length <= 1) {
+			return navigate(`/engines/${engine.id}/edit/banks`);
+		}
+		navigate(
+			`/engines/edit/banks/${
+				banks.filter((databaseBank) => databaseBank.id !== id)[0].id
+			}`
+		);
+		setBanks(banks.filter((databaseBank) => databaseBank.id !== id));
+	};
+	const addBank = async () => {
+		const bank = await Database.Banks.add({
+			db: database,
+			values: {
+				engine: engine.id,
+			},
+		});
+		setBanks([...banks, bank]);
+	};
 
 	useEffect(() => {
 		if (!database) return;
@@ -96,18 +148,25 @@ const Bank = ({ database }) => {
 				id,
 			});
 			setBank(bank);
-			const engines = await Database.Engines.Banks.all({
+			if (!bank) return;
+			const banks = await Database.Engines.Banks.all({
 				db: database,
 				id: bank.engine,
 			});
-			setEngines(engines);
+			setBanks(banks);
+
+			const engine = await Database.Engines.getById({
+				db: database,
+				id: bank.engine,
+			});
+			setEngine(engine);
 		};
 		stuff();
 	}, [database]);
 	if (bank === undefined) {
 		navigate("/");
 		return;
-	} else if (bank === null || !engines.length) {
+	} else if (bank === null || banks === null || engine === null) {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
@@ -115,13 +174,14 @@ const Bank = ({ database }) => {
 		);
 	}
 
+	if (!banks.filter((item) => item.id === id).length) {
+		navigate(`/engines/${engine.id}/edit/banks`);
+		return;
+	}
+
 	return (
 		<BanksDiv>
-			<Header
-				engine={
-					engines.filter((engine) => engine.id === bank.engine)[0]
-				}
-			/>
+			<Header engine={engine} />
 			<Editor>
 				<SideBar>
 					<Top>
@@ -130,20 +190,36 @@ const Bank = ({ database }) => {
 							style={{ height: 20, width: 20 }}
 							src={plus}
 							alt="Add"
+							onClick={addBank}
 						/>
 					</Top>
 					{/* somehow get banks */}
-					<BankInline name="Bank 1" id={0} />
-					<BankInline name="Bank 2" id={1} />
+					<InlinBanksDiv>
+						{banks.map((bank, index) => (
+							<BankInline
+								name={`Bank ${index}`}
+								{...bank}
+								banks={banks}
+								setBanks={setBanks}
+								database={database}
+							/>
+						))}
+					</InlinBanksDiv>
 				</SideBar>
 
 				<InternalEditor>
 					<EditorTop>
-						<h1>Bank {id}</h1>
+						<h1>
+							Bank{" "}
+							{banks.indexOf(
+								banks.filter((item) => item.id === id)[0]
+							)}
+						</h1>
 						<img
 							src={deleteIcon}
 							alt="Delete"
-							style={{ transform: "none" }}
+							style={{ transform: "translateX(4px)" }}
+							onClick={handleDelete}
 						/>
 					</EditorTop>
 
@@ -156,7 +232,6 @@ const Bank = ({ database }) => {
 						/>
 					</EditorTop>
 
-					{/* Somehow get bank cyls */}
 					<Cylinders>
 						<Cylinder />
 						<Cylinder />
@@ -168,5 +243,13 @@ const Bank = ({ database }) => {
 	);
 };
 
-export { SideBar, InternalEditor, Editor, EditorTop };
+export {
+	BanksDiv,
+	SideBar,
+	InternalEditor,
+	Editor,
+	EditorTop,
+	InlinBanksDiv,
+	Top,
+};
 export default Bank;
