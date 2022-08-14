@@ -2,6 +2,7 @@ import styled from "styled-components";
 import deleteIcon from "../../images/delete.svg";
 import piston from "../../images/piston.svg";
 import { Link } from "react-router-dom";
+import Database from "../../database/database";
 
 const BankInlineDiv = styled.div`
 	width: 100%;
@@ -14,6 +15,7 @@ const BankInlineDiv = styled.div`
 	display: flex;
 	cursor: pointer;
 	justify-content: space-between;
+	align-items: center;
 	transition: 0.5s;
 
 	&:hover {
@@ -29,7 +31,7 @@ const BankInlineDiv = styled.div`
 
 	> h1 {
 		font-weight: 500;
-		font-size: 24px;
+		font-size: 20px;
 		color: ${(props) => (props.active ? "white" : "#080B2D")};
 		transition: 0.5s;
 	}
@@ -42,6 +44,7 @@ const Right = styled.div`
 		height: 25px;
 		width: 25px;
 		cursor: pointer;
+		z-index: 10;
 	}
 	> div {
 		position: relative;
@@ -58,7 +61,19 @@ const Right = styled.div`
 	}
 `;
 
-const BankInline = ({ name, id }) => {
+const BankInline = ({ name, id, banks, setBanks, database }) => {
+	const handleDelete = async (e) => {
+		e.preventDefault();
+		const confirmation = window.confirm(
+			`Are you sure you want to delete '${name}'`
+		);
+		if (!confirmation) return;
+		await Database.Banks.remove({
+			db: database,
+			id,
+		});
+		setBanks(banks.filter((databaseBank) => databaseBank.id !== id));
+	};
 	return (
 		<Link to={`/engines/edit/banks/${id}`}>
 			<BankInlineDiv
@@ -76,7 +91,7 @@ const BankInline = ({ name, id }) => {
 						<img src={piston} alt="P" />
 						<p>4</p>
 					</div>
-					<img src={deleteIcon} alt="Delete" />
+					<img src={deleteIcon} alt="Delete" onClick={handleDelete} />
 				</Right>
 			</BankInlineDiv>
 		</Link>

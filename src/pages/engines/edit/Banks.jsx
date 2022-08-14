@@ -159,6 +159,9 @@ const Banks = ({ database }) => {
 								name={`Bank ${index}`}
 								{...bank}
 								key={bank.id}
+								banks={banks}
+								setBanks={setBanks}
+								database={database}
 							/>
 						))}
 					</InlinBanksDiv>
