@@ -33,7 +33,7 @@ class Database {
 			return { ...(await objectStore.get(id), id) };
 		};
 		static remove = async ({ db, id }) => {
-			const tx = db.transaction("connecting_rods", "readwrite");
+			const txn = db.transaction("connecting_rods", "readwrite");
 			const objectStore = txn.objectStore("connecting_rods");
 			await objectStore.delete(id);
 		};
@@ -56,7 +56,7 @@ class Database {
 			return { ...(await objectStore.get(id), id) };
 		};
 		static remove = async ({ db, id }) => {
-			const tx = db.transaction("journal_rods", "readwrite");
+			const txn = db.transaction("journal_rods", "readwrite");
 			const objectStore = txn.objectStore("journal_rods");
 			await objectStore.delete(id);
 		};
