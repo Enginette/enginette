@@ -4,21 +4,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
-import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
 import { InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
-import ConnectingRod from "../../../components/Rods/ConnectingRod";
-import JournalRod from "../../../components/Rods/JournalRod";
-import {
-	MyInputs,
-	MySideBar,
-	TopSideBar,
-	BottomSideBar,
-	ConnectingRodsDiv,
-} from "./ConnectingRods";
+import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
-const JournalRodsDiv = styled(ConnectingRodsDiv)`
+const CrankshaftDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
 	height: calc(100% - 70px);
 	padding: 15px;
@@ -26,8 +16,8 @@ const JournalRodsDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const ConnectingRods = () => {
-	let { name, id } = useParams();
+const Crankshaft = () => {
+	let { id } = useParams();
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 
@@ -48,62 +38,39 @@ const ConnectingRods = () => {
 		return;
 	}
 	return (
-		<ConnectingRodsDiv>
+		<CrankshaftDiv>
 			<Header engine={engine} />
 			<Editor>
-				<MySideBar>
-					<TopSideBar>
-						<Top>
-							<h3>Journal Rods</h3>
-							<img src={plus} alt="Add" />
-						</Top>
-
-						<JournalRod
-							name="Journal Rod 1"
-							btnID={1}
-							engineName={name}
-						/>
-					</TopSideBar>
-					<BottomSideBar>
-						<Top>
-							<h3>Connecting Rods</h3>
-							<img src={plus} alt="Add" />
-						</Top>
-
-						<ConnectingRod
-							name="Connecting Rod 1"
-							btnID={1}
-							engineName={name}
-						/>
-					</BottomSideBar>
-				</MySideBar>
-
 				<InternalEditor>
 					<EditorTop>
-						<h1>Journal Rod {id}</h1>
+						<h1>Distributor</h1>
+						{/*
 						<img
 							src={deleteIcon}
 							alt="Delete"
 							style={{ transform: "none" }}
 						/>
+						*/}
 					</EditorTop>
 
 					<MyInputs>
 						<Input>
-							<p>Angle:</p>
+							<p>Rev limit:</p>
 							<input
 								type="number"
-								defaultValue={0}
+								defaultValue={6000}
 								onChange={(e) => {
 									// TODO: implement the database shit
 								}}
 							/>
 						</Input>
+						<h1>pls add a timing table idk how to do this</h1>
+						<p>maybe even a graph? 👀</p>
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
-		</ConnectingRodsDiv>
+		</CrankshaftDiv>
 	);
 };
 
-export default ConnectingRods;
+export default Crankshaft;

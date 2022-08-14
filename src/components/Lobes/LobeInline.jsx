@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import deleteIcon from "../../images/delete.svg";
 import { Right, BankInlineDiv } from "../Banks/BankInline";
 
-const IntakeDiv = styled(BankInlineDiv)`
+const LobeDiv = styled(BankInlineDiv)`
     
 `;
 
-const Intake = ({ name, btnID, engineName }) => {
-	const baseUrl = `/engines/${engineName}/edit/intakes/`;
+const LobeInline = ({ name, btnID, engineName }) => {
+	const baseUrl = `/engines/edit/lobe/`;
 	const navigate = useNavigate();
 
     const setNav = (e) => {
@@ -16,13 +16,13 @@ const Intake = ({ name, btnID, engineName }) => {
     };
 
 	return (
-		<IntakeDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + btnID)}>
+		<LobeDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + btnID)}>
             <h1>{name}</h1>
             <Right>
                 <img src={deleteIcon} alt="Delete" />
             </Right>
-		</IntakeDiv>
+		</LobeDiv>
 	);
 };
 
-export default Intake;
+export default LobeInline;

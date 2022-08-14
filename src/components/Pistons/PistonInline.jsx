@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import deleteIcon from "../../images/delete.svg";
 import { Right, BankInlineDiv } from "../Banks/BankInline";
 
-const JournalRodDiv = styled(BankInlineDiv)`
+const PistonDiv = styled(BankInlineDiv)`
     
 `;
 
-const JournalRod = ({ name, btnID, engineName }) => {
-	const baseUrl = `/engines/edit/rods/journal/`;
+const PistonInline = ({ name, btnID, engineName }) => {
+	const baseUrl = `/engines/${engineName}/edit/pistons/`;
 	const navigate = useNavigate();
 
     const setNav = (e) => {
@@ -16,13 +16,13 @@ const JournalRod = ({ name, btnID, engineName }) => {
     };
 
 	return (
-		<JournalRodDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + btnID)}>
+		<PistonDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + btnID)}>
             <h1>{name}</h1>
             <Right>
                 <img src={deleteIcon} alt="Delete" />
             </Right>
-		</JournalRodDiv>
+		</PistonDiv>
 	);
 };
 
-export default JournalRod;
+export default PistonInline;

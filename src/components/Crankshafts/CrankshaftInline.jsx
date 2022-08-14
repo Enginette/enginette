@@ -7,8 +7,8 @@ const CrankshaftDiv = styled(BankInlineDiv)`
     
 `;
 
-const JournalRod = ({ name, btnID, engineName }) => {
-	const baseUrl = `/engines/${engineName}/edit/crankshafts/`;
+const CrankshaftInline = ({ name, btnID, engineName }) => {
+	const baseUrl = `/engines/edit/crankshaft/`;
 	const navigate = useNavigate();
 
     const setNav = (e) => {
@@ -25,4 +25,4 @@ const JournalRod = ({ name, btnID, engineName }) => {
 	);
 };
 
-export default JournalRod;
+export default CrankshaftInline;

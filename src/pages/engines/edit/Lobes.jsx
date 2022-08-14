@@ -8,10 +8,10 @@ import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
 import { Top } from "../../Home";
-import Piston from "../../../components/Pistons/PistonInline";
+import LobeInline from "../../../components/Lobes/LobeInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
-const PistonsDiv = styled(ConnectingRodsDiv)`
+const LobesDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
 	height: calc(100% - 70px);
 	padding: 15px;
@@ -19,8 +19,8 @@ const PistonsDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Pistons = () => {
-	let { name, id } = useParams();
+const Lobes = () => {
+	let { id } = useParams();
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 
@@ -41,16 +41,16 @@ const Pistons = () => {
 		return;
 	}
 	return (
-		<PistonsDiv>
+		<LobesDiv>
 			<Header engine={engine} />
 			<Editor>
 				<SideBar>
 					<Top>
-						<h3>Pistons</h3>
+						<h3>Lobes</h3>
 						<img src={plus} alt="Add" />
 					</Top>
 
-					<Piston name="Piston 1" btnID={1} engineName={name} />
+					<LobeInline name="Lobe 1" btnID={1} engineName={id} />
 				</SideBar>
 
 				<InternalEditor>
@@ -58,11 +58,12 @@ const Pistons = () => {
 					</EditorTop>
 
 					<MyInputs>
+						
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
-		</PistonsDiv>
+		</LobesDiv>
 	);
 };
 
-export default Pistons;
+export default Lobes;

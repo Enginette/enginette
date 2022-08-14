@@ -5,13 +5,13 @@ import Header from "../../../components/Header/Header";
 import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
-import { LoadingScreen, Inputs, Input } from "./General";
+import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
 import { Top } from "../../Home";
-import ConnectingRod from "../../../components/Rods/ConnectingRod";
-import JournalRod from "../../../components/Rods/JournalRod";
+import IntakeInline from "../../../components/Intakes/IntakeInline";
+import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
-const ConnectingRodsDiv = styled.div`
+const IntakeDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
 	height: calc(100% - 70px);
 	padding: 15px;
@@ -19,28 +19,7 @@ const ConnectingRodsDiv = styled.div`
 	flex-direction: column;
 `;
 
-const MySideBar = styled(SideBar)`
-	background-color: transparent;
-	box-shadow: none;
-	gap: 25px;
-	padding: 0px;
-`;
-
-const TopSideBar = styled(SideBar)`
-	flex-grow: 1;
-`;
-
-const BottomSideBar = styled(SideBar)`
-	flex-grow: 1;
-`;
-
-const MyInputs = styled(Inputs)`
-	background-color: transparent;
-	box-shadow: none;
-	padding: 0px;
-`;
-
-const ConnectingRods = () => {
+const Intake = () => {
 	let { name, id } = useParams();
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
@@ -62,39 +41,21 @@ const ConnectingRods = () => {
 		return;
 	}
 	return (
-		<ConnectingRodsDiv>
+		<IntakeDiv>
 			<Header engine={engine} />
 			<Editor>
-				<MySideBar>
-					<TopSideBar>
-						<Top>
-							<h3>Journal Rods</h3>
-							<img src={plus} alt="Add" />
-						</Top>
+				<SideBar>
+					<Top>
+						<h3>Intakes</h3>
+						<img src={plus} alt="Add" />
+					</Top>
 
-						<JournalRod
-							name="Journal Rod 1"
-							btnID={1}
-							engineName={name}
-						/>
-					</TopSideBar>
-					<BottomSideBar>
-						<Top>
-							<h3>Connecting Rods</h3>
-							<img src={plus} alt="Add" />
-						</Top>
-
-						<ConnectingRod
-							name="Connecting Rod 1"
-							btnID={1}
-							engineName={name}
-						/>
-					</BottomSideBar>
-				</MySideBar>
+					<IntakeInline name="Intake 1" btnID={1} engineName={id} />
+				</SideBar>
 
 				<InternalEditor>
 					<EditorTop>
-						<h1>Connecting Rod {id}</h1>
+						<h1>Intake {id}</h1>
 						<img
 							src={deleteIcon}
 							alt="Delete"
@@ -104,10 +65,10 @@ const ConnectingRods = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Mass:</p>
+							<p>Plenum Volume:</p>
 							<input
 								type="number"
-								defaultValue={250}
+								defaultValue={1}
 								onChange={(e) => {
 									// TODO: implement the database shit
 								}}
@@ -115,10 +76,10 @@ const ConnectingRods = () => {
 						</Input>
 
 						<Input>
-							<p>Moment of inertia:</p>
+							<p>Plenum Cross Section Area:</p>
 							<input
 								type="number"
-								defaultValue={0.0015884918028487504}
+								defaultValue={10}
 								onChange={(e) => {
 									// TODO: implement the database shit
 								}}
@@ -126,7 +87,18 @@ const ConnectingRods = () => {
 						</Input>
 
 						<Input>
-							<p>Center of Mass:</p>
+							<p>Flow Rate:</p>
+							<input
+								type="number"
+								defaultValue={300}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
+
+						<Input>
+							<p>Idle Flow Rate:</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -137,10 +109,21 @@ const ConnectingRods = () => {
 						</Input>
 
 						<Input>
-							<p>Length:</p>
+							<p>Idle throttle plate position:</p>
 							<input
 								type="number"
-								defaultValue={4}
+								defaultValue={0.98}
+								onChange={(e) => {
+									// TODO: implement the database shit
+								}}
+							/>
+						</Input>
+
+						<Input>
+							<p>Throttle Gamma:</p>
+							<input
+								type="number"
+								defaultValue={1}
 								onChange={(e) => {
 									// TODO: implement the database shit
 								}}
@@ -149,9 +132,8 @@ const ConnectingRods = () => {
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
-		</ConnectingRodsDiv>
+		</IntakeDiv>
 	);
 };
 
-export { MyInputs, MySideBar, TopSideBar, BottomSideBar, ConnectingRodsDiv };
-export default ConnectingRods;
+export default Intake;

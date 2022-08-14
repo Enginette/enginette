@@ -8,7 +8,7 @@ import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
 import { Top } from "../../Home";
-import Crankshaft from "../../../components/Crankshafts/Crankshaft";
+import Crankshaft from "../../../components/Crankshafts/CrankshaftInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
 const CrankshaftsDiv = styled(ConnectingRodsDiv)`
@@ -25,7 +25,7 @@ const Crankshafts = () => {
 	const [engine, setEngine] = useState(null);
 
 	useEffect(() => {
-		const engine = Database.Engines.get({ name });
+		const engine = Database.Engines.getById({ id });
 		if (!engine) return setEngine(undefined);
 		setEngine(engine);
 	}, []);
@@ -59,102 +59,9 @@ const Crankshafts = () => {
 
 				<InternalEditor>
 					<EditorTop>
-						<h1>Crankshaft {id}</h1>
-						<img
-							src={deleteIcon}
-							alt="Delete"
-							style={{ transform: "none" }}
-						/>
 					</EditorTop>
 
 					<MyInputs>
-						<Input>
-							<p>Throw:</p>
-							<input
-								type="number"
-								defaultValue={90}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-
-						<Input>
-							<p>Flywheel Mass:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-
-						<Input>
-							<p>Mass:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-
-						<Input>
-							<p>Friction Torque:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-
-						<Input>
-							<p>Moment of inertia:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-
-						<Input>
-							<p>Top dead center:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-
-						<Input>
-							<p>X postion:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
-
-						<Input>
-							<p>Y postion:</p>
-							<input
-								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
-								}}
-							/>
-						</Input>
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
