@@ -41,7 +41,12 @@ function App() {
 			const version = 2;
 			const db = await openDB("enginette", version, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
-					const objectStores = ["engines", "banks"];
+					const objectStores = [
+						"engines",
+						"banks",
+						"connecting_rods",
+						"journal_rods",
+					];
 					for (let i = 0; i < objectStores.length; i++) {
 						try {
 							await db.deleteObjectStore(objectStores[i]);
@@ -77,10 +82,7 @@ function App() {
 				/>
 
 				{/* RODS */}
-				<Route
-					path="/engines/:id/edit/rods"
-					element={<Rods></Rods>}
-				/>
+				<Route path="/engines/:id/edit/rods" element={<Rods></Rods>} />
 				<Route
 					path="/engines/edit/rods/connecting/:id"
 					element={<ConnectingRods></ConnectingRods>}
@@ -106,10 +108,7 @@ function App() {
 					element={<Lobes></Lobes>}
 				/>
 
-				<Route
-					path="/engines/edit/lobe/:id"
-					element={<Lobe></Lobe>}
-				/>
+				<Route path="/engines/edit/lobe/:id" element={<Lobe></Lobe>} />
 
 				{/* EXHAUSTS */}
 				<Route
