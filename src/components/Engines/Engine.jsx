@@ -2,6 +2,7 @@ import styled from "styled-components";
 import downloadIcon from "../../images/download.svg";
 import editIcon from "../../images/edit.svg";
 import deleteIcon from "../../images/delete.svg";
+import { Link } from "react-router-dom";
 
 const EngineDiv = styled.div`
 	display: flex;
@@ -33,27 +34,26 @@ const Right = styled.div`
 const downloadEngine = () => {
 	// TODO: Add database retrieving code and
 	// make it downloadable
+	alert("Coming soon!");
 };
 
-const openEditor = () => {
-	// TODO: Open editor with this engine
-};
-
-const Engine = ({ children, setClickedEngine, toggleIsDeleteActive }) => {
+const Engine = ({ id, name, setClickedEngine, toggleIsDeleteActive }) => {
 	const handleClick = () => {
-		setClickedEngine(children);
+		setClickedEngine({ name, id });
 		toggleIsDeleteActive();
 	};
 	return (
 		<EngineDiv>
-			<p>{children}</p>
+			<p>{name}</p>
 			<Right>
 				<img
 					src={downloadIcon}
 					alt="Download"
 					onClick={downloadEngine}
 				/>
-				<img src={editIcon} alt="Edit" onClick={openEditor} />
+				<Link to={`/engines/${id}/edit/general`}>
+					<img src={editIcon} alt="Edit" />
+				</Link>
 				<img src={deleteIcon} alt="Delete" onClick={handleClick} />
 			</Right>
 		</EngineDiv>

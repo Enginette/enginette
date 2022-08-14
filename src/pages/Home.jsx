@@ -37,11 +37,15 @@ const Selector = styled.div`
 `;
 
 const Top = styled.div`
-	padding: 0 20px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 0 20px;
+	padding-top: 15px;
+
+	> h1 {
+	}
 
 	> h3 {
 		color: #031b4e;
@@ -58,32 +62,38 @@ const Top = styled.div`
 const Engines = styled.div`
 	width: 100%;
 	max-height: 50vh;
-	padding: 15px 20px;
 	overflow-y: auto;
+	padding: 15px 20px;
 `;
 
-const Home = () => {
+const Home = ({ database }) => {
 	const [engines, setEngines] = useState([]);
 	const [clickedEngine, setClickedEngine] = useState(null);
 	const [isNewActive, setIsNewActive] = useState(false);
+	const [isDeleteActive, setIsDeleteActive] = useState(false);
+
+	const toggleIsDeleteActive = () => {
+		setIsDeleteActive(!isDeleteActive);
+	};
 	const toggleIsNewActive = () => {
 		setIsNewActive(!isNewActive);
 	};
 
-	const [isDeleteActive, setIsDeleteActive] = useState(false);
-	const toggleIsDeleteActive = () => {
-		setIsDeleteActive(!isDeleteActive);
-	};
-
 	useEffect(() => {
-		setEngines(Database.Engines.all());
-	}, []);
+		if (!database) return;
+		const stuff = async () => {
+			const engines = await Database.Engines.all(database);
+			setEngines(engines);
+		};
+		stuff();
+	}, [database]);
 
 	return (
 		<HomeDiv>
 			<EngineSelector>
 				{isDeleteActive && (
 					<DeleteEngine
+						database={database}
 						clickedEngine={clickedEngine}
 						setClickedEngine={setClickedEngine}
 						toggleIsDeleteActive={toggleIsDeleteActive}
@@ -98,17 +108,17 @@ const Home = () => {
 						<img src={plus} onClick={toggleIsNewActive} alt="New" />
 					</Top>
 					<Engines>
-						{engines.map((engine, index) => (
+						{engines.map((engine) => (
 							<Engine
-								key={index}
+								key={engine.id}
 								setClickedEngine={setClickedEngine}
 								toggleIsDeleteActive={toggleIsDeleteActive}
-							>
-								{engine}
-							</Engine>
+								{...engine}
+							/>
 						))}
 						{isNewActive && (
 							<NewEngine
+								database={database}
 								close={toggleIsNewActive}
 								engines={engines}
 								setEngines={setEngines}
@@ -121,4 +131,5 @@ const Home = () => {
 	);
 };
 
+export { Top };
 export default Home;

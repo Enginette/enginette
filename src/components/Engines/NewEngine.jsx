@@ -38,27 +38,35 @@ const listOfEngines = [
 	"BMW N54",
 ];
 
-const NewEngine = ({ close, engines, setEngines }) => {
+const NewEngine = ({ database, close, engines, setEngines }) => {
 	const [name, setName] = useState("");
 	const handleNameChange = (e) => {
 		if (e.target.value.length === 0)
 			e.target.placeholder =
 				listOfEngines[Math.floor(Math.random() * listOfEngines.length)];
 		setName(e.target.value);
+		e.target.style.border = "1px solid #8794b0";
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (Database.Engines.exists(name)) {
+		if (await Database.Engines.exists({ db: database, name })) {
+			document.getElementById("name_input").style.border =
+				"1px solid red";
 			alert("Engine already exists.");
 			return;
-		} else if (name.length === 0) {
+		} else if (name.trim().length === 0) {
+			document.getElementById("name_input").style.border =
+				"1px solid red";
 			alert("Please fill the name");
 			return;
 		}
 
-		Database.Engines.add(name);
-		setEngines([...engines, name]);
+		const results = await Database.Engines.add({
+			db: database,
+			values: { name },
+		});
+		setEngines([...engines, results]);
 		close();
 	};
 
@@ -66,6 +74,7 @@ const NewEngine = ({ close, engines, setEngines }) => {
 		<EngineDiv>
 			<Left onSubmit={handleSubmit}>
 				<input
+					id="name_input"
 					type="text"
 					placeholder={
 						listOfEngines[

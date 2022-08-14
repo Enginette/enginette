@@ -65,6 +65,7 @@ const Top = styled.div`
 `;
 
 const DeleteEngine = ({
+	database,
 	clickedEngine,
 	setClickedEngine,
 	toggleIsDeleteActive,
@@ -75,16 +76,19 @@ const DeleteEngine = ({
 		setClickedEngine(null);
 		toggleIsDeleteActive();
 	};
-	const handleDeleteClick = () => {
-		Database.Engines.remove(clickedEngine);
-		setEngines(engines.filter((engine) => engine !== clickedEngine));
+	const handleDeleteClick = async () => {
+		await Database.Engines.remove({
+			db: database,
+			id: clickedEngine.id,
+		});
+		setEngines(engines.filter((engine) => engine.id !== clickedEngine.id));
 		handleCloseClick();
 	};
 	return (
 		<DeleteEngineDiv>
 			<DeleteConfirmation>
 				<Top>
-					<h3>{clickedEngine}</h3>
+					<h3>{clickedEngine.name}</h3>
 					<img
 						src={plus}
 						alt="cancelButton"
