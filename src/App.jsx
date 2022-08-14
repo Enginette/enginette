@@ -20,10 +20,15 @@ function App() {
 
 	useEffect(() => {
 		const stuff = async () => {
-			const version = 2;
+			const version = 3;
 			const db = await openDB("enginette", version, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
-					const objectStores = ["engines", "banks"];
+					const objectStores = [
+						"engines",
+						"banks",
+						"connecting_rods",
+						"journal_rods",
+					];
 					for (let i = 0; i < objectStores.length; i++) {
 						try {
 							await db.deleteObjectStore(objectStores[i]);

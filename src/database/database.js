@@ -9,6 +9,62 @@ class Database {
 			autoIncrement: true,
 		});
 		banks.createIndex("engine", "engine");
+
+		const connectingRods = db.createObjectStore("connecting_rods", {
+			autoIncrement: true,
+		});
+		connectingRods.createIndex("engine", "engine");
+
+		const journalRods = db.createObjectStore("journal_rods", {
+			autoIncrement: true,
+		});
+		journalRods.createIndex("engine", "engine");
+	};
+	static ConnectingRods = class ConnectingRods {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("connecting_rods", "readwrite");
+			const id = await tx.objectStore("connecting_rods").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("connecting_rods", "readonly");
+			const objectStore = tx.objectStore("connecting_rods");
+			return { ...(await objectStore.get(id), id) };
+		};
+		static remove = async ({ db, id }) => {
+			const tx = db.transaction("connecting_rods", "readwrite");
+			const objectStore = txn.objectStore("connecting_rods");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("connecting_rods", "readwrite");
+			const objectStore = txn.objectStore("connecting_rods");
+			await objectStore.put(values, id);
+		};
+	};
+	static JournalRods = class JournalRods {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("journal_rods", "readwrite");
+			const id = await tx.objectStore("journal_rods").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("journal_rods", "readonly");
+			const objectStore = tx.objectStore("journal_rods");
+			return { ...(await objectStore.get(id), id) };
+		};
+		static remove = async ({ db, id }) => {
+			const tx = db.transaction("journal_rods", "readwrite");
+			const objectStore = txn.objectStore("journal_rods");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("journal_rods", "readwrite");
+			const objectStore = txn.objectStore("journal_rods");
+			await objectStore.put(values, id);
+		};
 	};
 	static Banks = class Banks {
 		static add = async ({ db, values }) => {
@@ -34,6 +90,28 @@ class Database {
 		};
 	};
 	static Engines = class Engines {
+		static JournalRods = class JournalRods {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("journal_rods", "readonly");
+				const objectStore = txn.objectStore("journal_rods");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { id: keys[index], ...item };
+				});
+			};
+		};
+		static ConnectingRods = class ConnectingRods {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("connecting_rods", "readonly");
+				const objectStore = txn.objectStore("connecting_rods");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { id: keys[index], ...item };
+				});
+			};
+		};
 		static Banks = class Banks {
 			static all = async ({ db, id }) => {
 				const txn = db.transaction("banks", "readonly");
