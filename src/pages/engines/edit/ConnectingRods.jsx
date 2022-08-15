@@ -22,16 +22,16 @@ const ConnectingRodsDiv = styled.div`
 const MySideBar = styled(SideBar)`
 	background-color: transparent;
 	box-shadow: none;
-	gap: 25px;
+	gap: 20px;
 	padding: 0px;
 `;
 
 const TopSideBar = styled(SideBar)`
-	flex-grow: 1;
+	/* flex-grow: 1; */
 `;
 
 const BottomSideBar = styled(SideBar)`
-	flex-grow: 1;
+	/* flex-grow: 1; */
 `;
 
 const MyInputs = styled(Inputs)`

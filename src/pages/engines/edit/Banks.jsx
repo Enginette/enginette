@@ -8,7 +8,7 @@ import Database from "../../../database/database";
 import {
 	BanksDiv,
 	Editor,
-	InlinBanksDiv,
+	InlineBanksDiv,
 	InternalEditor,
 	SideBar,
 	Top,
@@ -71,7 +71,7 @@ const Banks = ({ database }) => {
 						<h3>Banks</h3>
 						<img src={plus} alt="Add" onClick={addBank} />
 					</Top>
-					<InlinBanksDiv>
+					<InlineBanksDiv>
 						{banks.map((bank, index) => (
 							<BankInline
 								name={`Bank ${index}`}
@@ -82,7 +82,7 @@ const Banks = ({ database }) => {
 								database={database}
 							/>
 						))}
-					</InlinBanksDiv>
+					</InlineBanksDiv>
 				</SideBar>
 
 				<InternalEditor></InternalEditor>
@@ -90,5 +90,5 @@ const Banks = ({ database }) => {
 		</BanksDiv>
 	);
 };
-export { InlinBanksDiv, Top };
+export { InlineBanksDiv, Top };
 export default Banks;

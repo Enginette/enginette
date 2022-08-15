@@ -82,7 +82,10 @@ function App() {
 				/>
 
 				{/* RODS */}
-				<Route path="/engines/:id/edit/rods" element={<Rods></Rods>} />
+				<Route
+					path="/engines/:id/edit/rods"
+					element={<Rods database={database}></Rods>}
+				/>
 				<Route
 					path="/engines/edit/rods/connecting/:id"
 					element={<ConnectingRods></ConnectingRods>}

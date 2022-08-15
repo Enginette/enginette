@@ -16,13 +16,15 @@ const BanksDiv = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-const InlinBanksDiv = styled.div`
+const InlineBanksDiv = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	gap: 5px;
+	overflow-y: auto;
+	max-height: calc(100vh - 300px);
 	> a {
 		text-decoration: none;
 		width: 100%;
@@ -53,7 +55,7 @@ const Editor = styled.div`
 
 const SideBar = styled.div`
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
-	width: 494px;
+	width: 350px;
 	background-color: white;
 	border-radius: 20px;
 	height: 100%;
@@ -64,7 +66,7 @@ const SideBar = styled.div`
 
 const InternalEditor = styled.div`
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
-	width: 100%;
+	width: calc(100% - 350px - 20px);
 	background-color: white;
 	border-radius: 20px;
 	height: 100%;
@@ -194,7 +196,7 @@ const Bank = ({ database }) => {
 						/>
 					</Top>
 					{/* somehow get banks */}
-					<InlinBanksDiv>
+					<InlineBanksDiv>
 						{banks.map((bank, index) => (
 							<BankInline
 								name={`Bank ${index}`}
@@ -204,7 +206,7 @@ const Bank = ({ database }) => {
 								database={database}
 							/>
 						))}
-					</InlinBanksDiv>
+					</InlineBanksDiv>
 				</SideBar>
 
 				<InternalEditor>
@@ -249,7 +251,7 @@ export {
 	InternalEditor,
 	Editor,
 	EditorTop,
-	InlinBanksDiv,
+	InlineBanksDiv,
 	Top,
 };
 export default Bank;
