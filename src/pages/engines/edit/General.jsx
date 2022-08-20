@@ -14,6 +14,7 @@ const GeneralDiv = styled.div`
 
 const LoadingScreen = styled.div`
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
@@ -24,6 +25,24 @@ const LoadingScreen = styled.div`
 		color: #080b2d;
 		font-size: 200px;
 		font-weight: 100;
+	}
+
+	> p {
+		color: #080b2d;
+		font-size: 20px;
+		text-align: center;
+		line-height: 30px;
+		opacity: 100%;
+		animation-name: show;
+		animation-duration: 2s;
+		//animation-delay: 2s;
+		animation-iteration-count: 1;
+	}
+
+	@keyframes show {
+		0% { opacity: 0%; }
+		90% { opacity: 0%; }
+		100% { opacity: 100%; }
 	}
 `;
 
@@ -81,6 +100,7 @@ const General = ({ database }) => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
 	} else if (engine === undefined) {

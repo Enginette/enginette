@@ -94,6 +94,7 @@ const Rods = ({ database }) => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
 	} else if (engine === undefined) {
