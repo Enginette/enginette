@@ -89,9 +89,10 @@ const JournalRods = ({ database }) => {
 				id,
 			});
 			setJournalRods(journalRods);
+			
 			//load selected journal rod
 			const journalRod = await Database.JournalRods.getById({ db: database, objectID });
-			if (!journalRod) return setJournalRods(undefined);
+			if (!journalRod) return setSelectedJournalRod(undefined);
 			setSelectedJournalRod(journalRod);
 		}
 		
@@ -137,7 +138,7 @@ const JournalRods = ({ database }) => {
 					<BottomSideBar>
 						<Top>
 							<h3>Connecting Rods</h3>
-							<img src={plus} alt="Add" />
+							<img src={plus} alt="Add" onclick={addConnectingRod} />
 						</Top>
 
 						<InlineRodsDiv>
