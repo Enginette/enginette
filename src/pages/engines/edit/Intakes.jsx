@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import IntakeInline from "../../../components/Intakes/IntakeInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 

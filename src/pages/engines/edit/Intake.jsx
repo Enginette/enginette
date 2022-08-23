@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import IntakeInline from "../../../components/Intakes/IntakeInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
@@ -66,7 +65,7 @@ const Intake = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Plenum Volume:</p>
+							<h1>Plenum Volume:</h1>
 							<input
 								type="number"
 								defaultValue={1}
@@ -77,7 +76,7 @@ const Intake = () => {
 						</Input>
 
 						<Input>
-							<p>Plenum Cross Section Area:</p>
+							<h1>Plenum Cross Section Area:</h1>
 							<input
 								type="number"
 								defaultValue={10}
@@ -88,7 +87,8 @@ const Intake = () => {
 						</Input>
 
 						<Input>
-							<p>Flow Rate:</p>
+							<h1>Flow Rate:</h1>
+							<p>scfm</p>
 							<input
 								type="number"
 								defaultValue={300}
@@ -99,7 +99,8 @@ const Intake = () => {
 						</Input>
 
 						<Input>
-							<p>Idle Flow Rate:</p>
+							<h1>Idle Flow Rate:</h1>
+							<p>scfm</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -110,7 +111,7 @@ const Intake = () => {
 						</Input>
 
 						<Input>
-							<p>Idle throttle plate position:</p>
+							<h1>Idle throttle plate position:</h1>
 							<input
 								type="number"
 								defaultValue={0.98}
@@ -121,7 +122,7 @@ const Intake = () => {
 						</Input>
 
 						<Input>
-							<p>Throttle Gamma:</p>
+							<h1>Throttle Gamma:</h1>
 							<input
 								type="number"
 								defaultValue={1}

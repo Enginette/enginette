@@ -5,8 +5,7 @@ import Header from "../../../components/Header/Header";
 import Database from "../../../database/database";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "./Bank";
+import { InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import ConnectingRod from "../../../components/Rods/ConnectingRod";
 import JournalRod from "../../../components/Rods/JournalRod";
 import {

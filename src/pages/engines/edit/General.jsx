@@ -64,10 +64,21 @@ const Input = styled.div`
 	justify-content: center;
 	flex-basis: 300px;
 	flex-grow: 1;
-	> p {
+	> h1 {
 		font-size: 16px;
 		color: #031b4e;
 		margin-bottom: 5px;
+		font-weight: 400;
+	}
+	> p {
+		position: absolute;
+		font-weight: 400;
+		font-size: 14px;
+		color: #8794B0;
+		align-self: end;
+		margin-right: 20px;
+		margin-top: 25px;
+		width: 40px;
 	}
 	> input {
 		outline: none;
@@ -112,7 +123,7 @@ const General = ({ database }) => {
 			<Header engine={engine} />
 			<Inputs>
 				<Input>
-					<p>Name:</p>
+					<h1>Name:</h1>
 					<input
 						type="text"
 						defaultValue={engine.name}
@@ -140,7 +151,8 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Starter torque:</p>
+					<h1>Starter torque:</h1>
+					<p>lb-ft</p>
 					<input
 						type="number"
 						defaultValue={engine.starterTorque}
@@ -163,7 +175,8 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Red line:</p>
+					<h1>Red line:</h1>
+					<p>rpm</p>
 					<input
 						type="number"
 						defaultValue={engine.redLine}
@@ -186,7 +199,7 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Max turbulence effect:</p>
+					<h1>Max turbulence effect:</h1>
 					<input
 						type="text"
 						defaultValue={engine.maxTurbulenceEffect}
@@ -211,7 +224,7 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Burning efficiency randomness:</p>
+					<h1>Burning efficiency randomness:</h1>
 					<input
 						type="number"
 						defaultValue={engine.burningRandomness}
@@ -233,7 +246,8 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Max burning efficiency:</p>
+					<h1>Max burning efficiency:</h1>
+					<p>%</p>
 					<input
 						type="number"
 						defaultValue={engine.maxBurningEfficiency}

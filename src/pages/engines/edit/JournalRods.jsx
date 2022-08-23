@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import ConnectingRod from "../../../components/Rods/ConnectingRod";
 import JournalRod from "../../../components/Rods/JournalRod";
 import {
@@ -18,15 +17,9 @@ import {
 	ConnectingRodsDiv,
 } from "./ConnectingRods";
 
-const JournalRodsDiv = styled(ConnectingRodsDiv)`
-	width: 100%;
-	height: calc(100% - 70px);
-	padding: 15px;
-	display: flex;
-	flex-direction: column;
-`;
+const JournalRodsDiv = styled(ConnectingRodsDiv)``;
 
-const ConnectingRods = () => {
+const JournalRods = () => {
 	let { name, id } = useParams();
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
@@ -49,7 +42,7 @@ const ConnectingRods = () => {
 		return;
 	}
 	return (
-		<ConnectingRodsDiv>
+		<JournalRodsDiv>
 			<Header engine={engine} />
 			<Editor>
 				<MySideBar>
@@ -91,7 +84,8 @@ const ConnectingRods = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Angle:</p>
+							<h1>Angle:</h1>
+							<p>degrees</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -103,8 +97,8 @@ const ConnectingRods = () => {
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
-		</ConnectingRodsDiv>
+		</JournalRodsDiv>
 	);
 };
 
-export default ConnectingRods;
+export default JournalRods;

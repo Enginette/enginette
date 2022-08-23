@@ -8,7 +8,7 @@ import { LoadingScreen, Input } from "./General";
 import { InternalEditor, Editor, EditorTop } from "./Bank";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
-const CrankshaftDiv = styled(ConnectingRodsDiv)`
+const DistributorDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
 	height: calc(100% - 70px);
 	padding: 15px;
@@ -16,7 +16,7 @@ const CrankshaftDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Crankshaft = () => {
+const Distributor = () => {
 	let { id } = useParams();
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
@@ -39,7 +39,7 @@ const Crankshaft = () => {
 		return;
 	}
 	return (
-		<CrankshaftDiv>
+		<DistributorDiv>
 			<Header engine={engine} />
 			<Editor>
 				<InternalEditor>
@@ -56,7 +56,8 @@ const Crankshaft = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Rev limit:</p>
+							<h1>Rev limit:</h1>
+							<p>rpm</p>
 							<input
 								type="number"
 								defaultValue={6000}
@@ -70,8 +71,8 @@ const Crankshaft = () => {
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
-		</CrankshaftDiv>
+		</DistributorDiv>
 	);
 };
 
-export default Crankshaft;
+export default Distributor;

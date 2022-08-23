@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import CrankshaftInline from "../../../components/Crankshafts/CrankshaftInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
@@ -70,7 +69,8 @@ const Crankshaft = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Throw:</p>
+							<h1>Throw:</h1>
+							<p>mm</p>
 							<input
 								type="number"
 								defaultValue={90}
@@ -81,7 +81,8 @@ const Crankshaft = () => {
 						</Input>
 
 						<Input>
-							<p>Flywheel Mass:</p>
+							<h1>Flywheel Mass:</h1>
+							<p>kg</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -92,7 +93,8 @@ const Crankshaft = () => {
 						</Input>
 
 						<Input>
-							<p>Mass:</p>
+							<h1>Mass:</h1>
+							<p>kg</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -103,7 +105,8 @@ const Crankshaft = () => {
 						</Input>
 
 						<Input>
-							<p>Friction Torque:</p>
+							<h1>Friction Torque:</h1>
+							<p>lb-ft</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -114,7 +117,7 @@ const Crankshaft = () => {
 						</Input>
 
 						<Input>
-							<p>Moment of inertia:</p>
+							<h1>Moment of inertia:</h1>
 							<input
 								type="number"
 								defaultValue={0}
@@ -125,7 +128,8 @@ const Crankshaft = () => {
 						</Input>
 
 						<Input>
-							<p>Top dead center:</p>
+							<h1>Top dead center:</h1>
+							<p>degrees</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -136,7 +140,7 @@ const Crankshaft = () => {
 						</Input>
 
 						<Input>
-							<p>X postion:</p>
+							<h1>X postion:</h1>
 							<input
 								type="number"
 								defaultValue={0}
@@ -147,7 +151,7 @@ const Crankshaft = () => {
 						</Input>
 
 						<Input>
-							<p>Y postion:</p>
+							<h1>Y postion:</h1>
 							<input
 								type="number"
 								defaultValue={0}

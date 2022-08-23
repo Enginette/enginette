@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import ExhaustInline from "../../../components/Exhausts/ExhaustInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
@@ -66,7 +65,8 @@ const Exhausts = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Outlet Flow Rate:</p>
+							<h1>Outlet Flow Rate:</h1>
+							<p>scfm</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -77,7 +77,8 @@ const Exhausts = () => {
 						</Input>
 
 						<Input>
-							<p>Length:</p>
+							<h1>Length:</h1>
+							<p>inches</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -88,7 +89,8 @@ const Exhausts = () => {
 						</Input>
 
 						<Input>
-							<p>Flow Rate:</p>
+							<h1>Flow Rate:</h1>
+							<p>scfm</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -99,7 +101,7 @@ const Exhausts = () => {
 						</Input>
 
 						<Input>
-							<p>Velocity Decay:</p>
+							<h1>Velocity Decay:</h1>
 							<input
 								type="number"
 								defaultValue={1}
@@ -110,7 +112,8 @@ const Exhausts = () => {
 						</Input>
 
 						<Input>
-							<p>Volume:</p>
+							<h1>Volume:</h1>
+							<p>liters</p>
 							<input
 								type="number"
 								defaultValue={0}

@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Inputs, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import ConnectingRod from "../../../components/Rods/ConnectingRod";
 import JournalRod from "../../../components/Rods/JournalRod";
 
@@ -105,7 +104,8 @@ const ConnectingRods = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Mass:</p>
+							<h1>Mass:</h1>
+							<p>grams</p>
 							<input
 								type="number"
 								defaultValue={250}
@@ -116,7 +116,7 @@ const ConnectingRods = () => {
 						</Input>
 
 						<Input>
-							<p>Moment of inertia:</p>
+							<h1>Moment of inertia:</h1>
 							<input
 								type="number"
 								defaultValue={0.0015884918028487504}
@@ -127,7 +127,7 @@ const ConnectingRods = () => {
 						</Input>
 
 						<Input>
-							<p>Center of Mass:</p>
+							<h1>Center of Mass:</h1>
 							<input
 								type="number"
 								defaultValue={0}
@@ -138,7 +138,8 @@ const ConnectingRods = () => {
 						</Input>
 
 						<Input>
-							<p>Length:</p>
+							<h1>Length:</h1>
+							<p>mm</p>
 							<input
 								type="number"
 								defaultValue={4}
