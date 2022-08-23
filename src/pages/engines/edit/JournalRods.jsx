@@ -16,47 +16,123 @@ import {
 	BottomSideBar,
 	ConnectingRodsDiv,
 } from "./ConnectingRods";
+import { InlineBanksDiv } from "./Bank";
+
+const InlineRodsDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
+`;
 
 const JournalRodsDiv = styled(ConnectingRodsDiv)``;
 
 const JournalRods = ({ database }) => {
-	let { name, id } = useParams();
+	let { name, id, objectID } = useParams();
+	id = parseInt(id);
+	objectID = parseInt(objectID);
 	const navigate = useNavigate();
-	const [engine, setEngine] = useState(null);
 
-	useEffect(async () => {
-		const engine = Database.JournalRods.getById({ db: database, id: id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine.engine);
+	//loaded rods and engine
+	const [engine, setEngine] = useState(null);
+	const [journalRods, setJournalRods] = useState([]);
+	const [connectingRods, setConnectingRods] = useState([]);
+	//selected journal rod
+	const [journalRod, setSelectedJournalRod] = useState(null);
+
+	const addJournalRod = async () => {
+		const rod = await Database.JournalRods.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				angle: 0,
+			},
+		});
+		setJournalRods([...journalRods, rod]);
+	};
+
+	const addConnectingRod = async () => {
+		const rod = await Database.ConnectingRods.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				mass: 0,
+				blowby: 0,
+				compressionHeight: 0,
+				wristPinPosition: 0,
+				displacement: 0,
+			},
+		});
+
+		setConnectingRods([...connectingRods, rod]);
+	};
+
+	useEffect(() => {
+		if(!database) return;
+		const loadRodsAsync = async() =>
+		{
+			//load engine from database
+			const engine = await Database.Engines.getById({
+				db: database,
+				id,
+			});
+			setEngine(engine);
+			if (!engine) return;
+
+			//load connecting rods from database
+			const connectingRods = await Database.Engines.ConnectingRods.all({
+				db: database,
+				id,
+			});
+			setConnectingRods(connectingRods);
+
+			//load journal rods from database
+			const journalRods = await Database.Engines.JournalRods.all({
+				db: database,
+				id,
+			});
+			setJournalRods(journalRods);
+			//load selected journal rod
+			const journalRod = await Database.JournalRods.getById({ db: database, objectID });
+			if (!journalRod) return setJournalRods(undefined);
+			setSelectedJournalRod(journalRod);
+		}
+		
+		loadRodsAsync();
 	}, []);
 
-	if (engine === null) {
+	if (journalRod === null) {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
 				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
-	} else if (engine === undefined) {
+	} else if (journalRod === undefined) {
 		navigate("/");
+		alert("ERROR: Journal rod not found");
 		return;
 	}
 	return (
 		<JournalRodsDiv>
 			<Header engine={engine} />
 			<Editor>
-				<MySideBar>
+			<MySideBar>
 					<TopSideBar>
 						<Top>
 							<h3>Journal Rods</h3>
-							<img src={plus} alt="Add" />
+							<img src={plus} alt="Add" onClick={addJournalRod}/>
 						</Top>
-
-						<JournalRod
-							name="Journal Rod 1"
-							id={1}
-							engineName={name}
-						/>
+						
+						<InlineRodsDiv>
+							{journalRods.map((rod) => (
+								<JournalRod
+									key={rod.id}
+									engineID={engine.id}
+									{...rod}
+									journalRods={journalRods}
+									setJournalRods={setJournalRods}
+									database={database}
+								/>
+							))}
+						</InlineRodsDiv>
 					</TopSideBar>
 					<BottomSideBar>
 						<Top>
@@ -64,17 +140,24 @@ const JournalRods = ({ database }) => {
 							<img src={plus} alt="Add" />
 						</Top>
 
-						<ConnectingRod
-							name="Connecting Rod 1"
-							id={1}
-							engineName={name}
-						/>
+						<InlineRodsDiv>
+							{connectingRods.map((rod) => (
+								<ConnectingRod
+									key={rod.id}
+									engineID={engine.id}
+									{...rod}
+									connectingRods={connectingRods}
+									setConnectingRods={setConnectingRods}
+									database={database}
+								/>
+							))}
+						</InlineRodsDiv>
 					</BottomSideBar>
 				</MySideBar>
 
 				<InternalEditor>
 					<EditorTop>
-						<h1>Journal Rod {id}</h1>
+						<h1>Journal Rod {objectID}</h1>
 						<img
 							src={deleteIcon}
 							alt="Delete"

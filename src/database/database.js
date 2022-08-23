@@ -87,10 +87,10 @@ class Database {
 
 			return { ...values, id };
 		};
-		static getById = async ({ db, id }) => {
+		static getById = async ({ db, objectID }) => {
 			const tx = db.transaction("journal_rods", "readonly");
 			const objectStore = tx.objectStore("journal_rods");
-			return { ...(await objectStore.get(id), id) };
+			return { ...(await objectStore.get(objectID), objectID) };
 		};
 		static remove = async ({ db, id }) => {
 			const txn = db.transaction("journal_rods", "readwrite");

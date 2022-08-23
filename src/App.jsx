@@ -46,6 +46,11 @@ function App() {
 						"banks",
 						"connecting_rods",
 						"journal_rods",
+						"crankshafts",
+						"exhausts",
+						"intakes",
+						"lobes",
+						"distributor"
 					];
 					for (let i = 0; i < objectStores.length; i++) {
 						try {
@@ -77,7 +82,7 @@ function App() {
 					element={<Banks database={database}></Banks>}
 				/>
 				<Route
-					path="/engines/edit/banks/:id"
+					path="/engines/edit/banks/:objectID"
 					element={<Bank database={database}></Bank>}
 				/>
 
@@ -87,11 +92,11 @@ function App() {
 					element={<Rods database={database}></Rods>}
 				/>
 				<Route
-					path="/engines/edit/rods/connecting/:id"
+					path="/engines/:id/edit/rods/connecting/:objectID"
 					element={<ConnectingRods database={database}></ConnectingRods>}
 				/>
 				<Route
-					path="/engines/edit/rods/journal/:id"
+					path="/engines/:id/edit/rods/journal/:objectID"
 					element={<JournalRods database={database}></JournalRods>}
 				/>
 

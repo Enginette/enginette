@@ -9,7 +9,7 @@ const JournalRodDiv = styled(BankInlineDiv)`
 	}
 `;
 
-const JournalRod = ({ id, journalRods, setJournalRods, database }) => {
+const JournalRod = ({ id, engineID, journalRods, setJournalRods, database }) => {
 	const handleDelete = async (e) => {
 		e.preventDefault();
 		const confirmation = window.confirm(
@@ -24,11 +24,11 @@ const JournalRod = ({ id, journalRods, setJournalRods, database }) => {
 		setJournalRods(journalRods.filter((rod) => rod.id !== id));
 	};
 	return (
-		<Link to={`/engines/edit/rods/journal/${id}`}>
+		<Link to={`/engines/${engineID}/edit/rods/journal/${id}`}>
 			<JournalRodDiv
 				active={
 					window.location.pathname ===
-					`/engines/edit/rods/journal/${id}`
+					`/engines/${engineID}/edit/rods/journal/${id}`
 				}
 			>
 				<h1>Journal Rod {id}</h1>
