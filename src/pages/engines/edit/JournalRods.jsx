@@ -19,15 +19,15 @@ import {
 
 const JournalRodsDiv = styled(ConnectingRodsDiv)``;
 
-const JournalRods = () => {
+const JournalRods = ({ database }) => {
 	let { name, id } = useParams();
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 
-	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
+	useEffect(async () => {
+		const engine = Database.JournalRods.getById({ db: database, id: id });
 		if (!engine) return setEngine(undefined);
-		setEngine(engine);
+		setEngine(engine.engine);
 	}, []);
 
 	if (engine === null) {
@@ -54,7 +54,7 @@ const JournalRods = () => {
 
 						<JournalRod
 							name="Journal Rod 1"
-							btnID={1}
+							id={1}
 							engineName={name}
 						/>
 					</TopSideBar>
@@ -66,7 +66,7 @@ const JournalRods = () => {
 
 						<ConnectingRod
 							name="Connecting Rod 1"
-							btnID={1}
+							id={1}
 							engineName={name}
 						/>
 					</BottomSideBar>

@@ -88,11 +88,11 @@ function App() {
 				/>
 				<Route
 					path="/engines/edit/rods/connecting/:id"
-					element={<ConnectingRods></ConnectingRods>}
+					element={<ConnectingRods database={database}></ConnectingRods>}
 				/>
 				<Route
 					path="/engines/edit/rods/journal/:id"
-					element={<JournalRods></JournalRods>}
+					element={<JournalRods database={database}></JournalRods>}
 				/>
 
 				{/* CRANKSHAFTS */}

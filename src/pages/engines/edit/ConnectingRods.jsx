@@ -74,7 +74,7 @@ const ConnectingRods = () => {
 
 						<JournalRod
 							name="Journal Rod 1"
-							btnID={1}
+							id={1}
 							engineName={name}
 						/>
 					</TopSideBar>
@@ -86,7 +86,7 @@ const ConnectingRods = () => {
 
 						<ConnectingRod
 							name="Connecting Rod 1"
-							btnID={1}
+							id={1}
 							engineName={name}
 						/>
 					</BottomSideBar>
