@@ -25,9 +25,8 @@ const InlineRodsDiv = styled(InlineBanksDiv)`
 const JournalRodsDiv = styled(ConnectingRodsDiv)``;
 
 const JournalRods = ({ database }) => {
-	let { name, id, objectID } = useParams();
+	let { id } = useParams();
 	id = parseInt(id);
-	objectID = parseInt(objectID);
 	const navigate = useNavigate();
 
 	//loaded rods and engine
@@ -35,7 +34,17 @@ const JournalRods = ({ database }) => {
 	const [journalRods, setJournalRods] = useState([]);
 	const [connectingRods, setConnectingRods] = useState([]);
 	//selected journal rod
-	const [journalRod, setSelectedJournalRod] = useState(null);
+	const [journalRod, setJournalRod] = useState(null);
+
+	const handleDelete = async () => {
+		const confirmation = window.confirm(
+			`Are you sure you want to delete Journal Rod #${id}?`
+		);
+		if (!confirmation) return;
+
+		await Database.JournalRods.remove({ db: database, id });
+		navigate(`/engines/${engine.id}/edit/rods`);
+	};
 
 	const addJournalRod = async () => {
 		const rod = await Database.JournalRods.add({
@@ -65,48 +74,53 @@ const JournalRods = ({ database }) => {
 	};
 
 	useEffect(() => {
-		if(!database) return;
-		const loadRodsAsync = async() =>
-		{
-			//load engine from database
-			const engine = await Database.Engines.getById({
+		if (!database) return;
+		const loadRodsAsync = async () => {
+			//load selected journal rod
+			const journalRod = await Database.JournalRods.getById({
 				db: database,
 				id,
 			});
+			if (!journalRod) return setJournalRod(undefined);
+			setJournalRod(journalRod);
+
+			//load engine from database
+			const engine = await Database.Engines.getById({
+				db: database,
+				id: journalRod.engine,
+			});
 			setEngine(engine);
-			if (!engine) return;
+			if (!engine) setEngine(undefined);
 
 			//load connecting rods from database
 			const connectingRods = await Database.Engines.ConnectingRods.all({
 				db: database,
-				id,
+				id: engine.id,
 			});
 			setConnectingRods(connectingRods);
 
 			//load journal rods from database
 			const journalRods = await Database.Engines.JournalRods.all({
 				db: database,
-				id,
+				id: engine.id,
 			});
 			setJournalRods(journalRods);
-			
-			//load selected journal rod
-			const journalRod = await Database.JournalRods.getById({ db: database, objectID });
-			if (!journalRod) return setSelectedJournalRod(undefined);
-			setSelectedJournalRod(journalRod);
-		}
-		
-		loadRodsAsync();
-	}, []);
+		};
 
-	if (journalRod === null) {
+		loadRodsAsync();
+	}, [database]);
+
+	if (engine === null) {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
-				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
+				<p>
+					Not Loading? <br /> Maybe the page encountered an error.
+					Check the console for more details
+				</p>
 			</LoadingScreen>
 		);
-	} else if (journalRod === undefined) {
+	} else if (engine === undefined) {
 		navigate("/");
 		alert("ERROR: Journal rod not found");
 		return;
@@ -115,13 +129,13 @@ const JournalRods = ({ database }) => {
 		<JournalRodsDiv>
 			<Header engine={engine} />
 			<Editor>
-			<MySideBar>
+				<MySideBar>
 					<TopSideBar>
 						<Top>
 							<h3>Journal Rods</h3>
-							<img src={plus} alt="Add" onClick={addJournalRod}/>
+							<img src={plus} alt="Add" onClick={addJournalRod} />
 						</Top>
-						
+
 						<InlineRodsDiv>
 							{journalRods.map((rod) => (
 								<JournalRod
@@ -138,7 +152,11 @@ const JournalRods = ({ database }) => {
 					<BottomSideBar>
 						<Top>
 							<h3>Connecting Rods</h3>
-							<img src={plus} alt="Add" onclick={addConnectingRod} />
+							<img
+								src={plus}
+								alt="Add"
+								onclick={addConnectingRod}
+							/>
 						</Top>
 
 						<InlineRodsDiv>
@@ -158,11 +176,12 @@ const JournalRods = ({ database }) => {
 
 				<InternalEditor>
 					<EditorTop>
-						<h1>Journal Rod {objectID}</h1>
+						<h1>Journal Rod {id}</h1>
 						<img
 							src={deleteIcon}
 							alt="Delete"
 							style={{ transform: "none" }}
+							onClick={handleDelete}
 						/>
 					</EditorTop>
 
@@ -172,9 +191,21 @@ const JournalRods = ({ database }) => {
 							<p>degrees</p>
 							<input
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								defaultValue={journalRod.angle}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.JournalRods.update({
+										db: database,
+										id,
+										values: {
+											...journalRod,
+											angle: parseInt(e.target.value),
+										},
+									});
+									setJournalRod({
+										...journalRod,
+										angle: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>

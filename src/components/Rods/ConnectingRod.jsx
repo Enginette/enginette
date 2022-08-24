@@ -5,11 +5,17 @@ import { Right, BankInlineDiv } from "../Banks/BankInline";
 
 const ConnectingRodDiv = styled(BankInlineDiv)`
 	svg {
-		fill: red;
+		fill: ${(props) => (props.active ? "white" : "red")};
 	}
 `;
 
-const ConnectingRod = ({ id, engineID, connectingRods, setConnectingRods, database }) => {
+const ConnectingRod = ({
+	id,
+	engine,
+	connectingRods,
+	setConnectingRods,
+	database,
+}) => {
 	const handleDelete = async (e) => {
 		e.preventDefault();
 		const confirmation = window.confirm(
@@ -24,11 +30,11 @@ const ConnectingRod = ({ id, engineID, connectingRods, setConnectingRods, databa
 		setConnectingRods(connectingRods.filter((rod) => rod.id !== id));
 	};
 	return (
-		<Link to={`/engines/${engineID}/edit/rods/connecting/${id}`}>
+		<Link to={`/engines/edit/rods/connecting/${id}`}>
 			<ConnectingRodDiv
 				active={
 					window.location.pathname ===
-					`/engines/${engineID}/edit/rods/connecting/${id}`
+					`/engines/edit/rods/connecting/${id}`
 				}
 			>
 				<h1>Connecting Rod {id}</h1>
