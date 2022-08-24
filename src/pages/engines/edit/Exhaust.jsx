@@ -29,7 +29,7 @@ const Exhaust = ({database}) => {
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 	const [exhausts, setExhausts] = useState([]);
-	//selected crankshaft
+	//selected exhaust
 	const [exhaust, setExhaust] = useState(null);
 
 	const handleDelete = async () => {
@@ -103,7 +103,7 @@ const Exhaust = ({database}) => {
 				<SideBar>
 					<Top>
 						<h3>Exhausts</h3>
-						<img src={plus} alt="Add"  onClick={addExhaust}/>
+						<img src={plus} alt="Add" onClick={addExhaust}/>
 					</Top>
 
 					<InlineExhaustsDiv>

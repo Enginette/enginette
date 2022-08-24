@@ -16,7 +16,7 @@ const ExhaustInline = ({ id, engineID, exhausts, setExhausts, database }) => {
     const handleDelete = async (e) => {
 		e.preventDefault();
 		const confirmation = window.confirm(
-			`Are you sure you want to delete 'Crankshaft ${id}'`
+			`Are you sure you want to delete 'Exhaust ${id}'`
 		);
 		if (!confirmation) return;
 
@@ -35,13 +35,13 @@ const ExhaustInline = ({ id, engineID, exhausts, setExhausts, database }) => {
 
 	return (
         <Link to={`/engines/edit/exhaust/${id}`}>
-        <ExhaustDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + id)}>
-            <h1>Exhaust {id}</h1>
-            <Right>
-                <img src={deleteIcon} alt="Delete" onClick={handleDelete}/>
-            </Right>
-        </ExhaustDiv>
-    </Link>
+			<ExhaustDiv onClick={setNav} active={window.location.pathname === encodeURI(baseUrl + id)}>
+				<h1>Exhaust {id}</h1>
+				<Right>
+					<img src={deleteIcon} alt="Delete" onClick={handleDelete}/>
+				</Right>
+			</ExhaustDiv>
+		</Link>
 	);
 };
 

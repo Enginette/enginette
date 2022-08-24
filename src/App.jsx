@@ -134,12 +134,12 @@ function App() {
 				{/* INTAKES */}
 				<Route
 					path="/engines/:id/edit/intakes"
-					element={<Intakes></Intakes>}
+					element={<Intakes database={database}></Intakes>}
 				/>
 
 				<Route
 					path="/engines/edit/intake/:id"
-					element={<Intake></Intake>}
+					element={<Intake database={database}></Intake>}
 				/>
 
 				{/* PISTONS */}
