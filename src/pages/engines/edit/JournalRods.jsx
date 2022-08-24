@@ -155,7 +155,7 @@ const JournalRods = ({ database }) => {
 							<img
 								src={plus}
 								alt="Add"
-								onclick={addConnectingRod}
+								onClick={addConnectingRod}
 							/>
 						</Top>
 

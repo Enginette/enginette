@@ -105,11 +105,11 @@ function App() {
 				{/* CRANKSHAFTS */}
 				<Route
 					path="/engines/:id/edit/crankshafts"
-					element={<Crankshafts></Crankshafts>}
+					element={<Crankshafts database={database}></Crankshafts>}
 				/>
 				<Route
 					path="/engines/edit/crankshaft/:id"
-					element={<Crankshaft></Crankshaft>}
+					element={<Crankshaft database={database}></Crankshaft>}
 				/>
 
 				{/* LOBES */}

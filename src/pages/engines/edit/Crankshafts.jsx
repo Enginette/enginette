@@ -9,6 +9,8 @@ import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import Crankshaft from "../../../components/Crankshafts/CrankshaftInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import CrankshaftInline from "../../../components/Crankshafts/CrankshaftInline";
+import { InlineBanksDiv } from "./Bank";
 
 const CrankshaftsDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
@@ -18,15 +20,53 @@ const CrankshaftsDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Crankshafts = () => {
+const InlineCrankshaftsDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
+`;
+
+const Crankshafts = ({database}) => {
 	let { name, id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [crankshafts, setCrankshafts] = useState([]);
+
+	const addCrankshaft = async () => {
+		const shaft = await Database.Crankshafts.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				throw: 90,
+				flywheelMass: 0,
+				mass: 0,
+				frictionTorque: 0,
+				momentOfInertia: 0,
+				topDeadCenter: 0,
+				xPosition: 0,
+				yPosition: 0,
+			},
+		});
+
+		setCrankshafts([...crankshafts, shaft]);
+	};
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
+		if (!database) return;
+		const loadDatabase = async () => {
+			const engine = await Database.Engines.getById({
+				db: database,
+				id,
+			});
+			setEngine(engine);
+			if (!engine) return;
+
+			const crankshafts = await Database.Engines.Crankshafts.all({
+				db: database,
+				id,
+			});
+			setCrankshafts(crankshafts);
+		};
+		loadDatabase();
 	}, []);
 
 	if (engine === null) {
@@ -40,6 +80,7 @@ const Crankshafts = () => {
 		navigate("/");
 		return;
 	}
+	
 	return (
 		<CrankshaftsDiv>
 			<Header engine={engine} />
@@ -47,14 +88,21 @@ const Crankshafts = () => {
 				<SideBar>
 					<Top>
 						<h3>Crankshafts</h3>
-						<img src={plus} alt="Add" />
+						<img src={plus} alt="Add" onClick={addCrankshaft}/>
 					</Top>
 
-					<Crankshaft
-						name="Crankshaft 1"
-						btnID={1}
-						engineName={name}
-					/>
+					<InlineCrankshaftsDiv>
+						{crankshafts.map((shaft) => (
+									<Crankshaft
+										key={shaft.id}
+										engineID={engine.id}
+										{...shaft}
+										crankshafts={crankshafts}
+										setCrankshafts={setCrankshafts}
+										database={database}
+									/>
+							))}
+					</InlineCrankshaftsDiv>
 				</SideBar>
 
 				<InternalEditor>

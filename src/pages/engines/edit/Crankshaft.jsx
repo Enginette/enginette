@@ -9,6 +9,7 @@ import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import CrankshaftInline from "../../../components/Crankshafts/CrankshaftInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import { InlineBanksDiv } from "./Bank";
 
 const CrankshaftDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
@@ -18,15 +19,74 @@ const CrankshaftDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Crankshaft = () => {
-	let { name, id } = useParams();
+const InlineCrankshaftsDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
+`;
+
+const Crankshaft = ({database}) => {
+	let { id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [crankshafts, setCrankshafts] = useState([]);
+	//selected crankshaft
+	const [crankshaft, setCrankshaft] = useState(null);
+
+	const handleDelete = async () => {
+		const confirmation = window.confirm(
+			`Are you sure you want to delete Crankshaft #${id}?`
+		);
+		if (!confirmation) return;
+
+		await Database.Crankshafts.remove({ db: database, id });
+		navigate(`/engines/${engine.id}/edit/crankshafts`);
+	};
+
+
+	const addCrankshaft = async () => {
+		const shaft = await Database.Crankshafts.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				throw: 90,
+				flywheelMass: 0,
+				mass: 0,
+				frictionTorque: 0,
+				momentOfInertia: 0,
+				topDeadCenter: 0,
+				xPosition: 0,
+				yPosition: 0,
+			},
+		});
+
+		setCrankshafts([...crankshafts, shaft]);
+	};
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
+		if (!database) return;
+		const loadDatabase = async () => {
+			//load selected crankshaft
+			const crankshaft = await Database.Crankshafts.getById({
+				db: database,
+				id,
+			});
+			if (!crankshaft) return setCrankshaft(undefined);
+			setCrankshaft(crankshaft);
+
+			const engine = await Database.Engines.getById({
+				db: database,
+				id: crankshaft.engine,
+			});
+			setEngine(engine);
+			if (!engine) return;
+
+			const crankshafts = await Database.Engines.Crankshafts.all({
+				db: database,
+				id: engine.id,
+			});
+			setCrankshafts(crankshafts);
+		};
+		loadDatabase();
 	}, []);
 
 	if (engine === null) {
@@ -47,14 +107,21 @@ const Crankshaft = () => {
 				<SideBar>
 					<Top>
 						<h3>Crankshafts</h3>
-						<img src={plus} alt="Add" />
+						<img src={plus} alt="Add" onClick={addCrankshaft}/>
 					</Top>
 
-					<CrankshaftInline
-						name="Crankshaft 1"
-						btnID={1}
-						engineName={name}
-					/>
+					<InlineCrankshaftsDiv>
+						{crankshafts.map((shaft) => (
+									<CrankshaftInline
+										key={shaft.id}
+										engineID={engine.id}
+										{...shaft}
+										crankshafts={crankshafts}
+										setCrankshafts={setCrankshafts}
+										database={database}
+									/>
+							))}
+					</InlineCrankshaftsDiv>
 				</SideBar>
 
 				<InternalEditor>
@@ -64,6 +131,7 @@ const Crankshaft = () => {
 							src={deleteIcon}
 							alt="Delete"
 							style={{ transform: "none" }}
+							onClick={handleDelete}
 						/>
 					</EditorTop>
 
@@ -74,8 +142,20 @@ const Crankshaft = () => {
 							<input
 								type="number"
 								defaultValue={90}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Crankshafts.update({
+										db: database,
+										id,
+										values: {
+											...crankshaft,
+											throw: parseInt(e.target.value),
+										},
+									});
+									setCrankshaft({
+										...crankshaft,
+										throw: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
