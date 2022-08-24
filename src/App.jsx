@@ -92,13 +92,13 @@ function App() {
 					element={<Rods database={database}></Rods>}
 				/>
 				<Route
-					path="/engines/:id/edit/rods/connecting/:objectID"
+					path="/engines/edit/rods/connecting/:id"
 					element={
 						<ConnectingRods database={database}></ConnectingRods>
 					}
 				/>
 				<Route
-					path="/engines/:id/edit/rods/journal/:objectID"
+					path="/engines/edit/rods/journal/:id"
 					element={<JournalRods database={database}></JournalRods>}
 				/>
 
