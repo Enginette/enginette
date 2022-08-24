@@ -172,7 +172,10 @@ const Bank = ({ database }) => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
-				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
+				<p>
+					Not Loading? <br /> Maybe the page encountered an error.
+					Check the console for more details
+				</p>
 			</LoadingScreen>
 		);
 	}
@@ -196,11 +199,10 @@ const Bank = ({ database }) => {
 							onClick={addBank}
 						/>
 					</Top>
-					{/* somehow get banks */}
 					<InlineBanksDiv>
-						{banks.map((bank, index) => (
+						{banks.map((bank) => (
 							<BankInline
-								name={`Bank ${index}`}
+								name={`Bank ${bank.id}`}
 								{...bank}
 								banks={banks}
 								setBanks={setBanks}
@@ -213,10 +215,7 @@ const Bank = ({ database }) => {
 				<InternalEditor>
 					<EditorTop>
 						<h1>
-							Bank{" "}
-							{banks.indexOf(
-								banks.filter((item) => item.id === id)[0]
-							)}
+							Bank {banks.filter((item) => item.id === id)[0].id}
 						</h1>
 						<img
 							src={deleteIcon}
