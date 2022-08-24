@@ -108,7 +108,7 @@ const JournalRods = ({ database }) => {
 		};
 
 		loadRodsAsync();
-	}, [database]);
+	}, [database, id]);
 
 	if (engine === null) {
 		return (
@@ -155,7 +155,7 @@ const JournalRods = ({ database }) => {
 							<img
 								src={plus}
 								alt="Add"
-								onclick={addConnectingRod}
+								onClick={addConnectingRod}
 							/>
 						</Top>
 
@@ -190,6 +190,8 @@ const JournalRods = ({ database }) => {
 							<h1>Angle:</h1>
 							<p>degrees</p>
 							<input
+								key={journalRod.angle}
+								autoFocus
 								type="number"
 								defaultValue={journalRod.angle}
 								onChange={async (e) => {

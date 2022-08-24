@@ -131,7 +131,7 @@ const ConnectingRods = ({ database }) => {
 		};
 
 		loadRodsAsync();
-	}, [database]);
+	}, [database, id]);
 	if (engine === null) {
 		return (
 			<LoadingScreen>
@@ -211,6 +211,8 @@ const ConnectingRods = ({ database }) => {
 							<p>grams</p>
 							<input
 								type="number"
+								key={connectingRod.mass}
+								autoFocus
 								defaultValue={connectingRod.mass}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -235,6 +237,8 @@ const ConnectingRods = ({ database }) => {
 							<input
 								type="number"
 								defaultValue={connectingRod.blowby}
+								autoFocus
+								key={connectingRod.blowby}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
 									await Database.ConnectingRods.update({
@@ -258,7 +262,9 @@ const ConnectingRods = ({ database }) => {
 							<p>inches</p>
 							<input
 								type="number"
-								defaultValue={0}
+								defaultValue={connectingRod.compressionHeight}
+								autoFocus
+								key={connectingRod.compressionHeight}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
 									await Database.ConnectingRods.update({
@@ -286,6 +292,8 @@ const ConnectingRods = ({ database }) => {
 							<input
 								type="number"
 								defaultValue={connectingRod.wristPinPosition}
+								autoFocus
+								key={connectingRod.wristPinPosition}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
 									await Database.ConnectingRods.update({
@@ -312,6 +320,8 @@ const ConnectingRods = ({ database }) => {
 							<input
 								type="number"
 								defaultValue={connectingRod.displacement}
+								autoFocus
+								key={connectingRod.displacement}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
 									await Database.ConnectingRods.update({

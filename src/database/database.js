@@ -264,7 +264,7 @@ class Database {
 				const index = objectStore.index("engine");
 				const keys = await index.getAllKeys(id);
 				return (await index.getAll(id)).map((item, index) => {
-					return { id: keys[index], ...item };
+					return { ...item, id: keys[index] };
 				});
 			};
 		};
@@ -277,7 +277,7 @@ class Database {
 				const index = objectStore.index("engine");
 				const keys = await index.getAllKeys(id);
 				return (await index.getAll(id)).map((item, index) => {
-					return { id: keys[index], ...item };
+					return { ...item, id: keys[index] };
 				});
 			};
 		};
