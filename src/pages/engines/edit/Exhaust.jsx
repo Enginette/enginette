@@ -9,6 +9,7 @@ import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import ExhaustInline from "../../../components/Exhausts/ExhaustInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import { InlineBanksDiv } from "./Bank";
 
 const ExhaustsDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
@@ -18,16 +19,71 @@ const ExhaustsDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Exhausts = () => {
+const InlineExhaustsDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
+`;
+
+const Exhaust = ({database}) => {
 	let { name, id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [exhausts, setExhausts] = useState([]);
+	//selected crankshaft
+	const [exhaust, setExhaust] = useState(null);
+
+	const handleDelete = async () => {
+		const confirmation = window.confirm(
+			`Are you sure you want to delete Exhaust #${id}?`
+		);
+		if (!confirmation) return;
+
+		await Database.Exhausts.remove({ db: database, id });
+		navigate(`/engines/${engine.id}/edit/exhausts`);
+	};
+
+	const addExhaust = async () => {
+		const exhaust = await Database.Exhausts.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				outletFlowRate: 0,
+				length: 0,
+				flowRate: 0,
+				velocityDecay: 0,
+				volume: 0,
+			},
+		});
+
+		setExhausts([...exhausts, exhaust]);
+	};
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
-	}, []);
+		if (!database) return;
+		const loadDatabase = async () => {
+			//load selected crankshaft
+			const exhaust = await Database.Exhausts.getById({
+				db: database,
+				id,
+			});
+			if (!exhaust) return setExhaust(undefined);
+			setExhaust(exhaust);
+
+			const engine = await Database.Engines.getById({
+				db: database,
+				id: exhaust.engine,
+			});
+			setEngine(engine);
+			if (!engine) return;
+
+			const exhausts = await Database.Engines.Exhausts.all({
+				db: database,
+				id: engine.id,
+			});
+			setExhausts(exhausts);
+		};
+		loadDatabase();
+	}, [database, id]);
 
 	if (engine === null) {
 		return (
@@ -47,10 +103,21 @@ const Exhausts = () => {
 				<SideBar>
 					<Top>
 						<h3>Exhausts</h3>
-						<img src={plus} alt="Add" />
+						<img src={plus} alt="Add"  onClick={addExhaust}/>
 					</Top>
 
-					<ExhaustInline name="Exhaust 1" btnID={1} engineName={id} />
+					<InlineExhaustsDiv>
+						{exhausts.map((exh) => (
+									<ExhaustInline
+										key={exh.id}
+										engineID={engine.id}
+										{...exh}
+										exhausts={exhausts}
+										setExhausts={setExhausts}
+										database={database}
+									/>
+							))}
+					</InlineExhaustsDiv>
 				</SideBar>
 
 				<InternalEditor>
@@ -60,6 +127,7 @@ const Exhausts = () => {
 							src={deleteIcon}
 							alt="Delete"
 							style={{ transform: "none" }}
+							onClick={handleDelete}
 						/>
 					</EditorTop>
 
@@ -68,10 +136,24 @@ const Exhausts = () => {
 							<h1>Outlet Flow Rate:</h1>
 							<p>scfm</p>
 							<input
+								key={exhaust.outletFlowRate}
+								autoFocus
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								defaultValue={exhaust.outletFlowRate}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Exhausts.update({
+										db: database,
+										id,
+										values: {
+											...exhaust,
+											outletFlowRate: parseInt(e.target.value),
+										},
+									});
+									setExhaust({
+										...exhaust,
+										outletFlowRate: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -80,10 +162,24 @@ const Exhausts = () => {
 							<h1>Length:</h1>
 							<p>inches</p>
 							<input
+								key={exhaust.length}
+								autoFocus
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								defaultValue={exhaust.length}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Exhausts.update({
+										db: database,
+										id,
+										values: {
+											...exhaust,
+											length: parseInt(e.target.value),
+										},
+									});
+									setExhaust({
+										...exhaust,
+										length: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -92,10 +188,24 @@ const Exhausts = () => {
 							<h1>Flow Rate:</h1>
 							<p>scfm</p>
 							<input
+								key={exhaust.flowRate}
+								autoFocus
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								defaultValue={exhaust.flowRate}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Exhausts.update({
+										db: database,
+										id,
+										values: {
+											...exhaust,
+											flowRate: parseInt(e.target.value),
+										},
+									});
+									setExhaust({
+										...exhaust,
+										flowRate: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -103,10 +213,24 @@ const Exhausts = () => {
 						<Input>
 							<h1>Velocity Decay:</h1>
 							<input
+								key={exhaust.velocityDecay}
+								autoFocus
 								type="number"
-								defaultValue={1}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								defaultValue={exhaust.velocityDecay}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Exhausts.update({
+										db: database,
+										id,
+										values: {
+											...exhaust,
+											velocityDecay: parseInt(e.target.value),
+										},
+									});
+									setExhaust({
+										...exhaust,
+										velocityDecay: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -115,10 +239,24 @@ const Exhausts = () => {
 							<h1>Volume:</h1>
 							<p>liters</p>
 							<input
+								key={exhaust.volume}
+								autoFocus
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								defaultValue={exhaust.volume}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Exhausts.update({
+										db: database,
+										id,
+										values: {
+											...exhaust,
+											volume: parseInt(e.target.value),
+										},
+									});
+									setExhaust({
+										...exhaust,
+										volume: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -129,4 +267,4 @@ const Exhausts = () => {
 	);
 };
 
-export default Exhausts;
+export default Exhaust;

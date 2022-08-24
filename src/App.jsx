@@ -123,12 +123,12 @@ function App() {
 				{/* EXHAUSTS */}
 				<Route
 					path="/engines/:id/edit/exhausts"
-					element={<Exhausts></Exhausts>}
+					element={<Exhausts database={database}></Exhausts>}
 				/>
 
 				<Route
 					path="/engines/edit/exhaust/:id"
-					element={<Exhaust></Exhaust>}
+					element={<Exhaust database={database}></Exhaust>}
 				/>
 
 				{/* INTAKES */}
