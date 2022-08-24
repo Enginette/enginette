@@ -52,7 +52,7 @@ const Footer = () => {
 	return (
 		<FooterDiv>
 			<Left>
-				<h1>Enginette 0.0.2a</h1>
+				<h1>Enginette 0.0.3a</h1>
 				<p>Made with ❤️ by Pooria and DDev</p>
 			</Left>
 			<Right>
