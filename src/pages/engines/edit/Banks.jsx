@@ -58,7 +58,10 @@ const Banks = ({ database }) => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
-				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
+				<p>
+					Not Loading? <br /> Maybe the page encountered an error.
+					Check the console for more details
+				</p>
 			</LoadingScreen>
 		);
 	}
@@ -73,9 +76,9 @@ const Banks = ({ database }) => {
 						<img src={plus} alt="Add" onClick={addBank} />
 					</Top>
 					<InlineBanksDiv>
-						{banks.map((bank, index) => (
+						{banks.map((bank) => (
 							<BankInline
-								name={`Bank ${index}`}
+								name={`Bank ${bank.id}`}
 								{...bank}
 								key={bank.id}
 								banks={banks}
