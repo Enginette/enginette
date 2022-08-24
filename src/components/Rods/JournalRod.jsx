@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Right, BankInlineDiv } from "../Banks/BankInline";
 import Database from "../../database/database";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const JournalRodDiv = styled(BankInlineDiv)`
 	svg {
@@ -9,7 +10,9 @@ const JournalRodDiv = styled(BankInlineDiv)`
 	}
 `;
 
-const JournalRod = ({ id, journalRods, setJournalRods, database }) => {
+const JournalRod = ({ id, engineID, journalRods, setJournalRods, database }) => {
+	const navigate = useNavigate();
+
 	const handleDelete = async (e) => {
 		e.preventDefault();
 		const confirmation = window.confirm(
@@ -22,6 +25,8 @@ const JournalRod = ({ id, journalRods, setJournalRods, database }) => {
 			id,
 		});
 		setJournalRods(journalRods.filter((rod) => rod.id !== id));
+		if(window.location.href.includes("journal"))
+			navigate(`/engines/${engineID}/edit/rods`);
 	};
 	return (
 		<Link to={`/engines/edit/rods/journal/${id}`}>

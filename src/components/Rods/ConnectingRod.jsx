@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Database from "../../database/database";
 import { Right, BankInlineDiv } from "../Banks/BankInline";
+import { useNavigate } from "react-router-dom";
 
 const ConnectingRodDiv = styled(BankInlineDiv)`
 	svg {
@@ -11,11 +12,13 @@ const ConnectingRodDiv = styled(BankInlineDiv)`
 
 const ConnectingRod = ({
 	id,
-	engine,
+	engineID,
 	connectingRods,
 	setConnectingRods,
 	database,
 }) => {
+	const navigate = useNavigate();
+
 	const handleDelete = async (e) => {
 		e.preventDefault();
 		const confirmation = window.confirm(
@@ -28,7 +31,10 @@ const ConnectingRod = ({
 			id,
 		});
 		setConnectingRods(connectingRods.filter((rod) => rod.id !== id));
+		if(window.location.href.includes("connecting"))
+			navigate(`/engines/${engineID}/edit/rods`);
 	};
+	
 	return (
 		<Link to={`/engines/edit/rods/connecting/${id}`}>
 			<ConnectingRodDiv

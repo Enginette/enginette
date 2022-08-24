@@ -9,7 +9,7 @@ const CrankshaftDiv = styled(BankInlineDiv)`
     
 `;
 
-const CrankshaftInline = ({ id, btnID, engineName, crankshafts, setCrankshafts, database }) => {
+const CrankshaftInline = ({ id, engineID, crankshafts, setCrankshafts, database }) => {
 	const baseUrl = `/engines/edit/crankshaft/`;
 	const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ const CrankshaftInline = ({ id, btnID, engineName, crankshafts, setCrankshafts, 
 			id,
 		});
 		setCrankshafts(crankshafts.filter((shaft) => shaft.id !== id));
+		navigate(`/engines/${engineID}/edit/crankshafts`);
 	};
 
     const setNav = (e) => {

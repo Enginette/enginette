@@ -184,6 +184,7 @@ const ConnectingRods = ({ database }) => {
 							{connectingRods.map((rod) => (
 								<ConnectingRod
 									key={rod.id}
+									engineID = {engine.id}
 									{...rod}
 									connectingRods={connectingRods}
 									setConnectingRods={setConnectingRods}
