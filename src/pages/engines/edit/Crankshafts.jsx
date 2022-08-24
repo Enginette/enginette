@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import Crankshaft from "../../../components/Crankshafts/CrankshaftInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
@@ -34,6 +33,7 @@ const Crankshafts = () => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
 	} else if (engine === undefined) {

@@ -16,13 +16,15 @@ const BanksDiv = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-const InlinBanksDiv = styled.div`
+const InlineBanksDiv = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	gap: 5px;
+	overflow-y: auto;
+	max-height: calc(100vh - 300px);
 	> a {
 		text-decoration: none;
 		width: 100%;
@@ -53,7 +55,7 @@ const Editor = styled.div`
 
 const SideBar = styled.div`
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
-	width: 494px;
+	width: 350px;
 	background-color: white;
 	border-radius: 20px;
 	height: 100%;
@@ -64,7 +66,7 @@ const SideBar = styled.div`
 
 const InternalEditor = styled.div`
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
-	width: 100%;
+	width: calc(100% - 350px - 20px);
 	background-color: white;
 	border-radius: 20px;
 	height: 100%;
@@ -170,6 +172,10 @@ const Bank = ({ database }) => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>
+					Not Loading? <br /> Maybe the page encountered an error.
+					Check the console for more details
+				</p>
 			</LoadingScreen>
 		);
 	}
@@ -193,27 +199,23 @@ const Bank = ({ database }) => {
 							onClick={addBank}
 						/>
 					</Top>
-					{/* somehow get banks */}
-					<InlinBanksDiv>
-						{banks.map((bank, index) => (
+					<InlineBanksDiv>
+						{banks.map((bank) => (
 							<BankInline
-								name={`Bank ${index}`}
+								name={`Bank ${bank.id}`}
 								{...bank}
 								banks={banks}
 								setBanks={setBanks}
 								database={database}
 							/>
 						))}
-					</InlinBanksDiv>
+					</InlineBanksDiv>
 				</SideBar>
 
 				<InternalEditor>
 					<EditorTop>
 						<h1>
-							Bank{" "}
-							{banks.indexOf(
-								banks.filter((item) => item.id === id)[0]
-							)}
+							Bank {banks.filter((item) => item.id === id)[0].id}
 						</h1>
 						<img
 							src={deleteIcon}
@@ -249,7 +251,7 @@ export {
 	InternalEditor,
 	Editor,
 	EditorTop,
-	InlinBanksDiv,
+	InlineBanksDiv,
 	Top,
 };
 export default Bank;

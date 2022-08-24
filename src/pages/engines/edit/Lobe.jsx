@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import LobeInline from "../../../components/Lobes/LobeInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
@@ -34,6 +33,7 @@ const Lobe = () => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
 	} else if (engine === undefined) {
@@ -65,7 +65,8 @@ const Lobe = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Mass:</p>
+							<h1>Duration at 50 thousands:</h1>
+							<p>degrees</p>
 							<input
 								type="number"
 								defaultValue={1}
@@ -76,7 +77,7 @@ const Lobe = () => {
 						</Input>
 
 						<Input>
-							<p>Compression height:</p>
+							<h1>Gamma:</h1>
 							<input
 								type="number"
 								defaultValue={1}
@@ -87,7 +88,8 @@ const Lobe = () => {
 						</Input>
 
 						<Input>
-							<p>Wrist pin Postion:</p>
+							<h1>Lift:</h1>
+							<p>mm</p>
 							<input
 								type="number"
 								defaultValue={0}
@@ -98,10 +100,10 @@ const Lobe = () => {
 						</Input>
 
 						<Input>
-							<p>Displacement:</p>
+							<h1>Steps:</h1>
 							<input
 								type="number"
-								defaultValue={0}
+								defaultValue={100}
 								onChange={(e) => {
 									// TODO: implement the database shit
 								}}

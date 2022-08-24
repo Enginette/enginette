@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { SideBar, InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import PistonInline from "../../../components/Pistons/PistonInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
@@ -34,6 +33,7 @@ const Piston = () => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
 	} else if (engine === undefined) {
@@ -65,7 +65,8 @@ const Piston = () => {
 
 					<MyInputs>
 						<Input>
-							<p>Mass:</p>
+							<h1>Mass:</h1>
+							<p>grams</p>
 							<input
 								type="number"
 								defaultValue={1}
@@ -76,7 +77,8 @@ const Piston = () => {
 						</Input>
 
 						<Input>
-							<p>Compression height:</p>
+							<h1>Compression height:</h1>
+							<p>mm</p>
 							<input
 								type="number"
 								defaultValue={1}
@@ -87,7 +89,7 @@ const Piston = () => {
 						</Input>
 
 						<Input>
-							<p>Wrist pin Postion:</p>
+							<h1>Wrist pin Postion:</h1>
 							<input
 								type="number"
 								defaultValue={0}
@@ -98,7 +100,7 @@ const Piston = () => {
 						</Input>
 
 						<Input>
-							<p>Displacement:</p>
+							<h1>Displacement:</h1>
 							<input
 								type="number"
 								defaultValue={0}

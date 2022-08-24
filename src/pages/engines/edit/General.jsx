@@ -14,6 +14,7 @@ const GeneralDiv = styled.div`
 
 const LoadingScreen = styled.div`
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
@@ -24,6 +25,24 @@ const LoadingScreen = styled.div`
 		color: #080b2d;
 		font-size: 200px;
 		font-weight: 100;
+	}
+
+	> p {
+		color: #080b2d;
+		font-size: 20px;
+		text-align: center;
+		line-height: 30px;
+		opacity: 100%;
+		animation-name: show;
+		animation-duration: 2s;
+		//animation-delay: 2s;
+		animation-iteration-count: 1;
+	}
+
+	@keyframes show {
+		0% { opacity: 0%; }
+		90% { opacity: 0%; }
+		100% { opacity: 100%; }
 	}
 `;
 
@@ -45,10 +64,21 @@ const Input = styled.div`
 	justify-content: center;
 	flex-basis: 300px;
 	flex-grow: 1;
-	> p {
+	> h1 {
 		font-size: 16px;
 		color: #031b4e;
 		margin-bottom: 5px;
+		font-weight: 400;
+	}
+	> p {
+		position: absolute;
+		font-weight: 400;
+		font-size: 14px;
+		color: #8794B0;
+		align-self: end;
+		margin-right: 20px;
+		margin-top: 25px;
+		width: 40px;
 	}
 	> input {
 		outline: none;
@@ -81,6 +111,7 @@ const General = ({ database }) => {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
 	} else if (engine === undefined) {
@@ -92,7 +123,7 @@ const General = ({ database }) => {
 			<Header engine={engine} />
 			<Inputs>
 				<Input>
-					<p>Name:</p>
+					<h1>Name:</h1>
 					<input
 						type="text"
 						defaultValue={engine.name}
@@ -120,7 +151,8 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Starter torque:</p>
+					<h1>Starter torque:</h1>
+					<p>lb-ft</p>
 					<input
 						type="number"
 						defaultValue={engine.starterTorque}
@@ -143,7 +175,8 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Red line:</p>
+					<h1>Red line:</h1>
+					<p>rpm</p>
 					<input
 						type="number"
 						defaultValue={engine.redLine}
@@ -166,7 +199,7 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Max turbulence effect:</p>
+					<h1>Max turbulence effect:</h1>
 					<input
 						type="text"
 						defaultValue={engine.maxTurbulenceEffect}
@@ -191,7 +224,7 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Burning efficiency randomness:</p>
+					<h1>Burning efficiency randomness:</h1>
 					<input
 						type="number"
 						defaultValue={engine.burningRandomness}
@@ -213,7 +246,8 @@ const General = ({ database }) => {
 					/>
 				</Input>
 				<Input>
-					<p>Max burning efficiency:</p>
+					<h1>Max burning efficiency:</h1>
+					<p>%</p>
 					<input
 						type="number"
 						defaultValue={engine.maxBurningEfficiency}

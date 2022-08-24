@@ -13,6 +13,7 @@ const HeaderDiv = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 20px;
+	box-shadow: 0px 7px 29px rgb(100 100 111 / 20%);
 `;
 
 const Left = styled.div`

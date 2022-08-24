@@ -9,7 +9,7 @@ const BankInlineDiv = styled.div`
 	background-color: white;
 	border: 1px solid #8794b0;
 	border: 1px solid ${(props) => (props.active ? "#0069ff" : "#8794B0")};
-	background-color: ${(props) => (props.active ? "#0069FF" : "white")};
+	background-color: ${(props) => (props.active ? "#0069ff" : "white")};
 	border-radius: 15px;
 	padding: 15px;
 	display: flex;

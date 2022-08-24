@@ -6,8 +6,7 @@ import Database from "../../../database/database";
 import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
-import { InternalEditor, Editor, EditorTop } from "./Bank";
-import { Top } from "../../Home";
+import { InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import ConnectingRod from "../../../components/Rods/ConnectingRod";
 import JournalRod from "../../../components/Rods/JournalRod";
 import {
@@ -17,64 +16,161 @@ import {
 	BottomSideBar,
 	ConnectingRodsDiv,
 } from "./ConnectingRods";
+import { InlineBanksDiv } from "./Bank";
 
-const JournalRodsDiv = styled(ConnectingRodsDiv)`
-	width: 100%;
-	height: calc(100% - 70px);
-	padding: 15px;
-	display: flex;
-	flex-direction: column;
+const InlineRodsDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
 `;
 
-const ConnectingRods = () => {
-	let { name, id } = useParams();
+const JournalRodsDiv = styled(ConnectingRodsDiv)``;
+
+const JournalRods = ({ database }) => {
+	let { id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
+
+	//loaded rods and engine
 	const [engine, setEngine] = useState(null);
+	const [journalRods, setJournalRods] = useState([]);
+	const [connectingRods, setConnectingRods] = useState([]);
+	//selected journal rod
+	const [journalRod, setJournalRod] = useState(null);
+
+	const handleDelete = async () => {
+		const confirmation = window.confirm(
+			`Are you sure you want to delete Journal Rod #${id}?`
+		);
+		if (!confirmation) return;
+
+		await Database.JournalRods.remove({ db: database, id });
+		navigate(`/engines/${engine.id}/edit/rods`);
+	};
+
+	const addJournalRod = async () => {
+		const rod = await Database.JournalRods.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				angle: 0,
+			},
+		});
+		setJournalRods([...journalRods, rod]);
+	};
+
+	const addConnectingRod = async () => {
+		const rod = await Database.ConnectingRods.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				mass: 0,
+				blowby: 0,
+				compressionHeight: 0,
+				wristPinPosition: 0,
+				displacement: 0,
+			},
+		});
+
+		setConnectingRods([...connectingRods, rod]);
+	};
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
-	}, []);
+		if (!database) return;
+		const loadRodsAsync = async () => {
+			//load selected journal rod
+			const journalRod = await Database.JournalRods.getById({
+				db: database,
+				id,
+			});
+			if (!journalRod) return setJournalRod(undefined);
+			setJournalRod(journalRod);
+
+			//load engine from database
+			const engine = await Database.Engines.getById({
+				db: database,
+				id: journalRod.engine,
+			});
+			setEngine(engine);
+			if (!engine) setEngine(undefined);
+
+			//load connecting rods from database
+			const connectingRods = await Database.Engines.ConnectingRods.all({
+				db: database,
+				id: engine.id,
+			});
+			setConnectingRods(connectingRods);
+
+			//load journal rods from database
+			const journalRods = await Database.Engines.JournalRods.all({
+				db: database,
+				id: engine.id,
+			});
+			setJournalRods(journalRods);
+		};
+
+		loadRodsAsync();
+	}, [database]);
 
 	if (engine === null) {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
+				<p>
+					Not Loading? <br /> Maybe the page encountered an error.
+					Check the console for more details
+				</p>
 			</LoadingScreen>
 		);
 	} else if (engine === undefined) {
 		navigate("/");
+		alert("ERROR: Journal rod not found");
 		return;
 	}
 	return (
-		<ConnectingRodsDiv>
+		<JournalRodsDiv>
 			<Header engine={engine} />
 			<Editor>
 				<MySideBar>
 					<TopSideBar>
 						<Top>
 							<h3>Journal Rods</h3>
-							<img src={plus} alt="Add" />
+							<img src={plus} alt="Add" onClick={addJournalRod} />
 						</Top>
 
-						<JournalRod
-							name="Journal Rod 1"
-							btnID={1}
-							engineName={name}
-						/>
+						<InlineRodsDiv>
+							{journalRods.map((rod) => (
+								<JournalRod
+									key={rod.id}
+									engineID={engine.id}
+									{...rod}
+									journalRods={journalRods}
+									setJournalRods={setJournalRods}
+									database={database}
+								/>
+							))}
+						</InlineRodsDiv>
 					</TopSideBar>
 					<BottomSideBar>
 						<Top>
 							<h3>Connecting Rods</h3>
-							<img src={plus} alt="Add" />
+							<img
+								src={plus}
+								alt="Add"
+								onclick={addConnectingRod}
+							/>
 						</Top>
 
-						<ConnectingRod
-							name="Connecting Rod 1"
-							btnID={1}
-							engineName={name}
-						/>
+						<InlineRodsDiv>
+							{connectingRods.map((rod) => (
+								<ConnectingRod
+									key={rod.id}
+									engineID={engine.id}
+									{...rod}
+									connectingRods={connectingRods}
+									setConnectingRods={setConnectingRods}
+									database={database}
+								/>
+							))}
+						</InlineRodsDiv>
 					</BottomSideBar>
 				</MySideBar>
 
@@ -85,25 +181,39 @@ const ConnectingRods = () => {
 							src={deleteIcon}
 							alt="Delete"
 							style={{ transform: "none" }}
+							onClick={handleDelete}
 						/>
 					</EditorTop>
 
 					<MyInputs>
 						<Input>
-							<p>Angle:</p>
+							<h1>Angle:</h1>
+							<p>degrees</p>
 							<input
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								defaultValue={journalRod.angle}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.JournalRods.update({
+										db: database,
+										id,
+										values: {
+											...journalRod,
+											angle: parseInt(e.target.value),
+										},
+									});
+									setJournalRod({
+										...journalRod,
+										angle: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
-		</ConnectingRodsDiv>
+		</JournalRodsDiv>
 	);
 };
 
-export default ConnectingRods;
+export default JournalRods;
