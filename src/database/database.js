@@ -78,7 +78,7 @@ class Database {
 			await objectStore.put(values, id);
 		};
 	};
-	
+
 	//Journal rods
 	static JournalRods = class JournalRods {
 		static add = async ({ db, values }) => {
@@ -87,10 +87,10 @@ class Database {
 
 			return { ...values, id };
 		};
-		static getById = async ({ db, objectID }) => {
+		static getById = async ({ db, id }) => {
 			const tx = db.transaction("journal_rods", "readonly");
 			const objectStore = tx.objectStore("journal_rods");
-			return { ...(await objectStore.get(objectID), objectID) };
+			return { ...(await objectStore.get(id), id) };
 		};
 		static remove = async ({ db, id }) => {
 			const txn = db.transaction("journal_rods", "readwrite");
@@ -256,7 +256,6 @@ class Database {
 
 	//Engines
 	static Engines = class Engines {
-
 		//Journal rods
 		static JournalRods = class JournalRods {
 			static all = async ({ db, id }) => {
