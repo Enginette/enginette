@@ -67,7 +67,7 @@ const Crankshafts = ({database}) => {
 			setCrankshafts(crankshafts);
 		};
 		loadDatabase();
-	}, []);
+	}, [database]);
 
 	if (engine === null) {
 		return (
