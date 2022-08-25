@@ -24,7 +24,7 @@ const InlineIntakesDiv = styled(InlineBanksDiv)`
 `;
 
 const Intake = ({database}) => {
-	let { name, id } = useParams();
+	let { id } = useParams();
 	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);

@@ -8,7 +8,6 @@ import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import Intake from "../../../components/Intakes/IntakeInline";
-import IntakeInline from "../../../components/Intakes/IntakeInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 import { InlineBanksDiv } from "./Bank";
 
@@ -25,7 +24,7 @@ const InlineIntakesDiv = styled(InlineBanksDiv)`
 `;
 
 const Intakes = ({database}) => {
-	let { name, id } = useParams();
+	let { id } = useParams();
 	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);

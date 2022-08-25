@@ -115,10 +115,13 @@ function App() {
 				{/* LOBES */}
 				<Route
 					path="/engines/:id/edit/lobes"
-					element={<Lobes></Lobes>}
+					element={<Lobes database={database}></Lobes>}
 				/>
 
-				<Route path="/engines/edit/lobe/:id" element={<Lobe></Lobe>} />
+				<Route 
+					path="/engines/edit/lobe/:id" 
+					element={<Lobe database={database}></Lobe>} 
+				/>
 
 				{/* EXHAUSTS */}
 				<Route
