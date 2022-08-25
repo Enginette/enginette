@@ -6,7 +6,7 @@
 ___
 
 # How to use
-  You can go to [enginette](https://enginette.netlify.app) now to view the most recent main branch preview. We are currently at version `0.0.2a`
+  You can go to [enginette](https://enginette.netlify.app) now to view the most recent main branch preview. We are currently at version `0.0.3a`
   
 # How does this work?
   This project works by taking all of the required parameters and generating them into a [piranha](https://github.com/ange-yaghi/piranha) script and then launching it with the [client](https://github.com/enginette/enginette-client).
