@@ -138,6 +138,7 @@ const Lobe = ({database}) => {
 								key={lobe.durationAtFiftyThousands}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={lobe.durationAtFiftyThousands}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -163,6 +164,8 @@ const Lobe = ({database}) => {
 								key={lobe.gamma}
 								autoFocus
 								type="number"
+								min="0"
+								step="0.01"
 								defaultValue={lobe.gamma}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -189,6 +192,7 @@ const Lobe = ({database}) => {
 								key={lobe.lift}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={lobe.lift}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -214,6 +218,8 @@ const Lobe = ({database}) => {
 								key={lobe.steps}
 								autoFocus
 								type="number"
+								min="0"
+								step="10"
 								defaultValue={lobe.steps}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;

@@ -168,6 +168,7 @@ const Crankshaft = ({database}) => {
 							<input
 								key={crankshaft.flywheelMass}
 								autoFocus
+								min="0"
 								type="number"
 								defaultValue={crankshaft.flywheelMass}
 								onChange={async (e) => {
@@ -195,6 +196,7 @@ const Crankshaft = ({database}) => {
 								key={crankshaft.mass}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={crankshaft.mass}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -221,6 +223,8 @@ const Crankshaft = ({database}) => {
 								key={crankshaft.frictionTorque}
 								autoFocus
 								type="number"
+								min="0"
+								step="0.01"
 								defaultValue={crankshaft.frictionTorque}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -246,6 +250,8 @@ const Crankshaft = ({database}) => {
 								key={crankshaft.momentOfInertia}
 								autoFocus
 								type="number"
+								min="0"
+								step="0.01"
 								defaultValue={crankshaft.momentOfInertia}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -272,6 +278,7 @@ const Crankshaft = ({database}) => {
 								key={crankshaft.topDeadCenter}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={crankshaft.topDeadCenter}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -297,6 +304,7 @@ const Crankshaft = ({database}) => {
 								key={crankshaft.xPosition}
 								autoFocus
 								type="number"
+								step="0.1"
 								defaultValue={crankshaft.xPosition}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -322,6 +330,7 @@ const Crankshaft = ({database}) => {
 								key={crankshaft.yPosition}
 								autoFocus
 								type="number"
+								step="0.1"
 								defaultValue={crankshaft.yPosition}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;

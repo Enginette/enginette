@@ -139,6 +139,8 @@ const Intake = ({database}) => {
 								key={intake.plenumVolume}
 								autoFocus
 								type="number"
+								min="0"
+								step="0.1"
 								defaultValue={intake.plenumVolume}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -164,6 +166,8 @@ const Intake = ({database}) => {
 								key={intake.plenumCrossSectionArea}
 								autoFocus
 								type="number"
+								min="0"
+								step="0.1"
 								defaultValue={intake.plenumCrossSectionArea}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -190,6 +194,7 @@ const Intake = ({database}) => {
 								key={intake.flowRate}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={intake.flowRate}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -216,6 +221,7 @@ const Intake = ({database}) => {
 								key={intake.idleFlowRate}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={intake.idleFlowRate}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -241,6 +247,9 @@ const Intake = ({database}) => {
 								key={intake.idleThrottlePlatePosition}
 								autoFocus
 								type="number"
+								min="0"
+								max="1"
+								step="0.01"
 								defaultValue={intake.idleThrottlePlatePosition}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -266,6 +275,8 @@ const Intake = ({database}) => {
 								key={intake.throttleGamma}
 								autoFocus
 								type="number"
+								min="0"
+								step="0.1"
 								defaultValue={intake.throttleGamma}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;

@@ -24,6 +24,13 @@ const Left = styled.div`
 	> p {
 		font-size: 20px;
 		color: white;
+
+		> a {
+			font-size: 20px;
+			color: white;
+			//margin-right: 10px;
+			text-decoration: none;
+		}
 	}
 `;
 
@@ -53,11 +60,11 @@ const Footer = () => {
 		<FooterDiv>
 			<Left>
 				<h1>Enginette 0.0.3a</h1>
-				<p>Made with ❤️ by Pooria and DDev</p>
+				<p>Made with ❤️ by <a href="https://github.com/pooriaahmadi">Pooria</a>, <a href="https://github.com/DDev247">DDev</a> and <a href="https://github.com/zRevenger">zRevenger</a></p>
 			</Left>
 			<Right>
 				<a href="https://github.com/DDev247/enginette-client">
-					Get the patcher
+					Get the client
 				</a>
 				<a href="https://github.com/DDev247/enginette">
 					<img src={github} alt="github" />

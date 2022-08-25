@@ -139,6 +139,7 @@ const Exhaust = ({database}) => {
 								key={exhaust.outletFlowRate}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={exhaust.outletFlowRate}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -165,6 +166,7 @@ const Exhaust = ({database}) => {
 								key={exhaust.length}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={exhaust.length}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -191,6 +193,7 @@ const Exhaust = ({database}) => {
 								key={exhaust.flowRate}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={exhaust.flowRate}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -216,6 +219,8 @@ const Exhaust = ({database}) => {
 								key={exhaust.velocityDecay}
 								autoFocus
 								type="number"
+								min="0"
+								step="0.1"
 								defaultValue={exhaust.velocityDecay}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -242,6 +247,7 @@ const Exhaust = ({database}) => {
 								key={exhaust.volume}
 								autoFocus
 								type="number"
+								min="0"
 								defaultValue={exhaust.volume}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;

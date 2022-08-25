@@ -214,6 +214,7 @@ const ConnectingRods = ({ database }) => {
 								type="number"
 								key={connectingRod.mass}
 								autoFocus
+								min="0"
 								defaultValue={connectingRod.mass}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -239,6 +240,8 @@ const ConnectingRods = ({ database }) => {
 								type="number"
 								defaultValue={connectingRod.blowby}
 								autoFocus
+								min="0"
+								step="0.01"
 								key={connectingRod.blowby}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -265,6 +268,8 @@ const ConnectingRods = ({ database }) => {
 								type="number"
 								defaultValue={connectingRod.compressionHeight}
 								autoFocus
+								min="0"
+								step="0.01"
 								key={connectingRod.compressionHeight}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -294,6 +299,8 @@ const ConnectingRods = ({ database }) => {
 								type="number"
 								defaultValue={connectingRod.wristPinPosition}
 								autoFocus
+								min="0"
+								step="0.01"
 								key={connectingRod.wristPinPosition}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -322,6 +329,8 @@ const ConnectingRods = ({ database }) => {
 								type="number"
 								defaultValue={connectingRod.displacement}
 								autoFocus
+								min="0"
+								step="0.01"
 								key={connectingRod.displacement}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;

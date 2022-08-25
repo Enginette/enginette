@@ -61,6 +61,8 @@ const Distributor = () => {
 							<input
 								type="number"
 								defaultValue={6000}
+								min="0"
+								step="100"
 								onChange={(e) => {
 									// TODO: implement the database shit
 								}}

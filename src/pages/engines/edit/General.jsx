@@ -181,6 +181,8 @@ const General = ({ database }) => {
 						type="number"
 						defaultValue={engine.redLine}
 						required
+						min="0"
+						step="100"
 						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
 							await Database.Engines.update({
@@ -201,9 +203,11 @@ const General = ({ database }) => {
 				<Input>
 					<h1>Max turbulence effect:</h1>
 					<input
-						type="text"
+						type="number"
 						defaultValue={engine.maxTurbulenceEffect}
 						required
+						min="0"
+						step="0.01"
 						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
 							await Database.Engines.update({
@@ -228,6 +232,8 @@ const General = ({ database }) => {
 					<input
 						type="number"
 						defaultValue={engine.burningRandomness}
+						min="0"
+						step="0.01"
 						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
 							await Database.Engines.update({
@@ -251,6 +257,8 @@ const General = ({ database }) => {
 					<input
 						type="number"
 						defaultValue={engine.maxBurningEfficiency}
+						min="0"
+						step="0.01"
 						onChange={async (e) => {
 							if (e.target.value.length === 0) return;
 							await Database.Engines.update({
