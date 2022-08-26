@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import deleteIcon from "../../images/delete.svg";
 import piston from "../../images/piston.svg";
 import { Link } from "react-router-dom";
@@ -69,11 +70,13 @@ const Right = styled.div`
 	}
 `;
 
-const BankInline = ({ name, id, banks, setBanks, database }) => {
+const BankInline = ({ id, engineID, banks, setBanks, database }) => {
+	const navigate = useNavigate();
+
 	const handleDelete = async (e) => {
 		e.preventDefault();
 		const confirmation = window.confirm(
-			`Are you sure you want to delete '${name}'`
+			`Are you sure you want to delete Bank '${id}'`
 		);
 		if (!confirmation) return;
 		await Database.Banks.remove({
@@ -81,6 +84,7 @@ const BankInline = ({ name, id, banks, setBanks, database }) => {
 			id,
 		});
 		setBanks(banks.filter((databaseBank) => databaseBank.id !== id));
+		navigate(`/engines/${engineID}/edit/banks`);
 	};
 	return (
 		<Link to={`/engines/edit/banks/${id}`}>
@@ -89,7 +93,7 @@ const BankInline = ({ name, id, banks, setBanks, database }) => {
 					window.location.pathname === `/engines/edit/banks/${id}`
 				}
 			>
-				<h1>{name}</h1>
+				<h1>Bank {id}</h1>
 				<Right
 					active={
 						window.location.pathname === `/engines/edit/banks/${id}`

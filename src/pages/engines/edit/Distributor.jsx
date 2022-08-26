@@ -18,6 +18,7 @@ const DistributorDiv = styled(ConnectingRodsDiv)`
 
 const Distributor = () => {
 	let { id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 

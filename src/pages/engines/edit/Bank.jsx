@@ -112,7 +112,8 @@ const Bank = ({ database }) => {
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 	const [bank, setBank] = useState(null);
-	const [banks, setBanks] = useState(null);
+	const [banks, setBanks] = useState([]);
+	const [cylinders, setCylinders] = useState([]);
 
 	const handleDelete = async () => {
 		const confirmation = window.confirm(`Are you sure you want to delete?`);
@@ -131,6 +132,7 @@ const Bank = ({ database }) => {
 		);
 		setBanks(banks.filter((databaseBank) => databaseBank.id !== id));
 	};
+
 	const addBank = async () => {
 		const bank = await Database.Banks.add({
 			db: database,
@@ -141,6 +143,17 @@ const Bank = ({ database }) => {
 		setBanks([...banks, bank]);
 	};
 
+	const addCylinder = async () => {
+		const cylinder = await Database.Cylinders.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				bank: id
+			},
+		});
+		setCylinders([...cylinders, cylinder]);
+	};
+
 	useEffect(() => {
 		if (!database) return;
 
@@ -149,13 +162,20 @@ const Bank = ({ database }) => {
 				db: database,
 				id,
 			});
+			if (!bank) return setBank(undefined);
 			setBank(bank);
-			if (!bank) return;
+
 			const banks = await Database.Engines.Banks.all({
 				db: database,
 				id: bank.engine,
 			});
 			setBanks(banks);
+
+			const cylinders = await Database.Engines.Cylinders.all({
+				db: database,
+				id: bank.engine,
+			});
+			setCylinders(cylinders);
 
 			const engine = await Database.Engines.getById({
 				db: database,
@@ -164,7 +184,8 @@ const Bank = ({ database }) => {
 			setEngine(engine);
 		};
 		stuff();
-	}, [database]);
+	}, [database, id]);
+
 	if (bank === undefined) {
 		navigate("/");
 		return;
@@ -202,7 +223,8 @@ const Bank = ({ database }) => {
 					<InlineBanksDiv>
 						{banks.map((bank) => (
 							<BankInline
-								name={`Bank ${bank.id}`}
+								key={bank.id}
+								engineID={engine.id}
 								{...bank}
 								banks={banks}
 								setBanks={setBanks}
@@ -231,13 +253,22 @@ const Bank = ({ database }) => {
 							src={plus}
 							alt="Plus"
 							style={{ height: "20px", width: "20px" }}
+							onClick={addCylinder}
 						/>
 					</EditorTop>
 
 					<Cylinders>
-						<Cylinder />
-						<Cylinder />
-						<Cylinder />
+						{cylinders.map((cyl) => {
+							if(cyl.bank == id)
+							return (<Cylinder
+								key={cyl.id}
+								engineID={engine.id}
+								{...cyl}
+								cylinders={cylinders}
+								setCylinders={setCylinders}
+								database={database}
+							/>
+						)})}
 					</Cylinders>
 				</InternalEditor>
 			</Editor>

@@ -78,9 +78,9 @@ const Banks = ({ database }) => {
 					<InlineBanksDiv>
 						{banks.map((bank) => (
 							<BankInline
-								name={`Bank ${bank.id}`}
-								{...bank}
 								key={bank.id}
+								engineID={engine.id}
+								{...bank}
 								banks={banks}
 								setBanks={setBanks}
 								database={database}

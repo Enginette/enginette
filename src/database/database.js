@@ -52,6 +52,12 @@ class Database {
 			autoIncrement: true,
 		});
 		distributor.createIndex("engine", "engine");
+
+		//Cylinders
+		const cylinders = db.createObjectStore("cylinders", {
+			autoIncrement: true,
+		});
+		cylinders.createIndex("engine", "engine");
 	};
 
 	//Connecting rods
@@ -229,6 +235,31 @@ class Database {
 		};
 	};
 
+	//Cylinders
+	static Cylinders = class Cylinders {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("cylinders", "readwrite");
+			const id = await tx.objectStore("cylinders").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("cylinders", "readonly");
+			const objectStore = tx.objectStore("cylinders");
+			return { ...(await objectStore.get(id)), id };
+		};
+		static remove = async ({ db, id }) => {
+			const txn = db.transaction("cylinders", "readwrite");
+			const objectStore = txn.objectStore("cylinders");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("cylinders", "readwrite");
+			const objectStore = txn.objectStore("cylinders");
+			await objectStore.put(values, id);
+		};
+	};
+
 	//Banks
 	static Banks = class Banks {
 		static add = async ({ db, values }) => {
@@ -352,6 +383,19 @@ class Database {
 			static all = async ({ db, id }) => {
 				const txn = db.transaction("distributor", "readonly");
 				const objectStore = txn.objectStore("distributor");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { id: keys[index], ...item };
+				});
+			};
+		};
+
+		//Cylinders
+		static Cylinders = class Cylinders {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("cylinders", "readonly");
+				const objectStore = txn.objectStore("cylinders");
 				const index = objectStore.index("engine");
 				const keys = await index.getAllKeys(id);
 				return (await index.getAll(id)).map((item, index) => {
