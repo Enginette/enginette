@@ -8,6 +8,8 @@ import { LoadingScreen, Input } from "./General";
 import { InternalEditor, Editor, EditorTop } from "./Bank";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
 
+import TuningTable1D from "../../../components/TuningTables/1D";
+
 const DistributorDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
 	height: calc(100% - 70px);
@@ -69,8 +71,12 @@ const Distributor = () => {
 								}}
 							/>
 						</Input>
-						<h1>pls add a timing table idk how to do this</h1>
-						<p>maybe even a graph? 👀</p>
+						
+						{/* <h1>pls add a timing table idk how to do this</h1> */}
+						{/* <p>maybe even a graph? 👀</p> */}
+
+						{/* <TuningTable1D /> */}
+						
 					</MyInputs>
 				</InternalEditor>
 			</Editor>
