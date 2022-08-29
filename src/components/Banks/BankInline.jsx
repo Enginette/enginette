@@ -86,6 +86,30 @@ const BankInline = ({ id, engineID, banks, setBanks, database }) => {
 		setBanks(banks.filter((databaseBank) => databaseBank.id !== id));
 		navigate(`/engines/${engineID}/edit/banks`);
 	};
+
+	const getCylinderCount = async () => {
+		
+		const stuff = async () => {
+			const cylinders = await Database.Engines.Cylinders.all({
+				db: database,
+				id,
+			});
+	
+			let i = 0;
+			cylinders.forEach(element => {
+				if(element.bank === id) {
+					i++;
+				}
+			});
+
+			return i;
+		};
+		const something = await stuff();
+
+		return toString(something);
+	};
+	//const stuff = getCylinderCount();
+
 	return (
 		<Link to={`/engines/edit/banks/${id}`}>
 			<BankInlineDiv

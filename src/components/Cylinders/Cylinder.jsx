@@ -20,7 +20,8 @@ const CylinderDiv = styled.div`
 const Top = styled.div`
     width: 100%;
     height: 100px;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0 10px;
     display: flex;
 
     > h1 {
@@ -133,11 +134,35 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
             <Top>
                 <img src={piston} alt="P" />
                 <h1>#{id}</h1>
+                <img
+                src={deleteIcon}
+                alt="Delete"
+                style={{ transform: "translateX(4px)", height: "32px", width: "32px" }}
+                onClick={handleDelete}
+                />
             </Top>
 
             <Input>
                 <p>Connecting Rod</p>
-                <select>
+                <select
+                    key={`${Math.floor((Math.random() * 1000))}-min`}
+                    defaultValue={"Connecting Rod " + cylinder.connectingRod}
+                    onChange={async (e) => {
+                        console.log("changing connecting rod");
+                        if (e.target.value.length === 0) return;
+                        await Database.Cylinders.update({
+                            db: database,
+                            id,
+                            values: {
+                                ...cylinder,
+                                connectingRod: parseInt(e.target.value.substring("Connecting Rod ".length)),
+                            },
+                        });
+                        setCylinder({
+                            ...cylinder,
+                            connectingRod: parseInt(e.target.value.substring("Connecting Rod ".length)),
+                        });
+                    }}>
                     {connectingRods.map((rod) => (
 						<option>Connecting Rod {rod.id}</option>
 					))}
@@ -146,9 +171,27 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 
             <Input>
                 <p>Journal Rod</p>
-                <select>
+                <select
+                    key={`${Math.floor((Math.random() * 1000))}-min`}
+                    defaultValue={"Journal Rod " + cylinder.journalRod}
+                    onChange={async (e) => {
+                        console.log("changing journal rod");
+                        if (e.target.value.length === 0) return;
+                        await Database.Cylinders.update({
+                            db: database,
+                            id,
+                            values: {
+                                ...cylinder,
+                                journalRod: parseInt(e.target.value.substring("Journal Rod ".length)),
+                            },
+                        });
+                        setCylinder({
+                            ...cylinder,
+                            journalRod: parseInt(e.target.value.substring("Journal Rod ".length)),
+                        });
+                    }}>
                     {journalRods.map((rod) => (
-						<option>Journal Rod {rod.id}</option>
+						<option key={rod.id}>Journal Rod {rod.id}</option>
 					))}
                 </select>
             </Input>
@@ -156,9 +199,8 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
             <Input>
                 <p>Intake</p>
                 <select
-                    defaultValue={cylinder.intake}
-                    autoFocus
-                    key={cylinder.intake}
+                    key={`${Math.floor((Math.random() * 1000))}-min`}
+                    defaultValue={"Intake " + cylinder.intake}
                     onChange={async (e) => {
                         console.log("changing intake");
                         if (e.target.value.length === 0) return;
@@ -167,12 +209,12 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                             id,
                             values: {
                                 ...cylinder,
-                                intake: e.target.value,
+                                intake: parseInt(e.target.value.substring("Intake ".length)),
                             },
                         });
                         setCylinder({
                             ...cylinder,
-                            intake: e.target.value,
+                            intake: parseInt(e.target.value.substring("Intake ".length)),
                         });
                     }}>
                     {
@@ -184,7 +226,25 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 
             <Input>
                 <p>Exhaust</p>
-                <select>
+                <select
+                    key={`${Math.floor((Math.random() * 1000))}-min`}
+                    defaultValue={"Exhaust " + cylinder.exhaust}
+                    onChange={async (e) => {
+                        console.log("changing exhaust");
+                        if (e.target.value.length === 0) return;
+                        await Database.Cylinders.update({
+                            db: database,
+                            id,
+                            values: {
+                                ...cylinder,
+                                exhaust: parseInt(e.target.value.substring("Exhaust ".length)),
+                            },
+                        });
+                        setCylinder({
+                            ...cylinder,
+                            exhaust: parseInt(e.target.value.substring("Exhaust ".length)),
+                        });
+                    }}>
                     {exhausts.map((exhaust) => (
 						<option>Exhaust {exhaust.id}</option>
 					))}
@@ -197,12 +257,6 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                     <option>Not Yet Implemented</option>
                 </select>
             </Input>
-            <img
-                src={deleteIcon}
-                alt="Delete"
-                style={{ transform: "translateX(4px)" }}
-                onClick={handleDelete}
-            />
            
 		</CylinderDiv>
 	);
