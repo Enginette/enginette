@@ -182,6 +182,7 @@ const Bank = ({ database }) => {
 				id: bank.engine,
 			});
 			setEngine(engine);
+			
 		};
 		stuff();
 	}, [database, id]);
@@ -221,16 +222,25 @@ const Bank = ({ database }) => {
 						/>
 					</Top>
 					<InlineBanksDiv>
-						{banks.map((bank) => (
+						{banks.map((bank) => {
+							let count = 0;
+			
+							cylinders.forEach(element => {
+								if(element.bank === bank.id) {
+									count++;
+								}
+							});
+							return (
 							<BankInline
 								key={bank.id}
+								cylinderCount={count}
 								engineID={engine.id}
 								{...bank}
 								banks={banks}
 								setBanks={setBanks}
 								database={database}
-							/>
-						))}
+							/>);
+						})}
 					</InlineBanksDiv>
 				</SideBar>
 

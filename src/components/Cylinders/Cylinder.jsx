@@ -148,7 +148,6 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                     key={`${Math.floor((Math.random() * 1000))}-min`}
                     defaultValue={"Connecting Rod " + cylinder.connectingRod}
                     onChange={async (e) => {
-                        console.log("changing connecting rod");
                         if (e.target.value.length === 0) return;
                         await Database.Cylinders.update({
                             db: database,
@@ -175,7 +174,6 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                     key={`${Math.floor((Math.random() * 1000))}-min`}
                     defaultValue={"Journal Rod " + cylinder.journalRod}
                     onChange={async (e) => {
-                        console.log("changing journal rod");
                         if (e.target.value.length === 0) return;
                         await Database.Cylinders.update({
                             db: database,
@@ -202,7 +200,6 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                     key={`${Math.floor((Math.random() * 1000))}-min`}
                     defaultValue={"Intake " + cylinder.intake}
                     onChange={async (e) => {
-                        console.log("changing intake");
                         if (e.target.value.length === 0) return;
                         await Database.Cylinders.update({
                             db: database,
@@ -230,7 +227,6 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                     key={`${Math.floor((Math.random() * 1000))}-min`}
                     defaultValue={"Exhaust " + cylinder.exhaust}
                     onChange={async (e) => {
-                        console.log("changing exhaust");
                         if (e.target.value.length === 0) return;
                         await Database.Cylinders.update({
                             db: database,
