@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const TuningTable1DDiv = styled.div`
 	width: 660px;
-	height: 400px;
+	height: 64px;
 	background-color: lightgray;
 	border-radius: 5px;
 	padding: 10px 10px;
@@ -25,10 +25,14 @@ const TextCell = styled.div`
 	background-color: white;
 
 	border-color: #8080808f;
-	border-width: 1px 1px;
+	border-width: 1px 1px 2px 1px;
 	border-style: solid;
 
 	text-align: center;
+
+	> p {
+		font-weight: 500;
+	}
 `;
 
 const Cell = styled.div`
@@ -37,7 +41,7 @@ const Cell = styled.div`
 	background-color: white;
 
 	border-color: #8080808f;
-	border-width: 1px 1px;
+	border-width: 0px 1px;
 	border-style: solid;
 
 	text-align: center;
@@ -46,12 +50,14 @@ const Cell = styled.div`
 		width: 100%;
 		height: 100%;
 		border: 0px solid white;
+		text-align: center;
 	}
 
 	> input:focus {
 		width: 100%;
 		height: 100%;
-		border: 0px solid clear;
+		border: 0px solid white;
+		text-align: center;
 	}
 `;
 
@@ -61,6 +67,17 @@ const Flex = styled.div`
 `;
 
 const TuningTable1D = ({ revLimit }) => {
+	const blueMax = 10;
+	const greenMax = 35;
+	const yellowMax = 55;
+	const orangeMax = 70;
+
+	const blue = "#1f53fd";
+	const green = "#4dda6c";
+	const yellow = "#c8da2a";
+	const orange = "#fd9f34";
+	const red = "#f84727";
+
 	return (
 		<TuningTable1DDiv>
 			<BG>
@@ -69,69 +86,35 @@ const TuningTable1D = ({ revLimit }) => {
 					<TextCell>
 						<p>0</p>
 					</TextCell>
-
-					<TextCell>
-						<p>1000</p>
-					</TextCell>
-
-					<TextCell>
-						<p>2000</p>
-					</TextCell>
-
-					<TextCell>
-						<p>3000</p>
-					</TextCell>
-
-					<TextCell>
-						<p>4000</p>
-					</TextCell>
-
-					<TextCell>
-						<p>5000</p>
-					</TextCell>
-
-					<TextCell>
-						<p>6000</p>
-					</TextCell>
-
-					<TextCell>
-						<p>7000</p>
-					</TextCell>
 					
 				</Flex>
 
 				<Flex>
 
 					<Cell>
-						<input/>
-					</Cell>
-
-					<Cell>
-						<input/>
-					</Cell>
-
-					<Cell>
-						<input/>
-					</Cell>
-
-					<Cell>
-						<input/>
-					</Cell>
-
-					<Cell>
-						<input/>
-					</Cell>
-
-					<Cell>
-						<input/>
-					</Cell>
-
-					<Cell>
-						<input/>
-					</Cell>
-
-					<Cell>
-						<input/>
+						<input 
+							onChange={(e) => {
+								if(e.target.value < blueMax) {
+									e.target.style = "color: white; background-color: " + blue;
+									return;
+								}
+								if(e.target.value >= blueMax && e.target.value < greenMax) {
+									e.target.style = "color: white; background-color: " + green;
+									return;
+								}
+								if(e.target.value >= greenMax && e.target.value < yellowMax) {
+									e.target.style = "color: white; background-color: " + yellow;
+									return;
+								}
+								if(e.target.value >= yellowMax && e.target.value < orangeMax) {
+									e.target.style = "color: white; background-color: " + orange;
+									return;
+								}
+								if(e.target.value >= orangeMax) {
+									e.target.style = "color: white; background-color: " + red;
+									return;
+								}
+							}}/>
 					</Cell>
 
 				</Flex>

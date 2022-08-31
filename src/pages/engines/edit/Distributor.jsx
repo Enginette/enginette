@@ -75,7 +75,7 @@ const Distributor = () => {
 						{/* <h1>pls add a timing table idk how to do this</h1> */}
 						{/* <p>maybe even a graph? 👀</p> */}
 
-						{/* <TuningTable1D /> */}
+						<TuningTable1D />
 						
 					</MyInputs>
 				</InternalEditor>
