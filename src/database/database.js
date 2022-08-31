@@ -58,6 +58,12 @@ class Database {
 			autoIncrement: true,
 		});
 		cylinders.createIndex("engine", "engine");
+
+		//Pistons
+		const pistons = db.createObjectStore("pistons", {
+			autoIncrement: true,
+		});
+		pistons.createIndex("engine", "engine");
 	};
 
 	//Connecting rods
@@ -260,6 +266,31 @@ class Database {
 		};
 	};
 
+	//Pistons
+	static Pistons = class Pistons {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("pistons", "readwrite");
+			const id = await tx.objectStore("pistons").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("pistons", "readonly");
+			const objectStore = tx.objectStore("pistons");
+			return { ...(await objectStore.get(id)), id };
+		};
+		static remove = async ({ db, id }) => {
+			const txn = db.transaction("pistons", "readwrite");
+			const objectStore = txn.objectStore("pistons");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("pistons", "readwrite");
+			const objectStore = txn.objectStore("pistons");
+			await objectStore.put(values, id);
+		};
+	};
+
 	//Banks
 	static Banks = class Banks {
 		static add = async ({ db, values }) => {
@@ -383,6 +414,19 @@ class Database {
 			static all = async ({ db, id }) => {
 				const txn = db.transaction("distributor", "readonly");
 				const objectStore = txn.objectStore("distributor");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { id: keys[index], ...item };
+				});
+			};
+		};
+
+		//Pistons
+		static Pistons = class Pistons {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("pistons", "readonly");
+				const objectStore = txn.objectStore("pistons");
 				const index = objectStore.index("engine");
 				const keys = await index.getAllKeys(id);
 				return (await index.getAll(id)).map((item, index) => {

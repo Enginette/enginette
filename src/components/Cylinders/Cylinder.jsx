@@ -71,6 +71,7 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 	const [connectingRods, setConnectingRods] = useState([]);
 	const [intakes, setIntakes] = useState([]);
 	const [exhausts, setExhausts] = useState([]);
+	const [pistons, setPistons] = useState([]);
 
     const handleDelete = async (e) => {
 		e.preventDefault();
@@ -124,6 +125,13 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 				id: engineID,
 			});
 			setExhausts(exhausts);
+
+            //load pistons from database
+			const pistons = await Database.Engines.Pistons.all({
+				db: database,
+				id: engineID,
+			});
+			setPistons(pistons);
 		};
 
 		loadRodsAsync();
@@ -249,8 +257,27 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 
             <Input>
                 <p>Piston</p>
-                <select>
-                    <option>Not Yet Implemented</option>
+                <select
+                    key={`${Math.floor((Math.random() * 1000))}-min`}
+                    defaultValue={"Piston " + cylinder.piston}
+                    onChange={async (e) => {
+                        if (e.target.value.length === 0) return;
+                        await Database.Cylinders.update({
+                            db: database,
+                            id,
+                            values: {
+                                ...cylinder,
+                                piston: parseInt(e.target.value.substring("Piston ".length)),
+                            },
+                        });
+                        setCylinder({
+                            ...cylinder,
+                            piston: parseInt(e.target.value.substring("Piston ".length)),
+                        });
+                    }}>
+                    {pistons.map((piston) => (
+                        <option>Piston {piston.id}</option>
+                    ))}
                 </select>
             </Input>
            

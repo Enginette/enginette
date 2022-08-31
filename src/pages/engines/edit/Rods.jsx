@@ -54,10 +54,9 @@ const Rods = ({ database }) => {
 			values: {
 				engine: engine.id,
 				mass: 0,
-				blowby: 0,
-				compressionHeight: 0,
-				wristPinPosition: 0,
-				displacement: 0,
+				momentOfInertia: 0.22986844776863666,
+				centerOfMass: 0,
+				length: 0,
 			},
 		});
 

@@ -62,7 +62,7 @@ const Intake = ({database}) => {
 	useEffect(() => {
 		if (!database) return;
 		const loadDatabase = async () => {
-			//load selected crankshaft
+			//load selected intake
 			const intake = await Database.Intakes.getById({
 				db: database,
 				id,

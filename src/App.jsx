@@ -148,12 +148,12 @@ function App() {
 				{/* PISTONS */}
 				<Route
 					path="/engines/:id/edit/pistons"
-					element={<Pistons></Pistons>}
+					element={<Pistons database={database}></Pistons>}
 				/>
 
 				<Route
 					path="/engines/edit/piston/:id"
-					element={<Piston></Piston>}
+					element={<Piston database={database}></Piston>}
 				/>
 
 				{/* DISTRIBUTOR */}

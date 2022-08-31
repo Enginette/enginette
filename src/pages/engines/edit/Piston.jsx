@@ -9,6 +9,7 @@ import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import PistonInline from "../../../components/Pistons/PistonInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import { InlineBanksDiv } from "./Bank";
 
 const PistonDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
@@ -18,16 +19,70 @@ const PistonDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Piston = () => {
+const InlinePistonsDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
+`;
+
+const Piston = ({database}) => {
 	let { id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [pistons, setPistons] = useState([]);
+	//selected piston
+	const [piston, setPiston] = useState(null);
+
+	const handleDelete = async () => {
+		const confirmation = window.confirm(
+			`Are you sure you want to delete Piston #${id}?`
+		);
+		if (!confirmation) return;
+
+		await Database.Intakes.remove({ db: database, id });
+		navigate(`/engines/${engine.id}/edit/pistons`);
+	};
+
+	const addPiston = async () => {
+		const piston = await Database.Pistons.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				mass: 0,
+				compressionHeight: 0,
+				wristPinPosition: 0,
+				displacement: 0,
+			},
+		});
+
+		setPistons([...pistons, piston]);
+	};
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
-	}, []);
+		if (!database) return;
+		const loadDatabase = async () => {
+			//load selected piston
+			const piston = await Database.Pistons.getById({
+				db: database,
+				id,
+			});
+			if (!piston) return setPiston(undefined);
+			setPiston(piston);
+
+			const engine = await Database.Engines.getById({
+				db: database,
+				id: piston.engine,
+			});
+			setEngine(engine);
+			if (!engine) return;
+
+			const pistons = await Database.Engines.Pistons.all({
+				db: database,
+				id: engine.id,
+			});
+			setPistons(pistons);
+		};
+		loadDatabase();
+	}, [database, id]);
 
 	if (engine === null) {
 		return (
@@ -47,19 +102,31 @@ const Piston = () => {
 				<SideBar>
 					<Top>
 						<h3>Piston</h3>
-						<img src={plus} alt="Add" />
+						<img src={plus} alt="Add" onClick={addPiston}/>
 					</Top>
 
-					<PistonInline name="Piston 1" btnID={1} engineName={id} />
+					<InlinePistonsDiv>
+						{pistons.map((piston) => (
+									<PistonInline
+										key={piston.id}
+										engineID={engine.id}
+										{...piston}
+										pistons={pistons}
+										setPistons={setPistons}
+										database={database}
+									/>
+							))}
+					</InlinePistonsDiv>
 				</SideBar>
 
 				<InternalEditor>
 					<EditorTop>
-						<h1>Intake {id}</h1>
+						<h1>Piston {id}</h1>
 						<img
 							src={deleteIcon}
 							alt="Delete"
 							style={{ transform: "none" }}
+							onClick={handleDelete}
 						/>
 					</EditorTop>
 
@@ -68,10 +135,25 @@ const Piston = () => {
 							<h1>Mass:</h1>
 							<p>grams</p>
 							<input
+								key={piston.mass}
+								autoFocus
 								type="number"
-								defaultValue={1}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								defaultValue={piston.mass}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Pistons.update({
+										db: database,
+										id,
+										values: {
+											...piston,
+											mass: parseInt(e.target.value),
+										},
+									});
+									setPiston({
+										...piston,
+										mass: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -80,10 +162,25 @@ const Piston = () => {
 							<h1>Compression height:</h1>
 							<p>mm</p>
 							<input
+								key={piston.compressionHeight}
+								autoFocus
 								type="number"
-								defaultValue={1}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								defaultValue={piston.compressionHeight}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Pistons.update({
+										db: database,
+										id,
+										values: {
+											...piston,
+											compressionHeight: parseInt(e.target.value),
+										},
+									});
+									setPiston({
+										...piston,
+										compressionHeight: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -91,10 +188,25 @@ const Piston = () => {
 						<Input>
 							<h1>Wrist pin Postion:</h1>
 							<input
+								key={piston.wristPinPosition}
+								autoFocus
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								defaultValue={piston.wristPinPosition}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Pistons.update({
+										db: database,
+										id,
+										values: {
+											...piston,
+											wristPinPosition: parseInt(e.target.value),
+										},
+									});
+									setPiston({
+										...piston,
+										wristPinPosition: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -102,10 +214,25 @@ const Piston = () => {
 						<Input>
 							<h1>Displacement:</h1>
 							<input
+								key={piston.displacement}
+								autoFocus
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								defaultValue={piston.displacement}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Pistons.update({
+										db: database,
+										id,
+										values: {
+											...piston,
+											displacement: parseInt(e.target.value),
+										},
+									});
+									setPiston({
+										...piston,
+										displacement: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
