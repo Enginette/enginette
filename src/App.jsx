@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import Guide from "./pages/Guide";
 
 import General from "./pages/engines/edit/General";
 
@@ -70,6 +71,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home database={database}></Home>} />
 				<Route path="/about" element={<h1>b</h1>} />
+				<Route path="/guide" element={<Guide></Guide>} />
 
 				<Route
 					path="/engines/:id/edit/general"

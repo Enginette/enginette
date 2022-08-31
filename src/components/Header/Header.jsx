@@ -60,7 +60,7 @@ const Header = ({ engine }) => {
 				<HeaderCategories engine={engine} />
 			</Left>
 			<Right>
-				<Link to="/">Guide</Link>
+				<Link to="/guide">Guide</Link>
 			</Right>
 		</HeaderDiv>
 	);
