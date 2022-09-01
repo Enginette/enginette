@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import { Right, BankInlineDiv } from "../Banks/BankInline";
 import Database from "../../database/database";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const TuningTable1DDiv = styled.div`
 	width: 660px;
@@ -78,6 +75,29 @@ const TuningTable1D = ({ revLimit }) => {
 	const orange = "#fd9f34";
 	const red = "#f84727";
 
+	const changedInput = (e) => {
+		if(e.target.value < blueMax) {
+			e.target.style = "color: white; background-color: " + blue;
+			return;
+		}
+		if(e.target.value >= blueMax && e.target.value < greenMax) {
+			e.target.style = "color: white; background-color: " + green;
+			return;
+		}
+		if(e.target.value >= greenMax && e.target.value < yellowMax) {
+			e.target.style = "color: white; background-color: " + yellow;
+			return;
+		}
+		if(e.target.value >= yellowMax && e.target.value < orangeMax) {
+			e.target.style = "color: white; background-color: " + orange;
+			return;
+		}
+		if(e.target.value >= orangeMax) {
+			e.target.style = "color: white; background-color: " + red;
+			return;
+		}
+	}
+
 	return (
 		<TuningTable1DDiv>
 			<BG>
@@ -93,28 +113,8 @@ const TuningTable1D = ({ revLimit }) => {
 
 					<Cell>
 						<input 
-							onChange={(e) => {
-								if(e.target.value < blueMax) {
-									e.target.style = "color: white; background-color: " + blue;
-									return;
-								}
-								if(e.target.value >= blueMax && e.target.value < greenMax) {
-									e.target.style = "color: white; background-color: " + green;
-									return;
-								}
-								if(e.target.value >= greenMax && e.target.value < yellowMax) {
-									e.target.style = "color: white; background-color: " + yellow;
-									return;
-								}
-								if(e.target.value >= yellowMax && e.target.value < orangeMax) {
-									e.target.style = "color: white; background-color: " + orange;
-									return;
-								}
-								if(e.target.value >= orangeMax) {
-									e.target.style = "color: white; background-color: " + red;
-									return;
-								}
-							}}/>
+							style={{"color": "white", "backgroundColor": "#1f53fd"}} 
+							onChange={changedInput}/>
 					</Cell>
 
 				</Flex>
@@ -123,4 +123,5 @@ const TuningTable1D = ({ revLimit }) => {
 	);
 };
 
+export { TextCell, Cell }
 export default TuningTable1D;

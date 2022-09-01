@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import Guide from "./pages/Guide";
 
 import General from "./pages/engines/edit/General";
+import Cylinderhead from "./pages/engines/edit/Cylinderhead";
 
 import Banks from "./pages/engines/edit/Banks";
 import Bank from "./pages/engines/edit/Bank";
@@ -69,13 +70,21 @@ function App() {
 	return (
 		<div className="app">
 			<Routes>
+				{/* HOME AND OTHER STUFF */}
 				<Route path="/" element={<Home database={database}></Home>} />
 				<Route path="/about" element={<h1>b</h1>} />
 				<Route path="/guide" element={<Guide></Guide>} />
 
+				{/* GENERAL */}
 				<Route
 					path="/engines/:id/edit/general"
 					element={<General database={database}></General>}
+				/>
+
+				{/* CYLINDER HEAD */}
+				<Route 
+					path="/engines/:id/edit/head"
+					element={<Cylinderhead database={database}></Cylinderhead>}
 				/>
 
 				{/* BANKS */}
