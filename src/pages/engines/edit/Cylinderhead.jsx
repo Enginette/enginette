@@ -6,6 +6,7 @@ import Database from "../../../database/database";
 import { LoadingScreen, Input } from "./General";
 import { InternalEditor, Editor, EditorTop } from "./Bank";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import { MyInternalEditor } from "./Distributor";
 
 import TuningTable2x1D from "../../../components/TuningTables/2x1D";
 
@@ -17,16 +18,34 @@ const CylinderheadDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Cylinderhead = () => {
+const Cylinderhead = ({database}) => {
 	let { id } = useParams();
 	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [cylinderHead, setCylinderHead] = useState(null);
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
+		if (!database) return;
+		const loadDatabase = async () => {
+			const cylinderHead = await Database.CylinderHeads.getById({ 
+				db: database,
+				id,
+			});
+			if (!cylinderHead) return setCylinderHead(undefined);
+			setCylinderHead(cylinderHead);
+
+			const engineID = cylinderHead.engine;
+			//console.log(engineID);
+			const engine = await Database.Engines.getById({ 
+				db: database,
+				id: engineID,
+			});
+			if (!engine) return setEngine(undefined);
+			//console.log(engine);
+			setEngine(engine);
+		}
+		loadDatabase();
 	}, []);
 
 	if (engine === null) {
@@ -44,7 +63,7 @@ const Cylinderhead = () => {
 		<CylinderheadDiv>
 			<Header engine={engine} />
 			<Editor>
-				<InternalEditor>
+				<MyInternalEditor>
 					<EditorTop>
 						<h1>Cylinder head</h1>
 						{/*
@@ -65,8 +84,20 @@ const Cylinderhead = () => {
 								type="number"
 								defaultValue={33}
 								min="0"
-								onChange={(e) => {
-									// TODO: implement the database shit
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.CylinderHeads.update({
+										db: database,
+										id,
+										values: {
+											...cylinderHead,
+											chamber_volume: parseInt(e.target.value),
+										},
+									});
+									setCylinderHead({
+										...cylinderHead,
+										chamber_volume: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -79,8 +110,20 @@ const Cylinderhead = () => {
 								defaultValue={1.0}
 								min="0"
 								step="0.1"
-								onChange={(e) => {
-									// TODO: implement the database shit
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.CylinderHeads.update({
+										db: database,
+										id,
+										values: {
+											...cylinderHead,
+											lift_scale: parseInt(e.target.value),
+										},
+									});
+									setCylinderHead({
+										...cylinderHead,
+										lift_scale: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -93,16 +136,28 @@ const Cylinderhead = () => {
 								defaultValue={1.0}
 								min="0"
 								step="0.1"
-								onChange={(e) => {
-									// TODO: implement the database shit
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.CylinderHeads.update({
+										db: database,
+										id,
+										values: {
+											...cylinderHead,
+											flow_attenuation: parseInt(e.target.value),
+										},
+									});
+									setCylinderHead({
+										...cylinderHead,
+										flow_attenuation: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
 
-                        <TuningTable2x1D />
+                        <TuningTable2x1D database={database} setCylinderHead={setCylinderHead} cylinderHead={cylinderHead} />
 						
 					</MyInputs>
-				</InternalEditor>
+				</MyInternalEditor>
 			</Editor>
 		</CylinderheadDiv>
 	);

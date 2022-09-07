@@ -45,6 +45,7 @@ function App() {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"engines",
+						"cylinder_heads",
 						"banks",
 						"connecting_rods",
 						"journal_rods",
@@ -170,7 +171,7 @@ function App() {
 				{/* DISTRIBUTOR */}
 				<Route
 					path="/engines/:id/edit/distributor"
-					element={<Distributor></Distributor>}
+					element={<Distributor database={database}></Distributor>}
 				/>
 				<Route path="*" element={<NotFound></NotFound>} />
 			</Routes>

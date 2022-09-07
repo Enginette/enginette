@@ -5,6 +5,12 @@ class Database {
 		});
 		engines.createIndex("name", "name", { unique: true });
 
+		// Cylinder heads
+		const heads = db.createObjectStore("cylinder_heads", {
+			autoIncrement: true,
+		});
+		heads.createIndex("engine", "engine");
+
 		//Banks
 		const banks = db.createObjectStore("banks", {
 			autoIncrement: true,
@@ -64,6 +70,31 @@ class Database {
 			autoIncrement: true,
 		});
 		pistons.createIndex("engine", "engine");
+	};
+
+	//Cylinder heads
+	static CylinderHeads = class CylinderHeads {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("cylinder_heads", "readwrite");
+			const id = await tx.objectStore("cylinder_heads").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("cylinder_heads", "readonly");
+			const objectStore = tx.objectStore("cylinder_heads");
+			return { ...(await objectStore.get(id)), id };
+		};
+		static remove = async ({ db, id }) => {
+			const txn = db.transaction("cylinder_heads", "readwrite");
+			const objectStore = txn.objectStore("cylinder_heads");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("cylinder_heads", "readwrite");
+			const objectStore = txn.objectStore("cylinder_heads");
+			await objectStore.put(values, id);
+		};
 	};
 
 	//Connecting rods
@@ -318,6 +349,19 @@ class Database {
 
 	//Engines
 	static Engines = class Engines {
+		//Cylinder heads
+		static CylinderHeads = class CylinderHeads {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("cylinder_heads", "readonly");
+				const objectStore = txn.objectStore("cylinder_heads");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { ...item, id: keys[index] };
+				});
+			};
+		};
+		
 		//Journal rods
 		static JournalRods = class JournalRods {
 			static all = async ({ db, id }) => {

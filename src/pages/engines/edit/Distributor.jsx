@@ -18,16 +18,38 @@ const DistributorDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Distributor = () => {
+const MyInternalEditor = styled(InternalEditor)`
+	width: 100%;
+`;
+
+const Distributor = ({database}) => {
 	let { id } = useParams();
 	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [distributor, setDistributor] = useState(null);
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
+		if (!database) return;
+		const loadDatabase = async () => {
+			const distributor = await Database.Distributor.getById({ 
+				db: database,
+				id,
+			});
+			if (!distributor) return setDistributor(undefined);
+			setDistributor(distributor);
+
+			const engineID = distributor.engine;
+			//console.log(engineID);
+			const engine = await Database.Engines.getById({ 
+				db: database,
+				id: engineID,
+			});
+			if (!engine) return setEngine(undefined);
+			//console.log(engine);
+			setEngine(engine);
+		}
+		loadDatabase();
 	}, []);
 
 	if (engine === null) {
@@ -45,7 +67,7 @@ const Distributor = () => {
 		<DistributorDiv>
 			<Header engine={engine} />
 			<Editor>
-				<InternalEditor>
+				<MyInternalEditor>
 					<EditorTop>
 						<h1>Distributor</h1>
 						{/*
@@ -66,8 +88,20 @@ const Distributor = () => {
 								defaultValue={6000}
 								min="0"
 								step="100"
-								onChange={(e) => {
-									// TODO: implement the database shit
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Distributor.update({
+										db: database,
+										id,
+										values: {
+											...distributor,
+											rpm: parseInt(e.target.value),
+										},
+									});
+									setDistributor({
+										...distributor,
+										rpm: parseInt(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -78,10 +112,11 @@ const Distributor = () => {
 						<TuningTable1D />
 						
 					</MyInputs>
-				</InternalEditor>
+				</MyInternalEditor>
 			</Editor>
 		</DistributorDiv>
 	);
 };
 
+export { MyInternalEditor };
 export default Distributor;
