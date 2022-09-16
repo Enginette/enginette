@@ -46,7 +46,7 @@ const Cylinderhead = ({database}) => {
 			setEngine(engine);
 		}
 		loadDatabase();
-	}, []);
+	}, [database, id]);
 
 	if (engine === null) {
 		return (

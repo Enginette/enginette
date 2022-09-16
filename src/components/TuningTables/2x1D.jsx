@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Database from "../../database/database";
 import { TextCell, Cell } from "./1D";
+import { useEffect } from "react";
 
 const TuningTable2x1DDiv = styled.div`
 	width: 320px;
@@ -49,30 +50,79 @@ const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
 	const red = "#f84727";
 
 	const changedInput = (e) => {
-		if(e.target.value < blueMax) {
-			e.target.style = "color: white; background-color: " + blue;
-			return;
-		}
-		if(e.target.value >= blueMax && e.target.value < greenMax) {
-			e.target.style = "color: white; background-color: " + green;
-			return;
-		}
-		if(e.target.value >= greenMax && e.target.value < yellowMax) {
-			e.target.style = "color: white; background-color: " + yellow;
-			return;
-		}
-		if(e.target.value >= yellowMax && e.target.value < orangeMax) {
-			e.target.style = "color: white; background-color: " + orange;
-			return;
-		}
-		if(e.target.value >= orangeMax) {
-			e.target.style = "color: white; background-color: " + red;
-			return;
-		}
+		e.target.style = "color: white; background-color: " + returnColor(e.target.value);
 
-		//set db
-		console.log("a");
+		if(e.target.value.length === 0) return;
+
+		/*
+		const setDistrib = async (index, value) => {
+
+			let count = parseInt(distributor.rpm);
+			let array = [];
+			let array2 = [];
+			for(let i = 0; i <= count; i += 1000) 
+			{
+				if(distributor.timings[i/1000] === undefined) {
+					array.push([i, 30]);
+					array2.push(30);
+				}
+				else {
+					array.push([i, distributor.timings[i/1000]]);
+					array2.push(distributor.timings[i/1000]);
+				}
+			}
+			array[index] = [ array[index][0], value ];
+			array2[index] = [ value ];
+			setArray(array);
+
+			await Database.CylinderHeads.update({
+				db: database,
+				id,
+				values: {
+					...cylinderHead,
+					timings: [
+						...array2,
+					],
+				},
+			});
+			setDistributor({
+				...cylinderHead,
+				exhaust: [
+					...array2,
+				],
+			});
+		}
+		*/
+
+		if(e.target.id.startsWith("intake")) {
+			let s = e.target.id.substring(6);
+			let number = parseInt(s);
+			//setDistrib(number, parseInt(e.target.value));
+		}
+		else if(e.target.id.startsWith("exhaust")) {
+			let s = e.target.id.substring(7);
+			let number = parseInt(s);
+			//setDistrib(number, parseInt(e.target.value));
+		}
 	}
+
+	const returnColor = (value) => {
+		if(value < blueMax) {
+			return blue;
+		}
+		if(value >= blueMax && value < greenMax) {
+			return green;
+		}
+		if(value >= greenMax && value < yellowMax) {
+			return yellow;
+		}
+		if(value >= yellowMax && value < orangeMax) {
+			return orange;
+		}
+		if(value >= orangeMax) {
+			return red;
+		}
+	};
 
 	return (
 		<TuningTable2x1DDiv>
@@ -86,174 +136,25 @@ const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
 							<p>Intake</p>
 						</FullWidthTextCell>
 
-						<Flex>
-							<TextCell>
-								<p>0</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake0"}
-									defaultValue={cylinderHead.intake_0}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>1</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake1"}
-									defaultValue={cylinderHead.intake_1}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>2</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake2"}
-									defaultValue={cylinderHead.intake_2}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>3</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake3"}
-									defaultValue={cylinderHead.intake_3}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>4</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake4"}
-									defaultValue={cylinderHead.intake_4}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>5</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake5"}
-									defaultValue={cylinderHead.intake_5}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>6</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake6"}
-									defaultValue={cylinderHead.intake_6}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>7</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake7"}
-									defaultValue={cylinderHead.intake_7}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>8</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake8"}
-									defaultValue={cylinderHead.intake_8}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>9</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake9"}
-									defaultValue={cylinderHead.intake_9}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>10</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake10"}
-									defaultValue={cylinderHead.intake_10}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>11</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake11"}
-									defaultValue={cylinderHead.intake_11}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>12</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"intake12"}
-									defaultValue={cylinderHead.intake_12}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
+						{cylinderHead.intake.map((value, index) => {
+							let id = "intake" + index;
+							let color = returnColor(value);
+							
+							return (
+								<Flex>
+									<TextCell>
+										<p>{index}</p>
+									</TextCell>
+									<Cell>
+										<input
+											id={id}
+											defaultValue={value}
+											style={{"color": "white", "backgroundColor": color}} 
+											onChange={changedInput}/>
+									</Cell>
+								</Flex>
+							)
+						})}
 					
 					</Flex3>
 
@@ -263,176 +164,25 @@ const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
 							<p>Exhaust</p>
 						</FullWidthTextCell>
 
-						
-						<Flex>
-							<TextCell>
-								<p>0</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust0"}
-									defaultValue={cylinderHead.exhaust_0}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>1</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust1"}
-									defaultValue={cylinderHead.exhaust_1}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>2</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust2"}
-									defaultValue={cylinderHead.exhaust_2}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>3</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust3"}
-									defaultValue={cylinderHead.exhaust_3}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>4</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust4"}
-									defaultValue={cylinderHead.exhaust_4}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>5</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust5"}
-									defaultValue={cylinderHead.exhaust_5}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>6</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust6"}
-									defaultValue={cylinderHead.exhaust_6}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>7</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust7"}
-									defaultValue={cylinderHead.exhaust_7}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>8</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust8"}
-									defaultValue={cylinderHead.exhaust_8}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>9</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust9"}
-									defaultValue={cylinderHead.exhaust_9}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>10</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust10"}
-									defaultValue={cylinderHead.exhaust_10}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>11</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust11"}
-									defaultValue={cylinderHead.exhaust_11}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}/>
-							</Cell>
-						</Flex>
-
-						<Flex>
-							<TextCell>
-								<p>12</p>
-							</TextCell>
-							<Cell>
-								<input
-									id={"exhaust12"}
-									defaultValue={cylinderHead.exhaust_12}
-									style={{"color": "white", "backgroundColor": "#1f53fd"}} 
-									onChange={changedInput}
-									onLoad={changedInput}/>
-							</Cell>
-						</Flex>
+						{cylinderHead.exhaust.map((value, index) => {
+							let id = "exhaust" + index;
+							let color = returnColor(value);
+							
+							return (
+								<Flex key={value + (Math.random() % 1000)}>
+									<TextCell>
+										<p>{index}</p>
+									</TextCell>
+									<Cell>
+										<input
+											id={id}
+											defaultValue={value}
+											style={{"color": "white", "backgroundColor": color}} 
+											onChange={changedInput}/>
+									</Cell>
+								</Flex>
+							)
+						})}
 
 					</Flex3>
 
