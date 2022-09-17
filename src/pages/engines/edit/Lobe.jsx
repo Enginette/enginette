@@ -47,9 +47,9 @@ const Lobe = ({database}) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				durationAtFiftyThousands: 1,
+				durationAtFiftyThousands: 160,
 				gamma: 1,
-				lift: 0,
+				lift: 200,
 				steps: 100,
 			},
 		});
@@ -147,12 +147,12 @@ const Lobe = ({database}) => {
 										id,
 										values: {
 											...lobe,
-											durationAtFiftyThousands: parseInt(e.target.value),
+											durationAtFiftyThousands: parseFloat(e.target.value),
 										},
 									});
 									setLobe({
 										...lobe,
-										durationAtFiftyThousands: parseInt(e.target.value),
+										durationAtFiftyThousands: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -174,12 +174,12 @@ const Lobe = ({database}) => {
 										id,
 										values: {
 											...lobe,
-											gamma: parseInt(e.target.value),
+											gamma: parseFloat(e.target.value),
 										},
 									});
 									setLobe({
 										...lobe,
-										gamma: parseInt(e.target.value),
+										gamma: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -187,7 +187,7 @@ const Lobe = ({database}) => {
 
 						<Input>
 							<h1>Lift:</h1>
-							<p>mm</p>
+							<p>thou</p>
 							<input
 								key={lobe.lift}
 								autoFocus
@@ -201,12 +201,12 @@ const Lobe = ({database}) => {
 										id,
 										values: {
 											...lobe,
-											lift: parseInt(e.target.value),
+											lift: parseFloat(e.target.value),
 										},
 									});
 									setLobe({
 										...lobe,
-										lift: parseInt(e.target.value),
+										lift: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -228,12 +228,12 @@ const Lobe = ({database}) => {
 										id,
 										values: {
 											...lobe,
-											steps: parseInt(e.target.value),
+											steps: parseFloat(e.target.value),
 										},
 									});
 									setLobe({
 										...lobe,
-										steps: parseInt(e.target.value),
+										steps: parseFloat(e.target.value),
 									});
 								}}
 							/>

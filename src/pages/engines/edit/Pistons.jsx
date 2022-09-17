@@ -35,8 +35,8 @@ const Pistons = ({database}) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				mass: 0,
-				compressionHeight: 0,
+				mass: 400,
+				compressionHeight: 32,
 				wristPinPosition: 0,
 				displacement: 0,
 			},

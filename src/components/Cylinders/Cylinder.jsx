@@ -39,7 +39,7 @@ const Top = styled.div`
     }
 `;
 
-const Input = styled.div`
+const SelectInput = styled.div`
     width: 100%;
     > p {
         box-shadow: 0px 0px 3px rgba(100, 100, 111, 0.2);
@@ -150,7 +150,7 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                 />
             </Top>
 
-            <Input>
+            <SelectInput>
                 <p>Connecting Rod</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -171,12 +171,12 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                         });
                     }}>
                     {connectingRods.map((rod) => (
-						<option>Connecting Rod {rod.id}</option>
+						<option key={rod.id + (Math.random() % 1000)} value={`Connecting Rod ${rod.id}`}>Connecting Rod {rod.id}</option>
 					))}
                 </select>
-            </Input>
+            </SelectInput>
 
-            <Input>
+            <SelectInput>
                 <p>Journal Rod</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -197,12 +197,12 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                         });
                     }}>
                     {journalRods.map((rod) => (
-						<option key={rod.id}>Journal Rod {rod.id}</option>
+						<option key={rod.id + (Math.random() % 1000)} value={`Journal Rod ${rod.id}`}>Journal Rod {rod.id}</option>
 					))}
                 </select>
-            </Input>
+            </SelectInput>
 
-            <Input>
+            <SelectInput>
                 <p>Intake</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -224,12 +224,12 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                     }}>
                     {
                     intakes.map((intake) => (
-						<option value={`Intake ${intake.id}`} >Intake {intake.id}</option>
+						<option key={intake.id + (Math.random() % 1000)} value={`Intake ${intake.id}`} >Intake {intake.id}</option>
 					))}
                 </select>
-            </Input>
+            </SelectInput>
 
-            <Input>
+            <SelectInput>
                 <p>Exhaust</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -250,12 +250,12 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                         });
                     }}>
                     {exhausts.map((exhaust) => (
-						<option>Exhaust {exhaust.id}</option>
+						<option key={exhaust.id + (Math.random() % 1000)} value={`Exhaust ${exhaust.id}`}>Exhaust {exhaust.id}</option>
 					))}
                 </select>
-            </Input>
+            </SelectInput>
 
-            <Input>
+            <SelectInput>
                 <p>Piston</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -276,13 +276,14 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                         });
                     }}>
                     {pistons.map((piston) => (
-                        <option>Piston {piston.id}</option>
+                        <option key={piston.id + (Math.random() % 1000)} value={`Piston ${piston.id}`}>Piston {piston.id}</option>
                     ))}
                 </select>
-            </Input>
+            </SelectInput>
            
 		</CylinderDiv>
 	);
 };
 
 export default Cylinder;
+export { SelectInput };

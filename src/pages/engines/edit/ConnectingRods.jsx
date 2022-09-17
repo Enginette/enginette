@@ -85,10 +85,10 @@ const ConnectingRods = ({ database }) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				mass: 0,
+				mass: 200,
 				momentOfInertia: 0.22986844776863666,
 				centerOfMass: 0,
-				length: 0,
+				length: 120,
 			},
 		});
 
@@ -222,12 +222,12 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											mass: parseInt(e.target.value),
+											mass: parseFloat(e.target.value),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										mass: parseInt(e.target.value),
+										mass: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -249,12 +249,12 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											momentOfInertia: parseInt(e.target.value),
+											momentOfInertia: parseFloat(e.target.value),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										momentOfInertia: parseInt(e.target.value),
+										momentOfInertia: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -276,14 +276,14 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											centerOfMass: parseInt(
+											centerOfMass: parseFloat(
 												e.target.value
 											),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										centerOfMass: parseInt(
+										centerOfMass: parseFloat(
 											e.target.value
 										),
 									});
@@ -293,6 +293,7 @@ const ConnectingRods = ({ database }) => {
 
 						<Input>
 							<h1>Length:</h1>
+							<p>mm</p>
 							<input
 								type="number"
 								defaultValue={connectingRod.length}
@@ -307,14 +308,14 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											length: parseInt(
+											length: parseFloat(
 												e.target.value
 											),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										length: parseInt(
+										length: parseFloat(
 											e.target.value
 										),
 									});

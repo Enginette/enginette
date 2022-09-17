@@ -105,7 +105,7 @@ const General = ({ database }) => {
 			setEngine({ ...engine, id });
 		};
 		stuff();
-	}, [database]);
+	}, [database, id]);
 
 	if (engine === null) {
 		return (
@@ -215,14 +215,14 @@ const General = ({ database }) => {
 								id,
 								values: {
 									...engine,
-									maxTurbulenceEffect: parseInt(
+									maxTurbulenceEffect: parseFloat(
 										e.target.value
 									),
 								},
 							});
 							setEngine({
 								...engine,
-								maxTurbulenceEffect: parseInt(e.target.value),
+								maxTurbulenceEffect: parseFloat(e.target.value),
 							});
 						}}
 					/>
@@ -241,12 +241,12 @@ const General = ({ database }) => {
 								id,
 								values: {
 									...engine,
-									burningRandomness: parseInt(e.target.value),
+									burningRandomness: parseFloat(e.target.value),
 								},
 							});
 							setEngine({
 								...engine,
-								burningRandomness: parseInt(e.target.value),
+								burningRandomness: parseFloat(e.target.value),
 							});
 						}}
 					/>
@@ -266,14 +266,14 @@ const General = ({ database }) => {
 								id,
 								values: {
 									...engine,
-									maxBurningEfficiency: parseInt(
+									maxBurningEfficiency: parseFloat(
 										e.target.value
 									),
 								},
 							});
 							setEngine({
 								...engine,
-								maxBurningEfficiency: parseInt(e.target.value),
+								maxBurningEfficiency: parseFloat(e.target.value),
 							});
 						}}
 					/>

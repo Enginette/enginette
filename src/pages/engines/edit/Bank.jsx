@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { LoadingScreen } from "./General";
+import { LoadingScreen, Inputs, Input } from "./General";
 import plus from "../../../images/plus.svg";
 import Header from "../../../components/Header/Header";
 import BankInline from "../../../components/Banks/BankInline";
@@ -105,6 +105,12 @@ const Cylinders = styled.div`
 	gap: 20px;
 `;
 
+const MyInputs = styled(Inputs)`
+	background-color: transparent;
+	box-shadow: none;
+	padding: 0px;
+`;
+
 const Bank = ({ database }) => {
 	let { id } = useParams();
 	id = parseInt(id);
@@ -138,6 +144,9 @@ const Bank = ({ database }) => {
 			db: database,
 			values: {
 				engine: engine.id,
+				bore: 70,
+				deck_height: 200,
+				angle: 0,
 			},
 		});
 		setBanks([...banks, bank]);
@@ -256,6 +265,83 @@ const Bank = ({ database }) => {
 							onClick={handleDelete}
 						/>
 					</EditorTop>
+
+					<MyInputs>
+						<Input>
+							<h1>Angle</h1>
+							<p>degrees</p>
+							<input
+								type="number"
+								min={0}
+								defaultValue={bank.angle}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Banks.update({
+										db: database,
+										id,
+										values: {
+											...bank,
+											angle: parseFloat(e.target.value),
+										},
+									});
+									setBank({
+										...bank,
+										angle: parseFloat(e.target.value),
+									});
+								}}
+							/>
+						</Input>
+
+						<Input>
+							<h1>Bore</h1>
+							<p>mm</p>
+							<input
+								type="number"
+								min={0}
+								defaultValue={bank.bore}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Banks.update({
+										db: database,
+										id,
+										values: {
+											...bank,
+											bore: parseFloat(e.target.value),
+										},
+									});
+									setBank({
+										...bank,
+										bore: parseFloat(e.target.value),
+									});
+								}}
+							/>
+						</Input>
+
+						<Input>
+							<h1>Deck height</h1>
+							<p>mm</p>
+							<input
+								type="number"
+								min={0}
+								defaultValue={bank.deck_height}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Banks.update({
+										db: database,
+										id,
+										values: {
+											...bank,
+											deck_height: parseFloat(e.target.value),
+										},
+									});
+									setBank({
+										...bank,
+										deck_height: parseFloat(e.target.value),
+									});
+								}}
+							/>
+						</Input>
+					</MyInputs>
 
 					<EditorTop>
 						<h3>Cylinders</h3>

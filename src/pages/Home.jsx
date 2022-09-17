@@ -4,6 +4,7 @@ import Engine from "../components/Engines/Engine";
 import NewEngine from "../components/Engines/NewEngine";
 import { useState, useEffect } from "react";
 import DeleteEngine from "../components/Engines/DeleteEngine";
+import DownloadEngine from "../components/Engines/DownloadEngine";
 import Database from "../database/database";
 
 const HomeDiv = styled.div`
@@ -72,7 +73,11 @@ const Home = ({ database }) => {
 	const [clickedEngine, setClickedEngine] = useState(null);
 	const [isNewActive, setIsNewActive] = useState(false);
 	const [isDeleteActive, setIsDeleteActive] = useState(false);
+	const [isDownloadActive, setIsDownloadActive] = useState(false);
 
+	const toggleIsDownloadActive = () => {
+		setIsDownloadActive(!isDownloadActive);
+	};
 	const toggleIsDeleteActive = () => {
 		setIsDeleteActive(!isDeleteActive);
 	};
@@ -102,6 +107,17 @@ const Home = ({ database }) => {
 						setEngines={setEngines}
 					/>
 				)}
+
+				{isDownloadActive && (
+					<DownloadEngine
+						database={database}
+						clickedEngine={clickedEngine}
+						setClickedEngine={setClickedEngine}
+						toggleIsDownloadActive={toggleIsDownloadActive}
+						engines={engines}
+						setEngines={setEngines}
+					/>
+				)}
 				<h1>Enginette</h1>
 				<Selector>
 					<Top>
@@ -114,6 +130,7 @@ const Home = ({ database }) => {
 								key={engine.id}
 								setClickedEngine={setClickedEngine}
 								toggleIsDeleteActive={toggleIsDeleteActive}
+								toggleIsDownloadActive={toggleIsDownloadActive}
 								{...engine}
 							/>
 						))}

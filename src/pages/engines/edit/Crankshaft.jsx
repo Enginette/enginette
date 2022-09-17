@@ -49,11 +49,11 @@ const Crankshaft = ({database}) => {
 			values: {
 				engine: engine.id,
 				throw: 90,
-				flywheelMass: 0,
-				mass: 0,
-				frictionTorque: 0,
-				momentOfInertia: 0,
-				topDeadCenter: 0,
+				flywheelMass: 4,
+				mass: 3,
+				frictionTorque: 10,
+				momentOfInertia: 0.22986844776863666,
+				topDeadCenter: 120,
 				xPosition: 0,
 				yPosition: 0,
 			},
@@ -151,12 +151,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											throw: parseInt(e.target.value),
+											throw: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										throw: parseInt(e.target.value),
+										throw: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -178,12 +178,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											flywheelMass: parseInt(e.target.value),
+											flywheelMass: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										flywheelMass: parseInt(e.target.value),
+										flywheelMass: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -205,12 +205,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											mass: parseInt(e.target.value),
+											mass: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										mass: parseInt(e.target.value),
+										mass: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -233,12 +233,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											frictionTorque: parseInt(e.target.value),
+											frictionTorque: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										frictionTorque: parseInt(e.target.value),
+										frictionTorque: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -260,12 +260,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											momentOfInertia: parseInt(e.target.value),
+											momentOfInertia: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										momentOfInertia: parseInt(e.target.value),
+										momentOfInertia: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -287,12 +287,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											topDeadCenter: parseInt(e.target.value),
+											topDeadCenter: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										topDeadCenter: parseInt(e.target.value),
+										topDeadCenter: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -313,12 +313,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											xPosition: parseInt(e.target.value),
+											xPosition: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										xPosition: parseInt(e.target.value),
+										xPosition: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -339,12 +339,12 @@ const Crankshaft = ({database}) => {
 										id,
 										values: {
 											...crankshaft,
-											yPosition: parseInt(e.target.value),
+											yPosition: parseFloat(e.target.value),
 										},
 									});
 									setCrankshaft({
 										...crankshaft,
-										yPosition: parseInt(e.target.value),
+										yPosition: parseFloat(e.target.value),
 									});
 								}}
 							/>

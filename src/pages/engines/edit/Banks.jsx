@@ -28,6 +28,9 @@ const Banks = ({ database }) => {
 			db: database,
 			values: {
 				engine: engine.id,
+				bore: 70,
+				deck_height: 205,
+				angle: 0,
 			},
 		});
 		setBanks([...banks, bank]);
@@ -41,7 +44,6 @@ const Banks = ({ database }) => {
 				db: database,
 				id,
 			});
-			console.log(engine);
 			setEngine({ ...engine, id });
 
 			const banks = await Database.Engines.Banks.all({
@@ -57,7 +59,7 @@ const Banks = ({ database }) => {
 			setCylinders(cylinders);
 		};
 		stuff();
-	}, [database]);
+	}, [database, id]);
 
 	if (engine === undefined) {
 		navigate("/");

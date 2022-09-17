@@ -36,11 +36,11 @@ const Exhausts = ({database}) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				outletFlowRate: 0,
-				length: 0,
-				flowRate: 0,
-				velocityDecay: 0,
-				volume: 0,
+				outletFlowRate: 200,
+				length: 10,
+				flowRate: 300,
+				velocityDecay: 1,
+				volume: 10,
 			},
 		});
 

@@ -47,8 +47,8 @@ const Piston = ({database}) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				mass: 0,
-				compressionHeight: 0,
+				mass: 400,
+				compressionHeight: 32,
 				wristPinPosition: 0,
 				displacement: 0,
 			},
@@ -147,12 +147,12 @@ const Piston = ({database}) => {
 										id,
 										values: {
 											...piston,
-											mass: parseInt(e.target.value),
+											mass: parseFloat(e.target.value),
 										},
 									});
 									setPiston({
 										...piston,
-										mass: parseInt(e.target.value),
+										mass: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -174,19 +174,19 @@ const Piston = ({database}) => {
 										id,
 										values: {
 											...piston,
-											compressionHeight: parseInt(e.target.value),
+											compressionHeight: parseFloat(e.target.value),
 										},
 									});
 									setPiston({
 										...piston,
-										compressionHeight: parseInt(e.target.value),
+										compressionHeight: parseFloat(e.target.value),
 									});
 								}}
 							/>
 						</Input>
 
 						<Input>
-							<h1>Wrist pin Postion:</h1>
+							<h1>Wristpin Position:</h1>
 							<input
 								key={piston.wristPinPosition}
 								autoFocus
@@ -200,12 +200,12 @@ const Piston = ({database}) => {
 										id,
 										values: {
 											...piston,
-											wristPinPosition: parseInt(e.target.value),
+											wristPinPosition: parseFloat(e.target.value),
 										},
 									});
 									setPiston({
 										...piston,
-										wristPinPosition: parseInt(e.target.value),
+										wristPinPosition: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -226,12 +226,12 @@ const Piston = ({database}) => {
 										id,
 										values: {
 											...piston,
-											displacement: parseInt(e.target.value),
+											displacement: parseFloat(e.target.value),
 										},
 									});
 									setPiston({
 										...piston,
-										displacement: parseInt(e.target.value),
+										displacement: parseFloat(e.target.value),
 									});
 								}}
 							/>

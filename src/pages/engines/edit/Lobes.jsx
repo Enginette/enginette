@@ -35,9 +35,9 @@ const Lobes = ({database}) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				durationAtFiftyThousands: 1,
+				durationAtFiftyThousands: 160,
 				gamma: 1,
-				lift: 0,
+				lift: 200,
 				steps: 100,
 			},
 		});

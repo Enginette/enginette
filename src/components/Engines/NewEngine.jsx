@@ -66,64 +66,176 @@ const NewEngine = ({ database, close, engines, setEngines }) => {
 			db: database,
 			values: { name },
 		});
-		console.log(results);
+		//console.log(results);
 		
 		const engine = results.id;
-		const rpm = 6000;
-		const timings = [ 0, 30, 30, 30, 30, 30, 30 ];
-		const dist = await Database.Distributor.add({
+
+		const lobe = await Database.Lobes.add({
 			db: database,
-			values: { engine, rpm, timings },
+			values: {
+				engine,
+				durationAtFiftyThousands: 160,
+				gamma: 1,
+				lift: 200,
+				steps: 100,
+			},
 		});
-
-
-		const chamber_volume = 33;
-		const lift_scale = 1;
-		const flow_attenuation = 1;
-
-		const intake = [
-			0,
-			34,
-			62,
-			104,
-			130,
-			140,
-			148,
-			152,
-			154,
-			158,
-			166,
-			172,
-			180,
-		]
-
-		const exhaust = [
-			0,
-			22,
-			33,
-			60,
-			76,
-			86,
-			92,
-			90,
-			88,
-			84,
-		    80,
-		    80,
-		    72,
-		];
+		const lobes = await Database.Engines.Lobes.all({
+			db: database,
+			id: engine,
+		});
+		var idd = lobes[0].id;
 
 		const head = await Database.CylinderHeads.add({
 			db: database,
 			values: {
+				engine,
+				chamber_volume: 33,
+				lift_scale: 1,
+				flow_attenuation: 1,
+				intake_lobe: idd,
+				exhaust_lobe: idd,
+				lobe_advance: 0,
+				lobe_radius: 0.6,
+				lobe_separation: 110,
+
+				intake: [
+					0,
+					34,
+					62,
+					104,
+					130,
+					140,
+					148,
+					152,
+					154,
+					158,
+					166,
+					172,
+					180,
+				],
+
+				exhaust: [
+					0,
+					22,
+					33,
+					60,
+					76,
+					86,
+					92,
+					90,
+					88,
+					84,
+					80,
+					80,
+					72,
+				],
+			},
+		});
+
+		const bank = await Database.Banks.add({
+			db: database,
+			values: {
+				engine,
+				bore: 70,
+				deck_height: 205,
+				angle: 0,
+			},
+		});
+
+		const connecting = await Database.ConnectingRods.add({
+			db: database,
+			values: {
+				engine,
+				mass: 200,
+				momentOfInertia: 0.22986844776863666,
+				centerOfMass: 0,
+				length: 120,
+			},
+		});
+
+		const crankshaft = await Database.Crankshafts.add({
+			db: database,
+			values: {
+				engine,
+				throw: 90,
+				flywheelMass: 4,
+				mass: 3,
+				frictionTorque: 10,
+				momentOfInertia: 0.22986844776863666,
+				topDeadCenter: 120,
+				xPosition: 0,
+				yPosition: 0,
+			},
+		});
+
+		const journal = await Database.JournalRods.add({
+			db: database,
+			values: {
+				engine,
+				angle: 0,
+				crankshaft: crankshaft.id,
+			},
+		});
+
+		const exhaustdb = await Database.Exhausts.add({
+			db: database,
+			values: {
+				engine,
+				outletFlowRate: 200,
+				length: 10,
+				flowRate: 300,
+				velocityDecay: 1,
+				volume: 10,
+			},
+		});
+
+		const intakedb = await Database.Intakes.add({
+			db: database,
+			values: {
+				engine,
+				plenumVolume: 1,
+				plenumCrossSectionArea: 10,
+				flowRate: 300,
+				idleFlowRate: 0,
+				idleThrottlePlatePosition: 0.98,
+				throttleGamma: 1,
+			},
+		});
+
+		const piston = await Database.Pistons.add({
+			db: database,
+			values: {
+				engine,
+				mass: 400,
+				compressionHeight: 32,
+				wristPinPosition: 0,
+				displacement: 0,
+			},
+		});
+
+		const cylinder = await Database.Cylinders.add({
+			db: database,
+			values: {
+				engine,
+				bank: bank.id,
+				piston: piston.id,
+				intake: intakedb.id,
+				exhaust: exhaustdb.id,
+				journalRod: journal.id,
+				connectingRod: connecting.id,
+			},
+		});
+
+		const distributor = await Database.Distributor.add({
+			db: database,
+			values: { 
 				engine, 
-				chamber_volume, 
-				lift_scale, 
-				flow_attenuation,
-
-				intake,
-
-				exhaust,
+				rpm: 6000,
+				timings: [
+					0, 30, 30, 30, 30, 30, 30,
+				],
+				firing_order: "1",
 			},
 		});
 		

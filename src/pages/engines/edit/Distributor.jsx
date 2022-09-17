@@ -100,6 +100,23 @@ const Distributor = ({database}) => {
 		});
 	}
 
+	const updatedFOrder = async (e) => {
+		if (e.target.value.length === 0) return;
+
+		await Database.Distributor.update({
+			db: database,
+			id,
+			values: {
+				...distributor,
+				firing_order: e.target.value,
+			},
+		});
+		setDistributor({
+			...distributor,
+			firing_order: e.target.value,
+		});
+	}
+
 	if (engine === null) {
 		return (
 			<LoadingScreen>
@@ -143,9 +160,19 @@ const Distributor = ({database}) => {
 						{/* <h1>pls add a timing table idk how to do this</h1> */}
 						{/* <p>maybe even a graph? 👀</p> */}
 
-						<TuningTable1D rpms={someArray} distributor={distributor} database={database} setDistributor={setDistributor} id={id} setArray={setArray} />
+						<Input>
+							<h1>Firing order (example: '1,4,2,3'):</h1>
+							<input
+								type="text"
+								defaultValue={distributor.firing_order}
+								onChange={updatedFOrder}
+							/>
+						</Input>
 						
 					</MyInputs>
+
+					<TuningTable1D rpms={someArray} distributor={distributor} database={database} setDistributor={setDistributor} id={id} setArray={setArray} />
+
 				</MyInternalEditor>
 			</Editor>
 		</DistributorDiv>

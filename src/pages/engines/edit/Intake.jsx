@@ -149,12 +149,12 @@ const Intake = ({database}) => {
 										id,
 										values: {
 											...intake,
-											plenumVolume: parseInt(e.target.value),
+											plenumVolume: parseFloat(e.target.value),
 										},
 									});
 									setIntake({
 										...intake,
-										plenumVolume: parseInt(e.target.value),
+										plenumVolume: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -176,12 +176,12 @@ const Intake = ({database}) => {
 										id,
 										values: {
 											...intake,
-											plenumCrossSectionArea: parseInt(e.target.value),
+											plenumCrossSectionArea: parseFloat(e.target.value),
 										},
 									});
 									setIntake({
 										...intake,
-										plenumCrossSectionArea: parseInt(e.target.value),
+										plenumCrossSectionArea: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -203,12 +203,12 @@ const Intake = ({database}) => {
 										id,
 										values: {
 											...intake,
-											flowRate: parseInt(e.target.value),
+											flowRate: parseFloat(e.target.value),
 										},
 									});
 									setIntake({
 										...intake,
-										flowRate: parseInt(e.target.value),
+										flowRate: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -230,12 +230,12 @@ const Intake = ({database}) => {
 										id,
 										values: {
 											...intake,
-											idleFlowRate: parseInt(e.target.value),
+											idleFlowRate: parseFloat(e.target.value),
 										},
 									});
 									setIntake({
 										...intake,
-										idleFlowRate: parseInt(e.target.value),
+										idleFlowRate: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -285,12 +285,12 @@ const Intake = ({database}) => {
 										id,
 										values: {
 											...intake,
-											throttleGamma: parseInt(e.target.value),
+											throttleGamma: parseFloat(e.target.value),
 										},
 									});
 									setIntake({
 										...intake,
-										throttleGamma: parseInt(e.target.value),
+										throttleGamma: parseFloat(e.target.value),
 									});
 								}}
 							/>

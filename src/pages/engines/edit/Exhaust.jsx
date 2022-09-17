@@ -24,7 +24,7 @@ const InlineExhaustsDiv = styled(InlineBanksDiv)`
 `;
 
 const Exhaust = ({database}) => {
-	let { name, id } = useParams();
+	let { id } = useParams();
 	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
@@ -47,11 +47,11 @@ const Exhaust = ({database}) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				outletFlowRate: 0,
-				length: 0,
-				flowRate: 0,
-				velocityDecay: 0,
-				volume: 0,
+				outletFlowRate: 200,
+				length: 10,
+				flowRate: 300,
+				velocityDecay: 1,
+				volume: 10,
 			},
 		});
 
@@ -148,12 +148,12 @@ const Exhaust = ({database}) => {
 										id,
 										values: {
 											...exhaust,
-											outletFlowRate: parseInt(e.target.value),
+											outletFlowRate: parseFloat(e.target.value),
 										},
 									});
 									setExhaust({
 										...exhaust,
-										outletFlowRate: parseInt(e.target.value),
+										outletFlowRate: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -175,12 +175,12 @@ const Exhaust = ({database}) => {
 										id,
 										values: {
 											...exhaust,
-											length: parseInt(e.target.value),
+											length: parseFloat(e.target.value),
 										},
 									});
 									setExhaust({
 										...exhaust,
-										length: parseInt(e.target.value),
+										length: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -202,12 +202,12 @@ const Exhaust = ({database}) => {
 										id,
 										values: {
 											...exhaust,
-											flowRate: parseInt(e.target.value),
+											flowRate: parseFloat(e.target.value),
 										},
 									});
 									setExhaust({
 										...exhaust,
-										flowRate: parseInt(e.target.value),
+										flowRate: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -229,12 +229,12 @@ const Exhaust = ({database}) => {
 										id,
 										values: {
 											...exhaust,
-											velocityDecay: parseInt(e.target.value),
+											velocityDecay: parseFloat(e.target.value),
 										},
 									});
 									setExhaust({
 										...exhaust,
-										velocityDecay: parseInt(e.target.value),
+										velocityDecay: parseFloat(e.target.value),
 									});
 								}}
 							/>
@@ -256,12 +256,12 @@ const Exhaust = ({database}) => {
 										id,
 										values: {
 											...exhaust,
-											volume: parseInt(e.target.value),
+											volume: parseFloat(e.target.value),
 										},
 									});
 									setExhaust({
 										...exhaust,
-										volume: parseInt(e.target.value),
+										volume: parseFloat(e.target.value),
 									});
 								}}
 							/>

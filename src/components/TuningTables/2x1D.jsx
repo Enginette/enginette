@@ -37,7 +37,7 @@ const Flex3 = styled.div`
 	flex-direction: column;
 `;
 
-const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
+const TuningTable2x1D = ({ database, id, setCylinderHead, cylinderHead }) => {
 	const blueMax = 20;
 	const greenMax = 50;
 	const yellowMax = 100;
@@ -54,54 +54,47 @@ const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
 
 		if(e.target.value.length === 0) return;
 
-		/*
-		const setDistrib = async (index, value) => {
+		const setValue = async (index, value, intake = true) => {
+			if(intake) {
+				cylinderHead.intake[index] = value;
 
-			let count = parseInt(distributor.rpm);
-			let array = [];
-			let array2 = [];
-			for(let i = 0; i <= count; i += 1000) 
-			{
-				if(distributor.timings[i/1000] === undefined) {
-					array.push([i, 30]);
-					array2.push(30);
-				}
-				else {
-					array.push([i, distributor.timings[i/1000]]);
-					array2.push(distributor.timings[i/1000]);
-				}
-			}
-			array[index] = [ array[index][0], value ];
-			array2[index] = [ value ];
-			setArray(array);
-
-			await Database.CylinderHeads.update({
-				db: database,
-				id,
-				values: {
+				await Database.CylinderHeads.update({
+					db: database,
+					id,
+					values: {
+						...cylinderHead,
+					},
+				});
+				setCylinderHead({
 					...cylinderHead,
-					timings: [
-						...array2,
-					],
-				},
-			});
-			setDistributor({
-				...cylinderHead,
-				exhaust: [
-					...array2,
-				],
-			});
+				});
+			}
+			else {
+				cylinderHead.exhaust[index] = value;
+
+				await Database.CylinderHeads.update({
+					db: database,
+					id,
+					values: {
+						...cylinderHead,
+					},
+				});
+				setCylinderHead({
+					...cylinderHead,
+				});
+			}
 		}
-		*/
 
 		if(e.target.id.startsWith("intake")) {
 			let s = e.target.id.substring(6);
 			let number = parseInt(s);
+			setValue(number, parseFloat(e.target.value));
 			//setDistrib(number, parseInt(e.target.value));
 		}
 		else if(e.target.id.startsWith("exhaust")) {
 			let s = e.target.id.substring(7);
 			let number = parseInt(s);
+			setValue(number, parseFloat(e.target.value), false);
 			//setDistrib(number, parseInt(e.target.value));
 		}
 	}
@@ -141,7 +134,7 @@ const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
 							let color = returnColor(value);
 							
 							return (
-								<Flex>
+								<Flex key={value + (Math.random() % 1000)}>
 									<TextCell>
 										<p>{index}</p>
 									</TextCell>
@@ -149,6 +142,7 @@ const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
 										<input
 											id={id}
 											defaultValue={value}
+											type="number"
 											style={{"color": "white", "backgroundColor": color}} 
 											onChange={changedInput}/>
 									</Cell>
@@ -177,6 +171,7 @@ const TuningTable2x1D = ({ database, setCylinderHead, cylinderHead }) => {
 										<input
 											id={id}
 											defaultValue={value}
+											type="number"
 											style={{"color": "white", "backgroundColor": color}} 
 											onChange={changedInput}/>
 									</Cell>
