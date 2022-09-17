@@ -85,11 +85,10 @@ const ConnectingRods = ({ database }) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				mass: 0,
-				blowby: 0,
-				compressionHeight: 0,
-				wristPinPosition: 0,
-				displacement: 0,
+				mass: 200,
+				momentOfInertia: 0.22986844776863666,
+				centerOfMass: 0,
+				length: 120,
 			},
 		});
 
@@ -131,7 +130,7 @@ const ConnectingRods = ({ database }) => {
 		};
 
 		loadRodsAsync();
-	}, [database]);
+	}, [database, id]);
 	if (engine === null) {
 		return (
 			<LoadingScreen>
@@ -184,6 +183,7 @@ const ConnectingRods = ({ database }) => {
 							{connectingRods.map((rod) => (
 								<ConnectingRod
 									key={rod.id}
+									engineID = {engine.id}
 									{...rod}
 									connectingRods={connectingRods}
 									setConnectingRods={setConnectingRods}
@@ -211,6 +211,9 @@ const ConnectingRods = ({ database }) => {
 							<p>grams</p>
 							<input
 								type="number"
+								key={connectingRod.mass}
+								autoFocus
+								min="0"
 								defaultValue={connectingRod.mass}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -219,22 +222,26 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											mass: parseInt(e.target.value),
+											mass: parseFloat(e.target.value),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										mass: parseInt(e.target.value),
+										mass: parseFloat(e.target.value),
 									});
 								}}
 							/>
 						</Input>
 
 						<Input>
-							<h1>Blowby:</h1>
+							<h1>Moment of Inertia:</h1>
 							<input
 								type="number"
-								defaultValue={connectingRod.blowby}
+								defaultValue={connectingRod.momentOfInertia}
+								autoFocus
+								min="0"
+								step="0.01"
+								key={connectingRod.momentOfInertia}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
 									await Database.ConnectingRods.update({
@@ -242,23 +249,26 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											blowby: parseInt(e.target.value),
+											momentOfInertia: parseFloat(e.target.value),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										blowby: parseInt(e.target.value),
+										momentOfInertia: parseFloat(e.target.value),
 									});
 								}}
 							/>
 						</Input>
 
 						<Input>
-							<h1>Compression height:</h1>
-							<p>inches</p>
+							<h1>Center of mass:</h1>
 							<input
 								type="number"
-								defaultValue={0}
+								defaultValue={connectingRod.centerOfMass}
+								autoFocus
+								min="0"
+								step="0.01"
+								key={connectingRod.centerOfMass}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
 									await Database.ConnectingRods.update({
@@ -266,14 +276,14 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											compressionHeight: parseInt(
+											centerOfMass: parseFloat(
 												e.target.value
 											),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										compressionHeight: parseInt(
+										centerOfMass: parseFloat(
 											e.target.value
 										),
 									});
@@ -282,10 +292,15 @@ const ConnectingRods = ({ database }) => {
 						</Input>
 
 						<Input>
-							<h1>Wrist pin position:</h1>
+							<h1>Length:</h1>
+							<p>mm</p>
 							<input
 								type="number"
-								defaultValue={connectingRod.wristPinPosition}
+								defaultValue={connectingRod.length}
+								autoFocus
+								min="0"
+								step="0.01"
+								key={connectingRod.length}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
 									await Database.ConnectingRods.update({
@@ -293,40 +308,16 @@ const ConnectingRods = ({ database }) => {
 										id,
 										values: {
 											...connectingRod,
-											wristPinPosition: parseInt(
+											length: parseFloat(
 												e.target.value
 											),
 										},
 									});
 									setConnectingRod({
 										...connectingRod,
-										wristPinPosition: parseInt(
+										length: parseFloat(
 											e.target.value
 										),
-									});
-								}}
-							/>
-						</Input>
-						<Input>
-							<h1>Displacement:</h1>
-							<input
-								type="number"
-								defaultValue={connectingRod.displacement}
-								onChange={async (e) => {
-									if (e.target.value.length === 0) return;
-									await Database.ConnectingRods.update({
-										db: database,
-										id,
-										values: {
-											...connectingRod,
-											displacement: parseInt(
-												e.target.value
-											),
-										},
-									});
-									setConnectingRod({
-										...connectingRod,
-										displacement: parseInt(e.target.value),
 									});
 								}}
 							/>

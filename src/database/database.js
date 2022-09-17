@@ -5,6 +5,12 @@ class Database {
 		});
 		engines.createIndex("name", "name", { unique: true });
 
+		// Cylinder heads
+		const heads = db.createObjectStore("cylinder_heads", {
+			autoIncrement: true,
+		});
+		heads.createIndex("engine", "engine");
+
 		//Banks
 		const banks = db.createObjectStore("banks", {
 			autoIncrement: true,
@@ -52,6 +58,43 @@ class Database {
 			autoIncrement: true,
 		});
 		distributor.createIndex("engine", "engine");
+
+		//Cylinders
+		const cylinders = db.createObjectStore("cylinders", {
+			autoIncrement: true,
+		});
+		cylinders.createIndex("engine", "engine");
+
+		//Pistons
+		const pistons = db.createObjectStore("pistons", {
+			autoIncrement: true,
+		});
+		pistons.createIndex("engine", "engine");
+	};
+
+	//Cylinder heads
+	static CylinderHeads = class CylinderHeads {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("cylinder_heads", "readwrite");
+			const id = await tx.objectStore("cylinder_heads").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("cylinder_heads", "readonly");
+			const objectStore = tx.objectStore("cylinder_heads");
+			return { ...(await objectStore.get(id)), id };
+		};
+		static remove = async ({ db, id }) => {
+			const txn = db.transaction("cylinder_heads", "readwrite");
+			const objectStore = txn.objectStore("cylinder_heads");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("cylinder_heads", "readwrite");
+			const objectStore = txn.objectStore("cylinder_heads");
+			await objectStore.put(values, id);
+		};
 	};
 
 	//Connecting rods
@@ -229,6 +272,56 @@ class Database {
 		};
 	};
 
+	//Cylinders
+	static Cylinders = class Cylinders {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("cylinders", "readwrite");
+			const id = await tx.objectStore("cylinders").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("cylinders", "readonly");
+			const objectStore = tx.objectStore("cylinders");
+			return { ...(await objectStore.get(id)), id };
+		};
+		static remove = async ({ db, id }) => {
+			const txn = db.transaction("cylinders", "readwrite");
+			const objectStore = txn.objectStore("cylinders");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("cylinders", "readwrite");
+			const objectStore = txn.objectStore("cylinders");
+			await objectStore.put(values, id);
+		};
+	};
+
+	//Pistons
+	static Pistons = class Pistons {
+		static add = async ({ db, values }) => {
+			const tx = db.transaction("pistons", "readwrite");
+			const id = await tx.objectStore("pistons").add(values);
+
+			return { ...values, id };
+		};
+		static getById = async ({ db, id }) => {
+			const tx = db.transaction("pistons", "readonly");
+			const objectStore = tx.objectStore("pistons");
+			return { ...(await objectStore.get(id)), id };
+		};
+		static remove = async ({ db, id }) => {
+			const txn = db.transaction("pistons", "readwrite");
+			const objectStore = txn.objectStore("pistons");
+			await objectStore.delete(id);
+		};
+		static update = async ({ db, id, values }) => {
+			const txn = db.transaction("pistons", "readwrite");
+			const objectStore = txn.objectStore("pistons");
+			await objectStore.put(values, id);
+		};
+	};
+
 	//Banks
 	static Banks = class Banks {
 		static add = async ({ db, values }) => {
@@ -256,6 +349,19 @@ class Database {
 
 	//Engines
 	static Engines = class Engines {
+		//Cylinder heads
+		static CylinderHeads = class CylinderHeads {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("cylinder_heads", "readonly");
+				const objectStore = txn.objectStore("cylinder_heads");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { ...item, id: keys[index] };
+				});
+			};
+		};
+		
 		//Journal rods
 		static JournalRods = class JournalRods {
 			static all = async ({ db, id }) => {
@@ -264,7 +370,7 @@ class Database {
 				const index = objectStore.index("engine");
 				const keys = await index.getAllKeys(id);
 				return (await index.getAll(id)).map((item, index) => {
-					return { id: keys[index], ...item };
+					return { ...item, id: keys[index] };
 				});
 			};
 		};
@@ -277,7 +383,7 @@ class Database {
 				const index = objectStore.index("engine");
 				const keys = await index.getAllKeys(id);
 				return (await index.getAll(id)).map((item, index) => {
-					return { id: keys[index], ...item };
+					return { ...item, id: keys[index] };
 				});
 			};
 		};
@@ -352,6 +458,32 @@ class Database {
 			static all = async ({ db, id }) => {
 				const txn = db.transaction("distributor", "readonly");
 				const objectStore = txn.objectStore("distributor");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { id: keys[index], ...item };
+				});
+			};
+		};
+
+		//Pistons
+		static Pistons = class Pistons {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("pistons", "readonly");
+				const objectStore = txn.objectStore("pistons");
+				const index = objectStore.index("engine");
+				const keys = await index.getAllKeys(id);
+				return (await index.getAll(id)).map((item, index) => {
+					return { id: keys[index], ...item };
+				});
+			};
+		};
+
+		//Cylinders
+		static Cylinders = class Cylinders {
+			static all = async ({ db, id }) => {
+				const txn = db.transaction("cylinders", "readonly");
+				const objectStore = txn.objectStore("cylinders");
 				const index = objectStore.index("engine");
 				const keys = await index.getAllKeys(id);
 				return (await index.getAll(id)).map((item, index) => {

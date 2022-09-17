@@ -7,8 +7,10 @@ import deleteIcon from "../../../images/delete.svg";
 import plus from "../../../images/plus.svg";
 import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
+import Exhaust from "../../../components/Exhausts/ExhaustInline";
 import ExhaustInline from "../../../components/Exhausts/ExhaustInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import { InlineBanksDiv } from "./Bank";
 
 const ExhaustsDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
@@ -18,16 +20,51 @@ const ExhaustsDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Exhausts = () => {
+const InlineExhaustsDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
+`;
+
+const Exhausts = ({database}) => {
 	let { name, id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [exhausts, setExhausts] = useState([]);
+
+	const addExhaust = async () => {
+		const exhaust = await Database.Exhausts.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				outletFlowRate: 200,
+				length: 10,
+				flowRate: 300,
+				velocityDecay: 1,
+				volume: 10,
+			},
+		});
+
+		setExhausts([...exhausts, exhaust]);
+	};
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
-	}, []);
+		if (!database) return;
+		const loadDatabase = async () => {
+			const engine = await Database.Engines.getById({
+				db: database,
+				id,
+			});
+			setEngine(engine);
+			if (!engine) return;
+
+			const exhausts = await Database.Engines.Exhausts.all({
+				db: database,
+				id,
+			});
+			setExhausts(exhausts);
+		};
+		loadDatabase();
+	}, [database]);
 
 	if (engine === null) {
 		return (
@@ -47,10 +84,21 @@ const Exhausts = () => {
 				<SideBar>
 					<Top>
 						<h3>Exhausts</h3>
-						<img src={plus} alt="Add" />
+						<img src={plus} alt="Add" onClick={addExhaust}/>
 					</Top>
 
-					<ExhaustInline name="Exhaust 1" btnID={1} engineName={id} />
+					<InlineExhaustsDiv>
+						{exhausts.map((exh) => (
+									<Exhaust
+										key={exh.id}
+										engineID={engine.id}
+										{...exh}
+										exhausts={exhausts}
+										setExhausts={setExhausts}
+										database={database}
+									/>
+							))}
+					</InlineExhaustsDiv>
 				</SideBar>
 
 				<InternalEditor>

@@ -14,5 +14,6 @@ html, body {
 #root, #root > .app {
     background-color: #EEEEEE;
     width: 100%;
+    /* min-height: 100vh; */
     height: 100%;
 }

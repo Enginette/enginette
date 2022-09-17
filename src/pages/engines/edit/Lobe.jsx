@@ -9,6 +9,7 @@ import { LoadingScreen, Input } from "./General";
 import { SideBar, InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import LobeInline from "../../../components/Lobes/LobeInline";
 import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import { InlineBanksDiv } from "./Bank";
 
 const LobeDiv = styled(ConnectingRodsDiv)`
 	width: 100%;
@@ -18,16 +19,70 @@ const LobeDiv = styled(ConnectingRodsDiv)`
 	flex-direction: column;
 `;
 
-const Lobe = () => {
+const InlineLobesDiv = styled(InlineBanksDiv)`
+	max-height: calc((100vh - 390px) / 2 - 20px);
+`;
+
+const Lobe = ({database}) => {
 	let { id } = useParams();
+	id = parseInt(id);
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
+	const [lobes, setLobes] = useState([]);
+	//selected intake
+	const [lobe, setLobe] = useState(null);
+
+	const handleDelete = async () => {
+		const confirmation = window.confirm(
+			`Are you sure you want to delete Lobe #${id}?`
+		);
+		if (!confirmation) return;
+
+		await Database.Lobes.remove({ db: database, id });
+		navigate(`/engines/${engine.id}/edit/lobes`);
+	};
+
+	const addLobe = async () => {
+		const lobe = await Database.Lobes.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				durationAtFiftyThousands: 160,
+				gamma: 1,
+				lift: 200,
+				steps: 100,
+			},
+		});
+
+		setLobes([...lobes, lobe]);
+	};
 
 	useEffect(() => {
-		const engine = Database.Engines.getById({ id });
-		if (!engine) return setEngine(undefined);
-		setEngine(engine);
-	}, []);
+		if (!database) return;
+		const loadDatabase = async () => {
+			//load selected crankshaft
+			const lobe = await Database.Lobes.getById({
+				db: database,
+				id,
+			});
+			if (!lobe) return setLobe(undefined);
+			setLobe(lobe);
+
+			const engine = await Database.Engines.getById({
+				db: database,
+				id: lobe.engine,
+			});
+			setEngine(engine);
+			if (!engine) return;
+
+			const lobes = await Database.Engines.Lobes.all({
+				db: database,
+				id: engine.id,
+			});
+			setLobes(lobes);
+		};
+		loadDatabase();
+	}, [database, id]);
 
 	if (engine === null) {
 		return (
@@ -47,10 +102,21 @@ const Lobe = () => {
 				<SideBar>
 					<Top>
 						<h3>Lobes</h3>
-						<img src={plus} alt="Add" />
+						<img src={plus} alt="Add" onClick={addLobe}/>
 					</Top>
 
-					<LobeInline name="Lobe 1" btnID={1} engineName={id} />
+					<InlineLobesDiv>
+						{lobes.map((lb) => (
+									<LobeInline
+										key={lb.id}
+										engineID={engine.id}
+										{...lb}
+										lobes={lobes}
+										setLobes={setLobes}
+										database={database}
+									/>
+							))}
+					</InlineLobesDiv>
 				</SideBar>
 
 				<InternalEditor>
@@ -60,6 +126,7 @@ const Lobe = () => {
 							src={deleteIcon}
 							alt="Delete"
 							style={{ transform: "none" }}
+							onClick={handleDelete}
 						/>
 					</EditorTop>
 
@@ -68,10 +135,25 @@ const Lobe = () => {
 							<h1>Duration at 50 thousands:</h1>
 							<p>degrees</p>
 							<input
+								key={lobe.durationAtFiftyThousands}
+								autoFocus
 								type="number"
-								defaultValue={1}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								defaultValue={lobe.durationAtFiftyThousands}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Lobes.update({
+										db: database,
+										id,
+										values: {
+											...lobe,
+											durationAtFiftyThousands: parseFloat(e.target.value),
+										},
+									});
+									setLobe({
+										...lobe,
+										durationAtFiftyThousands: parseFloat(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -79,22 +161,53 @@ const Lobe = () => {
 						<Input>
 							<h1>Gamma:</h1>
 							<input
+								key={lobe.gamma}
+								autoFocus
 								type="number"
-								defaultValue={1}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								step="0.01"
+								defaultValue={lobe.gamma}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Lobes.update({
+										db: database,
+										id,
+										values: {
+											...lobe,
+											gamma: parseFloat(e.target.value),
+										},
+									});
+									setLobe({
+										...lobe,
+										gamma: parseFloat(e.target.value),
+									});
 								}}
 							/>
 						</Input>
 
 						<Input>
 							<h1>Lift:</h1>
-							<p>mm</p>
+							<p>thou</p>
 							<input
+								key={lobe.lift}
+								autoFocus
 								type="number"
-								defaultValue={0}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								defaultValue={lobe.lift}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Lobes.update({
+										db: database,
+										id,
+										values: {
+											...lobe,
+											lift: parseFloat(e.target.value),
+										},
+									});
+									setLobe({
+										...lobe,
+										lift: parseFloat(e.target.value),
+									});
 								}}
 							/>
 						</Input>
@@ -102,10 +215,26 @@ const Lobe = () => {
 						<Input>
 							<h1>Steps:</h1>
 							<input
+								key={lobe.steps}
+								autoFocus
 								type="number"
-								defaultValue={100}
-								onChange={(e) => {
-									// TODO: implement the database shit
+								min="0"
+								step="10"
+								defaultValue={lobe.steps}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Lobes.update({
+										db: database,
+										id,
+										values: {
+											...lobe,
+											steps: parseFloat(e.target.value),
+										},
+									});
+									setLobe({
+										...lobe,
+										steps: parseFloat(e.target.value),
+									});
 								}}
 							/>
 						</Input>

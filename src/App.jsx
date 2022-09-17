@@ -3,8 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import Guide from "./pages/Guide";
 
 import General from "./pages/engines/edit/General";
+import Cylinderhead from "./pages/engines/edit/Cylinderhead";
 
 import Banks from "./pages/engines/edit/Banks";
 import Bank from "./pages/engines/edit/Bank";
@@ -43,6 +45,7 @@ function App() {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"engines",
+						"cylinder_heads",
 						"banks",
 						"connecting_rods",
 						"journal_rods",
@@ -68,12 +71,21 @@ function App() {
 	return (
 		<div className="app">
 			<Routes>
+				{/* HOME AND OTHER STUFF */}
 				<Route path="/" element={<Home database={database}></Home>} />
 				<Route path="/about" element={<h1>b</h1>} />
+				<Route path="/guide" element={<Guide></Guide>} />
 
+				{/* GENERAL */}
 				<Route
 					path="/engines/:id/edit/general"
 					element={<General database={database}></General>}
+				/>
+
+				{/* CYLINDER HEAD */}
+				<Route 
+					path="/engines/:id/edit/head"
+					element={<Cylinderhead database={database}></Cylinderhead>}
 				/>
 
 				{/* BANKS */}
@@ -105,58 +117,61 @@ function App() {
 				{/* CRANKSHAFTS */}
 				<Route
 					path="/engines/:id/edit/crankshafts"
-					element={<Crankshafts></Crankshafts>}
+					element={<Crankshafts database={database}></Crankshafts>}
 				/>
 				<Route
 					path="/engines/edit/crankshaft/:id"
-					element={<Crankshaft></Crankshaft>}
+					element={<Crankshaft database={database}></Crankshaft>}
 				/>
 
 				{/* LOBES */}
 				<Route
 					path="/engines/:id/edit/lobes"
-					element={<Lobes></Lobes>}
+					element={<Lobes database={database}></Lobes>}
 				/>
 
-				<Route path="/engines/edit/lobe/:id" element={<Lobe></Lobe>} />
+				<Route 
+					path="/engines/edit/lobe/:id" 
+					element={<Lobe database={database}></Lobe>} 
+				/>
 
 				{/* EXHAUSTS */}
 				<Route
 					path="/engines/:id/edit/exhausts"
-					element={<Exhausts></Exhausts>}
+					element={<Exhausts database={database}></Exhausts>}
 				/>
 
 				<Route
 					path="/engines/edit/exhaust/:id"
-					element={<Exhaust></Exhaust>}
+					element={<Exhaust database={database}></Exhaust>}
 				/>
 
 				{/* INTAKES */}
 				<Route
 					path="/engines/:id/edit/intakes"
-					element={<Intakes></Intakes>}
+					element={<Intakes database={database}></Intakes>}
 				/>
 
 				<Route
 					path="/engines/edit/intake/:id"
-					element={<Intake></Intake>}
+					element={<Intake database={database}></Intake>}
 				/>
 
 				{/* PISTONS */}
 				<Route
 					path="/engines/:id/edit/pistons"
-					element={<Pistons></Pistons>}
+					element={<Pistons database={database}></Pistons>}
 				/>
 
 				<Route
 					path="/engines/edit/piston/:id"
-					element={<Piston></Piston>}
+					element={<Piston database={database}></Piston>}
 				/>
 
 				{/* DISTRIBUTOR */}
 				<Route
 					path="/engines/:id/edit/distributor"
-					element={<Distributor></Distributor>}
+					element={<Distributor database={database}></Distributor>}
 				/>
 				<Route path="*" element={<NotFound></NotFound>} />
 			</Routes>

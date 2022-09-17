@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { LoadingScreen } from "./General";
+import { LoadingScreen, Inputs, Input } from "./General";
 import plus from "../../../images/plus.svg";
 import Header from "../../../components/Header/Header";
 import BankInline from "../../../components/Banks/BankInline";
@@ -105,6 +105,12 @@ const Cylinders = styled.div`
 	gap: 20px;
 `;
 
+const MyInputs = styled(Inputs)`
+	background-color: transparent;
+	box-shadow: none;
+	padding: 0px;
+`;
+
 const Bank = ({ database }) => {
 	let { id } = useParams();
 	id = parseInt(id);
@@ -112,7 +118,8 @@ const Bank = ({ database }) => {
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 	const [bank, setBank] = useState(null);
-	const [banks, setBanks] = useState(null);
+	const [banks, setBanks] = useState([]);
+	const [cylinders, setCylinders] = useState([]);
 
 	const handleDelete = async () => {
 		const confirmation = window.confirm(`Are you sure you want to delete?`);
@@ -131,14 +138,29 @@ const Bank = ({ database }) => {
 		);
 		setBanks(banks.filter((databaseBank) => databaseBank.id !== id));
 	};
+
 	const addBank = async () => {
 		const bank = await Database.Banks.add({
 			db: database,
 			values: {
 				engine: engine.id,
+				bore: 70,
+				deck_height: 200,
+				angle: 0,
 			},
 		});
 		setBanks([...banks, bank]);
+	};
+
+	const addCylinder = async () => {
+		const cylinder = await Database.Cylinders.add({
+			db: database,
+			values: {
+				engine: engine.id,
+				bank: id
+			},
+		});
+		setCylinders([...cylinders, cylinder]);
 	};
 
 	useEffect(() => {
@@ -149,22 +171,31 @@ const Bank = ({ database }) => {
 				db: database,
 				id,
 			});
+			if (!bank) return setBank(undefined);
 			setBank(bank);
-			if (!bank) return;
+
 			const banks = await Database.Engines.Banks.all({
 				db: database,
 				id: bank.engine,
 			});
 			setBanks(banks);
 
+			const cylinders = await Database.Engines.Cylinders.all({
+				db: database,
+				id: bank.engine,
+			});
+			setCylinders(cylinders);
+
 			const engine = await Database.Engines.getById({
 				db: database,
 				id: bank.engine,
 			});
 			setEngine(engine);
+			
 		};
 		stuff();
-	}, [database]);
+	}, [database, id]);
+
 	if (bank === undefined) {
 		navigate("/");
 		return;
@@ -200,15 +231,25 @@ const Bank = ({ database }) => {
 						/>
 					</Top>
 					<InlineBanksDiv>
-						{banks.map((bank) => (
+						{banks.map((bank) => {
+							let count = 0;
+			
+							cylinders.forEach(element => {
+								if(element.bank === bank.id) {
+									count++;
+								}
+							});
+							return (
 							<BankInline
-								name={`Bank ${bank.id}`}
+								key={bank.id}
+								cylinderCount={count}
+								engineID={engine.id}
 								{...bank}
 								banks={banks}
 								setBanks={setBanks}
 								database={database}
-							/>
-						))}
+							/>);
+						})}
 					</InlineBanksDiv>
 				</SideBar>
 
@@ -225,19 +266,105 @@ const Bank = ({ database }) => {
 						/>
 					</EditorTop>
 
+					<MyInputs>
+						<Input>
+							<h1>Angle</h1>
+							<p>degrees</p>
+							<input
+								type="number"
+								min={0}
+								defaultValue={bank.angle}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Banks.update({
+										db: database,
+										id,
+										values: {
+											...bank,
+											angle: parseFloat(e.target.value),
+										},
+									});
+									setBank({
+										...bank,
+										angle: parseFloat(e.target.value),
+									});
+								}}
+							/>
+						</Input>
+
+						<Input>
+							<h1>Bore</h1>
+							<p>mm</p>
+							<input
+								type="number"
+								min={0}
+								defaultValue={bank.bore}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Banks.update({
+										db: database,
+										id,
+										values: {
+											...bank,
+											bore: parseFloat(e.target.value),
+										},
+									});
+									setBank({
+										...bank,
+										bore: parseFloat(e.target.value),
+									});
+								}}
+							/>
+						</Input>
+
+						<Input>
+							<h1>Deck height</h1>
+							<p>mm</p>
+							<input
+								type="number"
+								min={0}
+								defaultValue={bank.deck_height}
+								onChange={async (e) => {
+									if (e.target.value.length === 0) return;
+									await Database.Banks.update({
+										db: database,
+										id,
+										values: {
+											...bank,
+											deck_height: parseFloat(e.target.value),
+										},
+									});
+									setBank({
+										...bank,
+										deck_height: parseFloat(e.target.value),
+									});
+								}}
+							/>
+						</Input>
+					</MyInputs>
+
 					<EditorTop>
 						<h3>Cylinders</h3>
 						<img
 							src={plus}
 							alt="Plus"
 							style={{ height: "20px", width: "20px" }}
+							onClick={addCylinder}
 						/>
 					</EditorTop>
 
 					<Cylinders>
-						<Cylinder />
-						<Cylinder />
-						<Cylinder />
+						{cylinders.map((cyl) => {
+							if(cyl.bank == id)
+							return (<Cylinder
+								key={cyl.id}
+								engineID={engine.id}
+								{...cyl}
+								cylinders={cylinders}
+								setCylinders={setCylinders}
+								database={database}
+							/>
+						)})}
 					</Cylinders>
 				</InternalEditor>
 			</Editor>

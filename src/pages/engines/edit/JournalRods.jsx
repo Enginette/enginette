@@ -9,6 +9,7 @@ import { LoadingScreen, Input } from "./General";
 import { InternalEditor, Editor, EditorTop, Top } from "./Bank";
 import ConnectingRod from "../../../components/Rods/ConnectingRod";
 import JournalRod from "../../../components/Rods/JournalRod";
+import { SelectInput } from "../../../components/Cylinders/Cylinder";
 import {
 	MyInputs,
 	MySideBar,
@@ -33,6 +34,7 @@ const JournalRods = ({ database }) => {
 	const [engine, setEngine] = useState(null);
 	const [journalRods, setJournalRods] = useState([]);
 	const [connectingRods, setConnectingRods] = useState([]);
+	const [crankshafts, setCrankshafts] = useState([]);
 	//selected journal rod
 	const [journalRod, setJournalRod] = useState(null);
 
@@ -62,11 +64,10 @@ const JournalRods = ({ database }) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				mass: 0,
-				blowby: 0,
-				compressionHeight: 0,
-				wristPinPosition: 0,
-				displacement: 0,
+				mass: 200,
+				momentOfInertia: 0.22986844776863666,
+				centerOfMass: 0,
+				length: 120,
 			},
 		});
 
@@ -105,10 +106,16 @@ const JournalRods = ({ database }) => {
 				id: engine.id,
 			});
 			setJournalRods(journalRods);
+
+			const crankshafts = await Database.Engines.Crankshafts.all({
+				db: database,
+				id: engine.id,
+			});
+			setCrankshafts(crankshafts);
 		};
 
 		loadRodsAsync();
-	}, [database]);
+	}, [database, id]);
 
 	if (engine === null) {
 		return (
@@ -155,7 +162,7 @@ const JournalRods = ({ database }) => {
 							<img
 								src={plus}
 								alt="Add"
-								onclick={addConnectingRod}
+								onClick={addConnectingRod}
 							/>
 						</Top>
 
@@ -190,6 +197,8 @@ const JournalRods = ({ database }) => {
 							<h1>Angle:</h1>
 							<p>degrees</p>
 							<input
+								key={journalRod.angle}
+								autoFocus
 								type="number"
 								defaultValue={journalRod.angle}
 								onChange={async (e) => {
@@ -199,16 +208,42 @@ const JournalRods = ({ database }) => {
 										id,
 										values: {
 											...journalRod,
-											angle: parseInt(e.target.value),
+											angle: parseFloat(e.target.value),
 										},
 									});
 									setJournalRod({
 										...journalRod,
-										angle: parseInt(e.target.value),
+										angle: parseFloat(e.target.value),
 									});
 								}}
 							/>
 						</Input>
+
+						<SelectInput>
+               				<p>Cranshaft</p>
+                			<select
+                    			key={`${Math.floor((Math.random() * 1000))}-min`}
+                    			defaultValue={"Crankshaft " + journalRod.crankshaft}
+                    			onChange={async (e) => {
+                    			    if (e.target.value.length === 0) return;
+									await Database.JournalRods.update({
+										db: database,
+										id,
+										values: {
+											...journalRod,
+											crankshaft: parseInt(e.target.value.substring("Crankshaft ".length)),
+										},
+									});
+									setJournalRod({
+										...journalRod,
+										crankshaft: parseInt(e.target.value.substring("Crankshaft ".length)),
+									});
+                    			}}>
+                    			{crankshafts.map((crank) => (
+                    			    <option key={crank.id + (Math.random() % 1000)} value={`Crankshaft ${crank.id}`}>Crankshaft {crank.id}</option>
+                    			))}
+                			</select>
+            			</SelectInput>
 					</MyInputs>
 				</InternalEditor>
 			</Editor>

@@ -31,26 +31,21 @@ const Right = styled.div`
 	cursor: pointer;
 `;
 
-const downloadEngine = () => {
-	// TODO: Add database retrieving code and
-	// make it downloadable
-	alert("Coming soon!");
-};
-
-const Engine = ({ id, name, setClickedEngine, toggleIsDeleteActive }) => {
+const Engine = ({ id, name, setClickedEngine, toggleIsDeleteActive, toggleIsDownloadActive }) => {
 	const handleClick = () => {
 		setClickedEngine({ name, id });
 		toggleIsDeleteActive();
+	};
+
+	const handleClickDownload = () => {
+		setClickedEngine({ name, id });
+		toggleIsDownloadActive();
 	};
 	return (
 		<EngineDiv>
 			<p>{name}</p>
 			<Right>
-				<img
-					src={downloadIcon}
-					alt="Download"
-					onClick={downloadEngine}
-				/>
+				<img src={downloadIcon} alt="Download" onClick={handleClickDownload} />
 				<Link to={`/engines/${id}/edit/general`}>
 					<img src={editIcon} alt="Edit" />
 				</Link>

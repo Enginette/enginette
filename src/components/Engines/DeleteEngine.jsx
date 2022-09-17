@@ -15,6 +15,15 @@ const DeleteEngineDiv = styled.div`
 	left: 0;
 	background-color: rgba(230, 230, 230, 0.2);
 	padding: 60px;
+
+	animation-name: fade;
+	animation-duration: 250ms;
+	animation-iteration-count: 1;
+
+	@keyframes fade {
+		from { backdrop-filter: blur(0px) }
+		to { backdrop-filter: blur(5px) }
+	}
 `;
 
 const DeleteConfirmation = styled.div`
@@ -95,7 +104,7 @@ const DeleteEngine = ({
 						onClick={handleCloseClick}
 					/>
 				</Top>
-				<p>Are you sure you want to delete this design?</p>
+				<p>Are you sure you want to delete this engine?</p>
 				<button onClick={handleDeleteClick}>Delete</button>
 			</DeleteConfirmation>
 		</DeleteEngineDiv>
@@ -103,3 +112,4 @@ const DeleteEngine = ({
 };
 
 export default DeleteEngine;
+export { Top, DeleteConfirmation, DeleteEngineDiv };

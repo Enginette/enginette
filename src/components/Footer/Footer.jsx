@@ -21,9 +21,22 @@ const Left = styled.div`
 		color: white;
 		margin-right: 20px;
 	}
+	> h2 {
+		font-size: 22px;
+		font-weight: bold;
+		color: white;
+		margin-right: 20px;
+	}
 	> p {
 		font-size: 20px;
 		color: white;
+
+		> a {
+			font-size: 20px;
+			color: white;
+			//margin-right: 10px;
+			text-decoration: none;
+		}
 	}
 `;
 
@@ -52,12 +65,13 @@ const Footer = () => {
 	return (
 		<FooterDiv>
 			<Left>
-				<h1>Enginette Preview 0.0.3a</h1>
-				<p>Made with ❤️ by Pooria and DDev</p>
+				<h1>Enginette 0.0.4</h1>
+				<h2>We're out of alpha baby!</h2>
+				<p>Made with ❤️ by <a href="https://github.com/pooriaahmadi">Pooria</a>, <a href="https://github.com/DDev247">DDev</a> and <a href="https://github.com/zRevenger">zRevenger</a></p>
 			</Left>
 			<Right>
 				<a href="https://github.com/DDev247/enginette-client">
-					Get the patcher
+					Get the client
 				</a>
 				<a href="https://github.com/DDev247/enginette">
 					<img src={github} alt="github" />
