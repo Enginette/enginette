@@ -379,12 +379,7 @@ class Generator {
         output += "    label rot180(180 * units.deg)" + "\n";
         output += "    label rot360(360 * units.deg)" + "\n";
         output += "\n";
-        // TODO: figure out the shit that goes in here
-        // figured it out:
-        // .add_lobe(rot360 - exhaust_lobe_center + "which is in firing order" * "something (rot120)")
-        // scrap that its:
-        // .add_lobe(rot360 - exhaust_lobe_center + 2 * rot)
-        // .add_lobe(rot360 - intake_lobe_center + 2 * rot)
+        // DONE: figure out the shit that goes in here
 
         // do per bank
         banks.map((bank) => {
