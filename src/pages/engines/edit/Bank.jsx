@@ -121,6 +121,12 @@ const Bank = ({ database }) => {
 	const [banks, setBanks] = useState([]);
 	const [cylinders, setCylinders] = useState([]);
 
+	const [journalRods, setJournalRods] = useState([]);
+	const [connectingRods, setConnectingRods] = useState([]);
+	const [intakes, setIntakes] = useState([]);
+	const [exhausts, setExhausts] = useState([]);
+	const [pistons, setPistons] = useState([]);
+
 	const handleDelete = async () => {
 		const confirmation = window.confirm(`Are you sure you want to delete?`);
 		if (!confirmation) return;
@@ -157,7 +163,13 @@ const Bank = ({ database }) => {
 			db: database,
 			values: {
 				engine: engine.id,
-				bank: id
+				bank: id,
+				
+				piston: pistons[0].id,
+				exhaust: exhausts[0].id,
+				intake: intakes[0].id,
+				connectingRods: connectingRods[0].id,
+				journalRod: journalRods[0].id,
 			},
 		});
 		setCylinders([...cylinders, cylinder]);
@@ -191,7 +203,41 @@ const Bank = ({ database }) => {
 				id: bank.engine,
 			});
 			setEngine(engine);
-			
+
+			//load connecting rods from database
+			const connectingRods = await Database.Engines.ConnectingRods.all({
+				db: database,
+				id: engine.id,
+			});
+			setConnectingRods(connectingRods);
+
+			//load journal rods from database
+			const journalRods = await Database.Engines.JournalRods.all({
+				db: database,
+				id: engine.id,
+			});
+			setJournalRods(journalRods);
+
+        	//load intakes from database
+			const intakes = await Database.Engines.Intakes.all({
+				db: database,
+				id: engine.id,
+			});
+			setIntakes(intakes);
+
+        	//load exhausts from database
+			const exhausts = await Database.Engines.Exhausts.all({
+				db: database,
+				id: engine.id,
+			});
+			setExhausts(exhausts);
+
+        	//load pistons from database
+			const pistons = await Database.Engines.Pistons.all({
+				db: database,
+				id: engine.id,
+			});
+			setPistons(pistons);
 		};
 		stuff();
 	}, [database, id]);
