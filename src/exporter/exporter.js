@@ -114,6 +114,7 @@ class Generator {
         const _GENERAL_NAME = engine.name.trim().replace(" ", "_");
         const _GENERAL_STARTER_TORQUE = engine.starterTorque.toString();
         const _GENERAL_CYLINDER_COUNT = cylinders.length;
+        console.log(_GENERAL_CYLINDER_COUNT);
         const _GENERAL_REDLINE = engine.redLine.toString();
 
         const _general_forder_string = distributor.firing_order.toString();
@@ -353,33 +354,32 @@ class Generator {
         output += "    input advance: " + _GENERAL_LOBE_ADVANCE + " * units.deg;" + "\n";
         output += "    input base_radius: " + _GENERAL_LOBE_RADIUS + " * units.inch;" + "\n";
         output += "\n";
-        output += "    output intake_cam_0: _intake_cam_0;" + "\n";
-        output += "    output exhaust_cam_0: _exhaust_cam_0;" + "\n";
-        output += "\n";
+        //output += "    output intake_cam_0: _intake_cam_0;" + "\n";
+        //output += "    output exhaust_cam_0: _exhaust_cam_0;" + "\n";
+        banks.map((bank) => {
+            let bankk = bank.id;
+            output += "    output intake_cam_" + (bankk - 1).toString() + ": _intake_cam_" + (bankk - 1).toString() + ";" + "\n";
+            output += "    output exhaust_cam_" + (bankk - 1).toString() + ": _exhaust_cam_" + (bankk - 1).toString() + ";" + "\n";
+        });
+        output += "\n"; 
         output += "    camshaft_parameters params(" + "\n";
         output += "        advance: advance," + "\n";
         output += "        base_radius: base_radius" + "\n";
         output += "    )" + "\n";
         output += "\n";
-        
         for (let i = 0; i < banks.length; i++) {
             output += "    camshaft _intake_cam_" + i.toString() + "(params, lobe_profile: intake_lobe_profile)" + "\n";
             output += "    camshaft _exhaust_cam_" + i.toString() + "(params, lobe_profile: exhaust_lobe_profile)" + "\n";
         }
         output += "\n";
-        output += "    label rot(2 * (360 / 6.0) * units.deg)" + "\n";
+        output += "    label rot(2 * (360 / " + _GENERAL_CYLINDER_COUNT + ") * units.deg)" + "\n";
         output += "    label rot60(60 * units.deg)" + "\n";
         output += "    label rot90(90 * units.deg)" + "\n";
         output += "    label rot120(120 * units.deg)" + "\n";
         output += "    label rot180(180 * units.deg)" + "\n";
         output += "    label rot360(360 * units.deg)" + "\n";
         output += "\n";
-        // TODO: figure out the shit that goes in here
-        // figured it out:
-        // .add_lobe(rot360 - exhaust_lobe_center + "which is in firing order" * "something (rot120)")
-        // scrap that its:
-        // .add_lobe(rot360 - exhaust_lobe_center + 2 * rot)
-        // .add_lobe(rot360 - intake_lobe_center + 2 * rot)
+        // DONE: figure out the shit that goes in here
 
         // do per bank
         banks.map((bank) => {
@@ -389,7 +389,7 @@ class Generator {
             let index = 0;
             cylinders.map((cylinder) => {
                 if(cylinder.bank == bankk) {
-                    output += "        .add_lobe(rot360 - exhaust_lobe_center + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * rot)" + "\n";
+                    output += "        .add_lobe(rot360 - exhaust_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * rot)" + "\n";
                 }
                 index++;
             });
@@ -402,7 +402,7 @@ class Generator {
             let index = 0;
             cylinders.map((cylinder) => {
                 if(cylinder.bank == bankk) {
-                    output += "        .add_lobe(rot360 + intake_lobe_center + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * rot)" + "\n";
+                    output += "        .add_lobe(rot360 + intake_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * rot)" + "\n";
                 }
                 index++;
             });
