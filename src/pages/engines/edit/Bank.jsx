@@ -168,7 +168,7 @@ const Bank = ({ database }) => {
 				piston: pistons[0].id,
 				exhaust: exhausts[0].id,
 				intake: intakes[0].id,
-				connectingRods: connectingRods[0].id,
+				connectingRod: connectingRods[0].id,
 				journalRod: journalRods[0].id,
 			},
 		});
@@ -319,6 +319,8 @@ const Bank = ({ database }) => {
 							<input
 								type="number"
 								min={0}
+								key={bank.angle}
+								autoFocus
 								defaultValue={bank.angle}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -344,6 +346,8 @@ const Bank = ({ database }) => {
 							<input
 								type="number"
 								min={0}
+								key={bank.bore}
+								autoFocus
 								defaultValue={bank.bore}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
@@ -369,6 +373,8 @@ const Bank = ({ database }) => {
 							<input
 								type="number"
 								min={0}
+								key={bank.deck_height}
+								autoFocus
 								defaultValue={bank.deck_height}
 								onChange={async (e) => {
 									if (e.target.value.length === 0) return;
