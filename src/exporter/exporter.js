@@ -350,7 +350,7 @@ class Generator {
         output += "    input exhaust_lobe_profile: ex_lobe_profile;" + "\n";
         output += "    input lobe_separation: " + _GENERAL_LOBE_SEPARATION + " * units.deg;" + "\n";
         output += "    input intake_lobe_center: lobe_separation;" + "\n";
-        output += "    input exhaust_lobe_center: 110.0 * units.deg;" + "\n";
+        output += "    input exhaust_lobe_center: lobe_separation;" + "\n";
         output += "    input advance: " + _GENERAL_LOBE_ADVANCE + " * units.deg;" + "\n";
         output += "    input base_radius: " + _GENERAL_LOBE_RADIUS + " * units.inch;" + "\n";
         output += "\n";
@@ -379,6 +379,8 @@ class Generator {
         output += "    label rot180(180 * units.deg)" + "\n";
         output += "    label rot360(360 * units.deg)" + "\n";
         output += "\n";
+
+        const rot = "(2 * (360 / " + _GENERAL_CYLINDER_COUNT + "))";
         // DONE: figure out the shit that goes in here
 
         // do per bank
@@ -389,7 +391,7 @@ class Generator {
             let index = 0;
             cylinders.map((cylinder) => {
                 if(cylinder.bank == bankk) {
-                    output += "        .add_lobe(rot360 - exhaust_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * rot)" + "\n";
+                    output += "        .add_lobe(rot360 - exhaust_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * " + rot + ")" + "\n";
                 }
                 index++;
             });
@@ -402,7 +404,7 @@ class Generator {
             let index = 0;
             cylinders.map((cylinder) => {
                 if(cylinder.bank == bankk) {
-                    output += "        .add_lobe(rot360 + intake_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * rot)" + "\n";
+                    output += "        .add_lobe(rot360 + intake_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * " + rot + ")" + "\n";
                 }
                 index++;
             });
@@ -590,12 +592,12 @@ class Generator {
         // remember cylinder_bank b0(bank_params(bore: bore, deck_height (height + 1) / 2), angle: 35 * units.deg)
 
         index = 0;
+        let ind = 1;
         banks.map((bank) => {
 
             output += "    cylinder_bank b" + bank.id + "(bore: " + bank.bore.toString() + " * units.mm, deck_height: (" + bank.deck_height.toString() + " + 1) * units.mm, angle: " + bank.angle.toString() + " * units.deg)" + "\n";
             output += "    b" + bank.id + "\n";
 
-            let ind = 1;
             cylinders.map((cylinder) => {
                 if(cylinder.bank == bank.id) {
                     output += "        .add_cylinder(" + "\n";
