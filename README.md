@@ -16,6 +16,6 @@ ___
 The problem is if you used the page before it released, it will have a invalid database and will cause errors when the website is trying to access the database.
 Solution is:
 - Right click, inspect element (or press F12)
-- Click on the Application tab (or if its hidden press on the little arrows and then application)
+- Click on the Storage tab (or if its hidden press on the little arrows and then application)
 - Click on IndexedDB and `enginette`
 - Click delete database and go to [the home page](https://enginette.netlify.app/)
