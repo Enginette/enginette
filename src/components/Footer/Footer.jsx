@@ -7,7 +7,7 @@ const FooterDiv = styled.div`
 	align-items: center;
 	height: 70px;
 	width: 100%;
-	background-color: #0069ff;
+	background-color: #6598F2;
 	padding: 0 15px;
 `;
 
@@ -52,7 +52,7 @@ const Right = styled.div`
 	> a {
 		font-size: 20px;
 		color: white;
-		margin-right: 10px;
+		margin-left: 10px;
 		text-decoration: none;
 	}
 	> img {
@@ -65,14 +65,14 @@ const Footer = () => {
 	return (
 		<FooterDiv>
 			<Left>
-				<h1>Enginette 0.0.4</h1>
-				<h2>We're out of alpha baby!</h2>
+				<h1>Enginette 0.0.5</h1>
+				{/* <h2>We're out of alpha baby!</h2> */}
 				<p>Made with ❤️ by <a href="https://github.com/pooriaahmadi">Pooria</a>, <a href="https://github.com/DDev247">DDev</a> and <a href="https://github.com/zRevenger">zRevenger</a></p>
 			</Left>
 			<Right>
-				<a href="https://github.com/DDev247/enginette-client">
+				{/* <a href="https://github.com/DDev247/enginette-client">
 					Get the client
-				</a>
+				</a> */}
 				<a href="https://github.com/DDev247/enginette">
 					<img src={github} alt="github" />
 				</a>

@@ -92,17 +92,35 @@ class Generator {
 
         //#region CONSTANT SHIT
 
-        const begin = "// Generated with Enginette(https://enginette.netlify.app) by DDev, Pooria and zRevenger." + "\n" +
-                    "// More info here: https://github.com/enginette/enginette" + "\n" +
-                    "\n" +
-                    "import \"engine_sim.mr\"" + "\n" +
-                    "\n" +
-                    "units units()" + "\n" +
-                    "constants constants()" + "\n" +
-                    "impulse_response_library ir_lib()" + "\n" +
-                    "\n" +
-                    "label cycle(2 * 360 * units.deg)" + "\n" +
-                    "\n";
+        const begin = `//* Generated with Enginette (https://enginette.netlify.app) by DDev, Pooria and zRevenger.
+//* More info here: https://github.com/enginette/enginette
+//! Warning: Enginette EXporter is still in developement. Expect bugs to happen.
+//! If you encounter a bug, report it here: https://github.com/enginette/enginette/issues
+                    
+import \"engine_sim.mr\"
+
+units units()
+constants constants()
+impulse_response_library ir_lib()
+
+label cycle(2 * 360 * units.deg)
+`;
+
+        //#endregion
+
+        //#region FUNCTIONS
+
+        const getByID = (array, id) => {
+            console.log(id);
+            let returning = undefined;
+            array.forEach(element => {
+                console.log(element);
+                if(element.id == id)
+                    returning = element;
+            });
+
+            return returning;
+        }
 
         //#endregion
 
@@ -114,23 +132,8 @@ class Generator {
         const _GENERAL_NAME = engine.name.trim().replace(" ", "_");
         const _GENERAL_STARTER_TORQUE = engine.starterTorque.toString();
         const _GENERAL_CYLINDER_COUNT = cylinders.length;
-        console.log(_GENERAL_CYLINDER_COUNT);
+        // console.log(_GENERAL_CYLINDER_COUNT);
         const _GENERAL_REDLINE = engine.redLine.toString();
-
-        const _general_forder_string = distributor.firing_order.toString();
-        //const _GENERAL_FIRING_ORDER = [ 1, 4, 2, 3 ];
-        const _forder_arr = _general_forder_string.replace(" ", "").split(",");
-
-        const _GENERAL_FIRING_ORDER = _forder_arr;
-
-        let count = parseInt(distributor.rpm);
-		let array = [];
-		for(let i = 0; i <= count; i += 1000) 
-		{
-			array.push([i, distributor.timings[i/1000]]);
-		}
-        
-        const _GENERAL_TIMING_TABLE = array;
 
         // ROD, CRANKSHAFT, ANGLE
         var arr0 = [];
@@ -176,6 +179,11 @@ class Generator {
         // DISTRIBUTOR
         const _DISTRIBUTOR_REV_LIMIT = distributor.rpm.toString();
         const _DISTRIBUTOR_LIMITER_DURATION = "0.1";
+        let timingTable = [];
+        for(let i = 0; i < _DISTRIBUTOR_REV_LIMIT; i+=1000) {
+            timingTable.push({rpm:i,angle:distributor.timings[i/1000]});
+        }
+        const _GENERAL_TIMING_TABLE = timingTable;
 
         // HEAD
         const _HEAD_CHAMBER_VOLUME = cylinderHead.chamber_volume.toString();
@@ -286,7 +294,7 @@ class Generator {
         // DONE: Add proper wire stuffs
         output += "private node wires {" + "\n";
         for(let i = 0; i < _GENERAL_CYLINDER_COUNT; i++) {
-            output += "    output wire" + (i + 1).toString() + ": ignition_wire();" + "\n";
+            output += "    output wire" + (i+1).toString() + ": ignition_wire();" + "\n";
         }
         output += "}" + "\n";
         output += "\n";
@@ -299,14 +307,20 @@ class Generator {
         output += "    input limiter_duration: " + _DISTRIBUTOR_LIMITER_DURATION + " * units.sec;" + "\n";
         output += "    alias output __out:" + "\n";
         output += "        ignition_module(timing_curve: timing_curve, rev_limit: rev_limit, limiter_duration: limiter_duration)" + "\n";
-        for(let i = 0; i < _GENERAL_FIRING_ORDER.length; i++) {
-            if(i == _GENERAL_FIRING_ORDER.length-1) {
-                output += "            .connect_wire(wires.wire" + _GENERAL_FIRING_ORDER[i].toString() + ", (" + (i).toString() + ".0 / " + _GENERAL_CYLINDER_COUNT + ") * cycle);" + "\n";
-            }
-            else {
-                output += "            .connect_wire(wires.wire" + _GENERAL_FIRING_ORDER[i].toString() + ", (" + (i).toString() + ".0 / " + _GENERAL_CYLINDER_COUNT + ") * cycle)" + "\n";
-            }
-        }
+        cylinders.forEach((element, i) => {
+            let angle = "";
+            let rod = getByID(_GENERAL_ROD_TABLE, element.journalRod);
+            let bank = getByID(banks, element.bank);
+
+            angle = rod._JOURNAL_ROD_ANGLE.toString();
+
+            if(i === _GENERAL_CYLINDER_COUNT-1)
+                output += "            .connect_wire(wires.wire" + (i+1).toString() + ", (" + (bank.angle) + " + " + angle + ") * units.deg);" + "\n";
+            else
+                output += "            .connect_wire(wires.wire" + (i+1).toString() + ", (" + (bank.angle) + " + " + angle + ") * units.deg)" + "\n";
+        
+        });
+
         output += "}" + "\n";
         output += "\n";
 
@@ -367,10 +381,11 @@ class Generator {
         output += "        base_radius: base_radius" + "\n";
         output += "    )" + "\n";
         output += "\n";
-        for (let i = 0; i < banks.length; i++) {
-            output += "    camshaft _intake_cam_" + i.toString() + "(params, lobe_profile: intake_lobe_profile)" + "\n";
-            output += "    camshaft _exhaust_cam_" + i.toString() + "(params, lobe_profile: exhaust_lobe_profile)" + "\n";
-        }
+        banks.map((bank) => {
+            let bankk = bank.id;
+            output += "    camshaft _intake_cam_" + (bankk-1).toString() + "(params, lobe_profile: intake_lobe_profile)" + "\n";
+            output += "    camshaft _exhaust_cam_" + (bankk-1).toString() + "(params, lobe_profile: exhaust_lobe_profile)" + "\n";
+        });
         output += "\n";
         output += "    label rot(2 * (360 / " + _GENERAL_CYLINDER_COUNT + ") * units.deg)" + "\n";
         output += "    label rot60(60 * units.deg)" + "\n";
@@ -380,7 +395,7 @@ class Generator {
         output += "    label rot360(360 * units.deg)" + "\n";
         output += "\n";
 
-        const rot = "(2 * (360 / " + _GENERAL_CYLINDER_COUNT + "))";
+        // const rot = "(2 * (360 / " + _GENERAL_CYLINDER_COUNT + "))";
         // DONE: figure out the shit that goes in here
 
         // do per bank
@@ -391,20 +406,20 @@ class Generator {
             let index = 0;
             cylinders.map((cylinder) => {
                 if(cylinder.bank == bankk) {
-                    output += "        .add_lobe(rot360 - exhaust_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * " + rot + ")" + "\n";
+                    output += "        .add_lobe(rot360 - exhaust_lobe_center + (" + (bank.angle) + " * units.deg) + (" + getByID(_GENERAL_ROD_TABLE, cylinder.journalRod)._JOURNAL_ROD_ANGLE + " * units.deg))" + "\n";
                 }
                 index++;
             });
         });
 
         banks.map((bank) => {
-            let bankk = (bank.id - bank.engine + 1);
+            let bankk = bank.id;
             output += "    _intake_cam_" + (bankk - 1).toString() + "\n";
             
             let index = 0;
             cylinders.map((cylinder) => {
                 if(cylinder.bank == bankk) {
-                    output += "        .add_lobe(rot360 + intake_lobe_center + 2*" + (-bank.angle) + " * units.deg + " + (_GENERAL_FIRING_ORDER[index]-1).toString() + " * " + rot + ")" + "\n";
+                    output += "        .add_lobe(rot360 + intake_lobe_center + (" + (-bank.angle) + " * units.deg) + (" + getByID(_GENERAL_ROD_TABLE, cylinder.journalRod)._JOURNAL_ROD_ANGLE + " * units.deg))" + "\n";
                 }
                 index++;
             });
@@ -654,7 +669,7 @@ class Generator {
         output += "    function timing_curve(1000 * units.rpm)" + "\n";
         output += "    timing_curve" + "\n";
         for(let i = 0; i < _GENERAL_TIMING_TABLE.length; i++) {
-            output += "        .add_sample(" + _GENERAL_TIMING_TABLE[i][0] + " * units.rpm, " + _GENERAL_TIMING_TABLE[i][1] + " * units.deg)" + "\n";
+            output += "        .add_sample(" + _GENERAL_TIMING_TABLE[i].rpm + " * units.rpm, " + _GENERAL_TIMING_TABLE[i].angle + " * units.deg)" + "\n";
         }
         output += "\n";
         output += "    engine.add_ignition_module(" + "\n";
@@ -663,7 +678,14 @@ class Generator {
         output += "            timing_curve: timing_curve," + "\n";
         output += "            rev_limit: " + _DISTRIBUTOR_REV_LIMIT + " * units.rpm" + "\n";
         output += "        ))" + "\n";
-        output += "}" + "\n";
+        output += "}" + "\n\n";
+
+        // DONE: Add main node
+        output += "public node main {" + "\n";
+        output += "    set_engine(" + _GENERAL_NAME + "())\n";
+        output += "    set_transmission(transmission())\n";
+        output += "    set_vehicle(vehicle(mass: 1000 * units.kg))\n";
+        output += "}\n\nmain()\n";
 
         console.log(output);
         let a = document.createElement("a");

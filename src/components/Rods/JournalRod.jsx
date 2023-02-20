@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const JournalRodDiv = styled(BankInlineDiv)`
 	svg {
-		fill: ${(props) => (props.active ? "white" : "red")};
+		fill: ${(props) => (props.active ? "#C7D5ED" : "#e9515b")};
 	}
 `;
 

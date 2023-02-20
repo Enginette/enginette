@@ -6,8 +6,9 @@ import deleteIcon from "../../images/delete.svg";
 import { Right } from "../Banks/BankInline";
 
 const CylinderDiv = styled.div`
-	border: 1px solid #8794B0;
+	/* border: 1px solid #8794B0; */
     border-radius: 20px;
+    background-color: #3d3f45;
     padding: 20px;
     width: 244px;
     height: 371px;
@@ -30,7 +31,7 @@ const Top = styled.div`
         margin-top: 65px;
         font-weight: 500;
         font-size: 36px;
-        color: #031B4E;
+        color: #BEC2C8;
     }
 
     > img {
@@ -43,10 +44,10 @@ const SelectInput = styled.div`
     width: 100%;
     > p {
         box-shadow: 0px 0px 3px rgba(100, 100, 111, 0.2);
-        background-color: white;
+        background-color: #3D3F45;
         border-radius: 20px;
         padding: 1px 5px;
-        color: #031B4E;
+        color: #BEC2C8;
         font-size: 12px;
         font-weight: 400;
         
@@ -57,8 +58,23 @@ const SelectInput = styled.div`
     > select {
         height: 28px;
         border-radius: 20px;
-        border: 1px solid #8794B0;
+        /* border: 1px solid #8794B0; */
+        background-color: #3D3F45;
+        color: #BEC2C8;
+        padding: 5px 5px;
+        border: none;
         width: 100%;
+    }
+`;
+
+const MySelectInput = styled(SelectInput)`
+    > p {
+        background-color: #52555a;
+        color: #BEC2C8;
+    }
+    > select {
+        background-color: #52555a;
+        color: #BEC2C8;
     }
 `;
 
@@ -150,7 +166,7 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                 />
             </Top>
 
-            <SelectInput>
+            <MySelectInput>
                 <p>Connecting Rod</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -174,9 +190,9 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 						<option key={rod.id + (Math.random() % 1000)} value={`Connecting Rod ${rod.id}`}>Connecting Rod {rod.id}</option>
 					))}
                 </select>
-            </SelectInput>
+            </MySelectInput>
 
-            <SelectInput>
+            <MySelectInput>
                 <p>Journal Rod</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -200,9 +216,9 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 						<option key={rod.id + (Math.random() % 1000)} value={`Journal Rod ${rod.id}`}>Journal Rod {rod.id}</option>
 					))}
                 </select>
-            </SelectInput>
+            </MySelectInput>
 
-            <SelectInput>
+            <MySelectInput>
                 <p>Intake</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -227,9 +243,9 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 						<option key={intake.id + (Math.random() % 1000)} value={`Intake ${intake.id}`} >Intake {intake.id}</option>
 					))}
                 </select>
-            </SelectInput>
+            </MySelectInput>
 
-            <SelectInput>
+            <MySelectInput>
                 <p>Exhaust</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -253,9 +269,9 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
 						<option key={exhaust.id + (Math.random() % 1000)} value={`Exhaust ${exhaust.id}`}>Exhaust {exhaust.id}</option>
 					))}
                 </select>
-            </SelectInput>
+            </MySelectInput>
 
-            <SelectInput>
+            <MySelectInput>
                 <p>Piston</p>
                 <select
                     key={`${Math.floor((Math.random() * 1000))}-min`}
@@ -279,7 +295,7 @@ const Cylinder = ({id, engineID, cylinders, setCylinders, database}) => {
                         <option key={piston.id + (Math.random() % 1000)} value={`Piston ${piston.id}`}>Piston {piston.id}</option>
                     ))}
                 </select>
-            </SelectInput>
+            </MySelectInput>
            
 		</CylinderDiv>
 	);

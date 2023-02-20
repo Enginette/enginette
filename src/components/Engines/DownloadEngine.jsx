@@ -10,14 +10,14 @@ const DownloadEngineDiv = styled(DeleteEngineDiv)`
 
 const MyDeleteConfirmation = styled.div`
 	box-shadow: 0px 4px 29px rgba(100, 100, 111, 0.2);
-	background-color: white;
+	background-color: #303237;
 	border-radius: 20px;
 	padding: 15px 20px;
 	width: 100%;
 	> p {
 		font-size: 20px;
 		font-weight: bold;
-		color: #080b2d;
+		color: #BEC2C8;
 		width: 100%;
 		margin-bottom: 20px;
 	}
@@ -32,8 +32,8 @@ const DownloadButton = styled.button`
 	border: none;
 	width: 100%;
 	padding: 5px 0;
-	background-color: #27c54f;
-	color: white;
+	background-color: #a0f265;
+	color: #6e7177;
 	font-size: 16px;
 	font-weight: bold;
 	text-align: center;
@@ -46,8 +46,8 @@ const LaunchButton = styled.button`
 	border: none;
 	width: 100%;
 	padding: 5px 0;
-	background-color: #0069ff;
-	color: white;
+	background-color: #65c0f2;
+	color: #6e7177;
 	font-size: 16px;
 	font-weight: bold;
 	text-align: center;

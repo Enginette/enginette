@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const HeaderDiv = styled.div`
 	height: 70px;
 	width: 100%;
-	background-color: white;
+	background-color: #303237;
 	border-radius: 20px;
 	padding: 0 20px;
 	display: flex;
@@ -21,10 +21,10 @@ const Left = styled.div`
 	justify-content: center;
 	align-items: center;
 	> h1 {
-		color: #080b2d;
+		color: #C7D5ED;
 		font-size: 36px;
 		font-weight: bold;
-		margin-right: 20px;
+		margin-right: 10px;
 	}
 	> a {
 		display: flex;
@@ -44,7 +44,7 @@ const Right = styled.div`
 	align-items: center;
 	> a {
 		text-decoration: none;
-		color: #0069ff;
+		color: #65c0f2;
 		font-size: 20px;
 	}
 `;

@@ -160,14 +160,14 @@ const Distributor = ({database}) => {
 						{/* <h1>pls add a timing table idk how to do this</h1> */}
 						{/* <p>maybe even a graph? 👀</p> */}
 
-						<Input>
+						{/* <Input>
 							<h1>Firing order (example: '1,4,2,3'):</h1>
 							<input
 								type="text"
 								defaultValue={distributor.firing_order}
 								onChange={updatedFOrder}
 							/>
-						</Input>
+						</Input> */}
 						
 					</MyInputs>
 

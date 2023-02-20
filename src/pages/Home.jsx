@@ -16,7 +16,7 @@ const HomeDiv = styled.div`
 
 const EngineSelector = styled.div`
 	border-radius: 20px;
-	background-color: white;
+	background-color: #303237;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -28,7 +28,7 @@ const EngineSelector = styled.div`
 		padding: 0 20px;
 		padding-top: 20px;
 		font-size: 48px;
-		color: #080b2d;
+		color: #C7D5ED;
 		margin-bottom: 20px;
 	}
 `;
@@ -42,15 +42,13 @@ const Top = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 20px;
-	padding-top: 15px;
-	padding-bottom: 15px;
+	padding: 15px;
 
 	> h1 {
 	}
 
 	> h3 {
-		color: #031b4e;
+		color: #BEC2C8;
 		font-size: 32px;
 		font-weight: 500;
 	}
@@ -65,7 +63,7 @@ const Engines = styled.div`
 	width: 100%;
 	max-height: 50vh;
 	overflow-y: auto;
-	padding: 15px 20px;
+	padding: 15px;
 `;
 
 const Home = ({ database }) => {

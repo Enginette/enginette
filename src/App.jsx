@@ -65,7 +65,7 @@ function App() {
 			});
 			setDatabase(db);
 		};
-		stuff();
+	    stuff();
 	}, []);
 
 	return (
