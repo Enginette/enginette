@@ -7,10 +7,11 @@ import Database from "../../database/database";
 
 const BankInlineDiv = styled.div`
 	width: 100%;
-	background-color: white;
-	border: 1px solid #8794b0;
-	border: 1px solid ${(props) => (props.active ? "#0069ff" : "#8794B0")};
-	background-color: ${(props) => (props.active ? "#0069ff" : "white")};
+	background-color: #3D3F45;
+	/* border: 1px solid #8794b0; */
+	/* border: 1px solid ${(props) => (props.active ? "#0069ff" : "#8794B0")}; */
+	border: none;
+	background-color: ${(props) => (props.active ? "#6598F2" : "#3D3F45")};
 	border-radius: 15px;
 	padding: 15px;
 	display: flex;
@@ -20,23 +21,22 @@ const BankInlineDiv = styled.div`
 	transition: 0.5s;
 
 	&:hover {
-		background-color: #0069ff;
-		border: 1px solid #0069ff;
+		background-color: #6598F2;
 		> h1 {
-			color: white;
+			color: #C7D5ED;
 		}
 		p {
-			color: white;
+			color: #C7D5ED;
 		}
 		svg {
-			fill: white !important;
+			fill: #C7D5ED !important;
 		}
 	}
 
 	> h1 {
 		font-weight: 500;
 		font-size: 20px;
-		color: ${(props) => (props.active ? "white" : "#080B2D")};
+		color: ${(props) => (props.active ? "#C7D5ED" : "#BEC2C8")};
 		transition: 0.5s;
 	}
 `;
@@ -48,10 +48,10 @@ const Right = styled.div`
 		height: 25px;
 		width: 25px;
 		cursor: pointer;
-		fill: ${(props) => (props.active ? "white" : "#031b4e")};
+		fill: ${(props) => (props.active ? "#C7D5ED" : "#BEC2C8")};
 		transition: 0.5s;
 		&:nth-child(2) {
-			fill: ${(props) => (props.active ? "white" : "red")};
+			fill: ${(props) => (props.active ? "#C7D5ED" : "#e9515b")};
 			z-index: 10;
 		}
 	}
@@ -65,7 +65,7 @@ const Right = styled.div`
 			font-weight: 500;
 			font-size: 13px;
 			cursor: pointer;
-			color: ${(props) => (props.active ? "white" : "#031b4e")};
+			color: ${(props) => (props.active ? "#C7D5ED" : "#BEC2C8")};
 		}
 	}
 `;

@@ -22,13 +22,13 @@ const LoadingScreen = styled.div`
 	padding: 15px;
 
 	> h1 {
-		color: #080b2d;
+		color: #C7D5ED;
 		font-size: 200px;
 		font-weight: 100;
 	}
 
 	> p {
-		color: #080b2d;
+		color: #BEC2C8;
 		font-size: 20px;
 		text-align: center;
 		line-height: 30px;
@@ -52,7 +52,7 @@ const Inputs = styled.div`
 	align-items: center;
 	flex-wrap: wrap;
 	padding: 20px;
-	background: #ffffff;
+	background: #303237;
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
 	border-radius: 20px;
 	gap: 20px;
@@ -66,7 +66,7 @@ const Input = styled.div`
 	flex-grow: 1;
 	> h1 {
 		font-size: 16px;
-		color: #031b4e;
+		color: #C7D5ED;
 		margin-bottom: 5px;
 		font-weight: 400;
 	}
@@ -74,17 +74,29 @@ const Input = styled.div`
 		position: absolute;
 		font-weight: 400;
 		font-size: 14px;
-		color: #8794B0;
+		color: #BEC2C8;
 		align-self: end;
-		margin-right: 20px;
+		margin-right: 10px;
+		transition: margin-right 250ms;
 		margin-top: 25px;
-		width: 40px;
+		width: auto;
 	}
 	> input {
 		outline: none;
-		border: 1px solid #8794b0;
+		background-color: #3D3F45;
+		/* border: 1px solid #BEC2C8; */
+		border: none;
+		color: #BEC2C8;
 		border-radius: 8px;
 		padding: 5px 10px;
+	}
+
+    > input:hover {
+		& {
+			> p {
+				margin-right: 30px;
+			}
+		}
 	}
 `;
 

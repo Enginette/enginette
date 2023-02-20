@@ -8,7 +8,7 @@ const EngineDiv = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: white;
+	background-color: #3D3F45;
 	border-radius: 20px;
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
 	width: 100%;
@@ -16,7 +16,7 @@ const EngineDiv = styled.div`
 	margin-bottom: 10px;
 	> p {
 		font-size: 24px;
-		color: #080b2d;
+		color: #BEC2C8;
 	}
 	&:last-of-type {
 		margin-bottom: unset;

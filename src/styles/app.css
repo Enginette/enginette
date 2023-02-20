@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-
 }
 
 html, body {
@@ -12,8 +11,13 @@ html, body {
 }
 
 #root, #root > .app {
-    background-color: #EEEEEE;
+    background-color: #1F2027;
+    color: #BEC2C8;
     width: 100%;
     /* min-height: 100vh; */
     height: 100%;
+}
+
+a {
+    color: #65c0f2;
 }

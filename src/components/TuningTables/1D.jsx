@@ -2,28 +2,27 @@ import styled from "styled-components";
 import Database from "../../database/database";
 
 const TuningTable1DDiv = styled.div`
-	width: 660px;
-	height: 64px;
-	background-color: lightgray;
-	border-radius: 5px;
+	/* height: 64px; */
+	background-color: #3D3F45;
+	border-radius: 10px;
 	padding: 10px 10px;
+	color: #BEC2C8;
 `;
 
 const BG = styled.div`
 	width: 100%;
 	height: 100%;
-	background-color: #e0e0e0;
-	border-radius: 5px;
+	border-radius:105px;
 `;
 
 const TextCell = styled.div`
 	width: 65px;
 	height: 22px;
-	background-color: white;
+	background-color: #52555a;
 
-	border-color: #8080808f;
-	border-width: 1px 1px 2px 1px;
-	border-style: solid;
+	/* border-color: #8080808f; */
+	/* border-width: 1px 1px 2px 1px; */
+	/* border-style: solid; */
 
 	text-align: left;
 	padding-left: 5px;
@@ -36,11 +35,11 @@ const TextCell = styled.div`
 const Cell = styled.div`
 	width: 65px;
 	height: 22px;
-	background-color: white;
+	background-color: #52555a;
 
-	border-color: #8080808f;
-	border-width: 0px 1px;
-	border-style: solid;
+	/* border-color: #8080808f; */
+	/* border-width: 0px 1px; */
+	/* border-style: solid; */
 
 	text-align: left;
 
@@ -70,11 +69,11 @@ const TuningTable1D = ({rpms, distributor, database, id, setArray, setDistributo
 	const yellowMax = 55;
 	const orangeMax = 70;
 
-	const blue = "#1f53fd";
-	const green = "#4dda6c";
-	const yellow = "#c8da2a";
-	const orange = "#fd9f34";
-	const red = "#f84727";
+	const blue = "#65c0f2";
+	const green = "#a0f265";
+	const yellow = "#f2ce65";
+	const orange = "#f4844d";
+	const red = "#e9515b";
 
 	const changedInput = (e) => {
 
@@ -150,9 +149,15 @@ const TuningTable1D = ({rpms, distributor, database, id, setArray, setDistributo
 		<TuningTable1DDiv>
 			<BG>
 				<Flex>
-					{rpms.map((element) => {
+					{rpms.map((element, index) => {
+						let styles = {};
+						if(index == 0)
+							styles = {"borderRadius": "10px 0px 0px 0px"};
+						else if(index == rpms.length-1)
+							styles = {"borderRadius": "0px 10px 0px 0px"};
+
 						return(
-							<TextCell key={element[0] + (Math.random() % 1000)}>
+							<TextCell style={styles} key={element[0] + (Math.random() % 1000)}>
 								<p 
 								  key={element[0] + (Math.random() % 1000)}>
 								  {element[0]}</p>
@@ -162,11 +167,17 @@ const TuningTable1D = ({rpms, distributor, database, id, setArray, setDistributo
 				</Flex>
 
 				<Flex>
-					{rpms.map((element) => {
+					{rpms.map((element, index) => {
 						let color = returnColor(element[1]);
+						let styles = {};
+						if(index == 0)
+							styles = {"borderRadius": "0px 0px 0px 10px"};
+						else if(index == rpms.length-1)
+							styles = {"borderRadius": "0px 0px 10px 0px"};
 
+						console.log(styles);
 						return(
-							<Cell key={element[1] + (Math.random() % 1000)}>
+							<Cell style={styles} key={element[1] + (Math.random() % 1000)}>
 								<input
 									key={element[1] + (Math.random() % 1000)}
 									id={"value" + element[0]}

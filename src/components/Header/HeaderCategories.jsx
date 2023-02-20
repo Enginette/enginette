@@ -5,6 +5,8 @@ const HeaderCategoriesDiv = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	gap: 10px;
+	overflow-x: auto;
 `;
 
 const HeaderCategories = ({ engine }) => {

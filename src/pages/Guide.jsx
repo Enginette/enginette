@@ -10,7 +10,7 @@ const GuideDiv = styled.div`
 
 const EngineSelector = styled.div`
 	border-radius: 20px;
-	background-color: white;
+	background-color: #303237;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -23,14 +23,14 @@ const EngineSelector = styled.div`
 		padding: 0 0px;
 		padding-top: 20px;
 		font-size: 48px;
-		color: #080b2d;
+		color: #C7D5ED;
 		margin-bottom: 20px;
 	}
 	> h3 {
 		padding: 0 20px;
 		padding-top: 20px;
 		font-size: 36px;
-		color: #080b2d;
+		color: #BEC2C8;
 		margin-bottom: 20px;
 	}
 `;

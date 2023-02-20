@@ -4,22 +4,24 @@ import { TextCell, Cell } from "./1D";
 import { useEffect } from "react";
 
 const TuningTable2x1DDiv = styled.div`
-	width: 320px;
+	width: 290px;
 	//height: 660px;
-	background-color: lightgray;
-	border-radius: 5px;
+	background-color: #3D3F45;
+	border-radius: 10px;
 	padding: 10px 10px;
+	color: #BEC2C8;
 `;
 
 const BG = styled.div`
 	width: 100%;
 	height: 100%;
-	background-color: #e0e0e0;
-	border-radius: 5px;
+	border-radius: 10px;
 `;
 
 const FullWidthTextCell = styled(TextCell)`
 	width: 100%;
+	padding-left: 5px;
+	padding-top: 2px;
 `;
 
 const Flex = styled.div`
@@ -43,11 +45,11 @@ const TuningTable2x1D = ({ database, id, setCylinderHead, cylinderHead }) => {
 	const yellowMax = 100;
 	const orangeMax = 200;
 
-	const blue = "#1f53fd";
-	const green = "#4dda6c";
-	const yellow = "#c8da2a";
-	const orange = "#fd9f34";
-	const red = "#f84727";
+	const blue = "#65c0f2";
+	const green = "#a0f265";
+	const yellow = "#f2ce65";
+	const orange = "#f4844d";
+	const red = "#e9515b";
 
 	const changedInput = (e) => {
 		e.target.style = "color: white; background-color: " + returnColor(e.target.value);
@@ -125,7 +127,7 @@ const TuningTable2x1D = ({ database, id, setCylinderHead, cylinderHead }) => {
 					
 					<Flex3>
 
-						<FullWidthTextCell>
+						<FullWidthTextCell style={{"borderRadius": "10px 10px 0px 0px"}}>
 							<p>Intake</p>
 						</FullWidthTextCell>
 
@@ -154,7 +156,7 @@ const TuningTable2x1D = ({ database, id, setCylinderHead, cylinderHead }) => {
 
 					<Flex3>
 
-						<FullWidthTextCell>
+						<FullWidthTextCell style={{"borderRadius": "10px 10px 0px 0px"}}>
 							<p>Exhaust</p>
 						</FullWidthTextCell>
 

@@ -28,14 +28,14 @@ const DeleteEngineDiv = styled.div`
 
 const DeleteConfirmation = styled.div`
 	box-shadow: 0px 4px 29px rgba(100, 100, 111, 0.2);
-	background-color: white;
+	background-color: #303237;
 	border-radius: 20px;
 	padding: 15px 20px;
 	width: 100%;
 	> p {
 		font-size: 20px;
 		font-weight: bold;
-		color: #080b2d;
+		color: #BEC2C8;
 		width: 100%;
 		margin-bottom: 20px;
 	}
@@ -45,8 +45,8 @@ const DeleteConfirmation = styled.div`
 		border: none;
 		width: 100%;
 		padding: 5px 0;
-		background-color: red;
-		color: white;
+		background-color: #e9515b;
+		color: #BEC2C8;
 		font-size: 16px;
 		font-weight: bold;
 		text-align: center;
@@ -63,7 +63,7 @@ const Top = styled.div`
 	> h3 {
 		font-size: 32px;
 		font-weight: bold;
-		color: #080b2d;
+		color: #BEC2C8;
 	}
 	> img {
 		cursor: pointer;

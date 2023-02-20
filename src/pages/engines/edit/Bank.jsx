@@ -38,7 +38,7 @@ const Top = styled.div`
 	> h3 {
 		font-size: 24px;
 		font-weight: 500;
-		color: #031b4e;
+		color: #C7D5ED;
 	}
 	> img {
 		cursor: pointer;
@@ -56,7 +56,7 @@ const Editor = styled.div`
 const SideBar = styled.div`
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
 	width: 350px;
-	background-color: white;
+	background-color: #303237;
 	border-radius: 20px;
 	height: 100%;
 	padding: 20px;
@@ -67,7 +67,7 @@ const SideBar = styled.div`
 const InternalEditor = styled.div`
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
 	width: calc(100% - 350px - 20px);
-	background-color: white;
+	background-color: #303237;
 	border-radius: 20px;
 	height: 100%;
 	padding: 20px;
@@ -86,13 +86,13 @@ const EditorTop = styled.div`
 	}
 
 	> h1 {
-		color: #080b2d;
+		color: #C7D5ED;
 		font-weight: 700;
 		font-size: 32px;
 	}
 
 	> h3 {
-		color: #031b4e;
+		color: #BEC2C8;
 		font-weight: 500;
 		font-size: 24px;
 	}

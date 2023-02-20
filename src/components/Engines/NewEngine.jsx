@@ -15,16 +15,17 @@ const Left = styled.form`
 		height: 30px;
 		border: none;
 		outline: none;
-		background-color: white;
 		cursor: pointer;
+		background-color: transparent;
 	}
 	> input {
 		padding: 10px 15px;
+		border: none;
 		border-radius: 2em;
 		font-size: 20px;
-		color: #080b2d;
+		color: #BEC2C8;
+		background-color: #52555a;
 		outline: none;
-		border: 1px solid #8794b0;
 	}
 `;
 

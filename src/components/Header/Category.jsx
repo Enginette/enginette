@@ -11,17 +11,17 @@ const Inner = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5px 15px;
+	padding: 5px 10px;
 	border-radius: 10px;
-	background-color: ${(props) => (props.active ? "#E3E8F4" : "white")};
+	background-color: ${(props) => (props.active ? "#3D3F45" : "#303237")};
 	font-size: 20px;
-	color: ${(props) => (props.active ? "#0069ff" : "#4D5B7C")};
+	color: ${(props) => (props.active ? "#C7D5ED" : "#BEC2C8")};
 	text-decoration: none;
 	transition: 0.5s;
 
 	&:hover {
-		color: #0069ff;
-		background-color: #e3e8f4;
+		color: #C7D5ED;
+		background-color: #3D3F45;
 	}
 `;
 
