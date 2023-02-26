@@ -65,7 +65,7 @@ const Footer = () => {
 	return (
 		<FooterDiv>
 			<Left>
-				<h1>Enginette 0.0.5</h1>
+				<h1>Enginette 0.0.5.1</h1>
 				{/* <h2>We're out of alpha baby!</h2> */}
 				<p>Made with ❤️ by <a href="https://github.com/pooriaahmadi">Pooria</a>, <a href="https://github.com/DDev247">DDev</a> and <a href="https://github.com/zRevenger">zRevenger</a></p>
 			</Left>
