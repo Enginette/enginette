@@ -72,6 +72,26 @@ class Database {
 		pistons.createIndex("engine", "engine");
 	};
 
+	static clearAll = async (db) => {
+		for (let i = 0; i < db.objectStoreNames.length; i++) {
+			const objectStore = db.objectStoreNames[i];
+
+			/*
+			await db.deleteObjectStore(objectStore);
+			const store = db.createObjectStore(objectStore, {
+				autoIncrement: true,
+			});
+			if(objectStore === "engines")
+				store.createIndex("name", "name", { unique: true });
+			else
+				store.createIndex("engine", "engine");
+			*/
+
+			const tx = db.transaction(objectStore, "readwrite");
+			await tx.objectStore(objectStore).clear();
+		}
+	}
+
 	//Cylinder heads
 	static CylinderHeads = class CylinderHeads {
 		static add = async ({ db, values }) => {

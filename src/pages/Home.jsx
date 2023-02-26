@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import plus from "../images/plus.svg";
+import deleteIcon from "../images/delete.svg";
 import Engine from "../components/Engines/Engine";
 import NewEngine from "../components/Engines/NewEngine";
 import { useState, useEffect } from "react";
@@ -52,6 +53,10 @@ const Top = styled.div`
 		font-size: 32px;
 		font-weight: 500;
 	}
+	> div {
+		gap: 10px;
+		display: flex;
+	}
 	> img {
 		width: 30px;
 		height: 30px;
@@ -82,6 +87,12 @@ const Home = ({ database }) => {
 	const toggleIsNewActive = () => {
 		setIsNewActive(!isNewActive);
 	};
+
+	const deleteAll = async () => {
+		await Database.clearAll(database);
+		window.alert("Database cleared.\nRefreshing...");
+		window.location.reload();
+	}
 
 	useEffect(() => {
 		if (!database) return;
@@ -120,7 +131,10 @@ const Home = ({ database }) => {
 				<Selector>
 					<Top>
 						<h3>Engines</h3>
-						<img src={plus} onClick={toggleIsNewActive} alt="New" />
+						<div>
+							<img src={plus} onClick={toggleIsNewActive} alt="Delete all" />
+							<img src={deleteIcon} onClick={deleteAll} alt="New" />
+						</div>
 					</Top>
 					<Engines>
 						{engines.map((engine) => (
