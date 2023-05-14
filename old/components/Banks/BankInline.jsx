@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import deleteIcon from "../../images/delete.svg";
 import piston from "../../images/piston.svg";
 import { Link } from "react-router-dom";
-import Database from "../../database/database";
+import Database from "../../../src/database/database";
 
 const BankInlineDiv = styled.div`
 	width: 100%;

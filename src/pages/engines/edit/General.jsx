@@ -2,14 +2,16 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
-import Database from "../../../database/database";
+import DB from "../../../database/db";
+import { HomeDiv } from "../Engines";
+import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
 
-const GeneralDiv = styled.div`
-	width: 100%;
-	height: calc(100% - 70px);
+const GeneralDiv = styled(HomeDiv)`
 	padding: 15px;
 	display: flex;
 	flex-direction: column;
+	align-items: normal;
+	justify-content: normal;
 `;
 
 const LoadingScreen = styled.div`
@@ -34,22 +36,24 @@ const LoadingScreen = styled.div`
 		line-height: 30px;
 		opacity: 100%;
 		animation-name: show;
-		animation-duration: 2s;
+		animation-delay: 2s;
+		animation-duration: 500ms;
 		//animation-delay: 2s;
 		animation-iteration-count: 1;
 	}
 
 	@keyframes show {
 		0% { opacity: 0%; }
-		90% { opacity: 0%; }
+		/* 90% { opacity: 0%; } */
 		100% { opacity: 100%; }
 	}
 `;
 
 const Inputs = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	display: grid;
+	/* grid-template-columns: auto auto; */
+	/* justify-content: center; */
+	/* align-items: center; */
 	flex-wrap: wrap;
 	padding: 20px;
 	background: #303237;
@@ -90,34 +94,78 @@ const Input = styled.div`
 		border-radius: 8px;
 		padding: 5px 10px;
 	}
+	> button {
+		outline: none;
+		background-color: #3D3F45;
+		/* border: 1px solid #BEC2C8; */
+		border: none;
+		color: #BEC2C8;
+		border-radius: 8px;
+		padding: 5px 10px;
+		transition: background-color 500ms;
+		:hover {
+            background-color: #62656b;
+		}
+	}
 
-    > input:hover {
-		& {
-			> p {
-				margin-right: 30px;
+	> table {
+		table-layout: fixed;
+		outline: none;
+		background-color: #3D3F45;
+		/* border: 1px solid #BEC2C8; */
+		border: none;
+		color: #BEC2C8;
+		border-radius: 8px;
+		padding: 5px 10px;
+		max-height: 400px;
+		overflow: auto;
+		> thead {
+			> tr {
+				width: 100%;
+				outline: none;
+				border-radius: 8px;
+				border: 1px solid #8794b0;
+				padding: 5px;
 			}
+		}
+		> tbody {
+			> tr > td {
+				display: table-cell;
+				outline: none;
+				border-radius: 8px;
+				border: 1px solid #8794b0;
+				padding: 5px;
+				transition: background-color 500ms;
+				> input, > button {
+					width: 100%;
+					background-color: transparent;
+					outline: none;
+					border: none;
+					color: inherit;
+				}
+				&:hover {
+					background-color: #ffffff0a
+				}
+			}
+		}
+	}
+
+    &:hover, &:focus {
+		> p {
+			margin-right: 25px;
 		}
 	}
 `;
 
-const General = ({ database }) => {
+const General = () => {
 	let { id } = useParams();
-	id = parseInt(id);
 
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
 
 	useEffect(() => {
-		if (!database) return;
-		const stuff = async () => {
-			const engine = await Database.Engines.getById({
-				id,
-				db: database,
-			});
-			setEngine({ ...engine, id });
-		};
-		stuff();
-	}, [database, id]);
+		setEngine(DB.GetEngine(id));
+	}, []);
 
 	if (engine === null) {
 		return (
@@ -132,161 +180,86 @@ const General = ({ database }) => {
 	}
 	return (
 		<GeneralDiv>
-			<Header engine={engine} />
+			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
 			<Inputs>
 				<Input>
-					<h1>Name:</h1>
+				<h1>Name:</h1>
 					<input
+						id="nameInput"
 						type="text"
 						defaultValue={engine.name}
 						required
-						onChange={async (e) => {
-							e.target.style.border = "1px solid #8794b0";
-							if (e.target.value.length === 0) return;
-
-							try {
-								await Database.Engines.update({
-									db: database,
-									id,
-									values: {
-										...engine,
-										name: e.target.value,
-									},
-								});
-								setEngine({ ...engine, name: e.target.value });
-							} catch (error) {
-								e.target.style.border = "1px solid red";
-								alert("Name already exists");
-								return;
-							}
-						}}
+						/*onSubmit={async (e) => {
+							DB.Thing.ChangeParam({ type: "vehicle", name: vehicle.name, path: "name", value: e.target.value});
+							setVehicle(DB.GetVehicle(id))
+						}} */
 					/>
+					<button
+						onClick={async (e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "name", value: document.getElementById("nameInput").value});
+							setEngine(DB.GetEngine(id))
+						}}>
+							Submit
+					</button>
 				</Input>
 				<Input>
-					<h1>Starter torque:</h1>
+					<h1>Starter Torque:</h1>
 					<p>lb-ft</p>
 					<input
 						type="number"
-						defaultValue={engine.starterTorque}
+						defaultValue={engine.starter_torque}
 						required
-						onChange={async (e) => {
-							if (e.target.value.length === 0) return;
-							await Database.Engines.update({
-								db: database,
-								id,
-								values: {
-									...engine,
-									starterTorque: parseInt(e.target.value),
-								},
-							});
-							setEngine({
-								...engine,
-								starterTorque: parseInt(e.target.value),
-							});
+						step={1}
+						min={1}
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "starter_torque", value: e.target.value});
+							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Red line:</h1>
+					<h1>Starter Speed:</h1>
 					<p>rpm</p>
 					<input
 						type="number"
-						defaultValue={engine.redLine}
+						defaultValue={engine.starter_speed}
 						required
-						min="0"
-						step="100"
-						onChange={async (e) => {
-							if (e.target.value.length === 0) return;
-							await Database.Engines.update({
-								db: database,
-								id,
-								values: {
-									...engine,
-									redLine: parseInt(e.target.value),
-								},
-							});
-							setEngine({
-								...engine,
-								redLine: parseInt(e.target.value),
-							});
+						step={100}
+						min={0}
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "starter_speed", value: e.target.value});
+							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Max turbulence effect:</h1>
+					<h1>Redline:</h1>
+					<p>rpm</p>
 					<input
 						type="number"
-						defaultValue={engine.maxTurbulenceEffect}
+						defaultValue={engine.redline}
 						required
-						min="0"
-						step="0.01"
-						onChange={async (e) => {
-							if (e.target.value.length === 0) return;
-							await Database.Engines.update({
-								db: database,
-								id,
-								values: {
-									...engine,
-									maxTurbulenceEffect: parseFloat(
-										e.target.value
-									),
-								},
-							});
-							setEngine({
-								...engine,
-								maxTurbulenceEffect: parseFloat(e.target.value),
-							});
+						step={100}
+						min={0}
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "redline", value: e.target.value});
+							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Burning efficiency randomness:</h1>
+					<h1>Simulation Frequency:</h1>
+					<p>Hz</p>
 					<input
 						type="number"
-						defaultValue={engine.burningRandomness}
-						min="0"
-						step="0.01"
-						onChange={async (e) => {
-							if (e.target.value.length === 0) return;
-							await Database.Engines.update({
-								db: database,
-								id,
-								values: {
-									...engine,
-									burningRandomness: parseFloat(e.target.value),
-								},
-							});
-							setEngine({
-								...engine,
-								burningRandomness: parseFloat(e.target.value),
-							});
-						}}
-					/>
-				</Input>
-				<Input>
-					<h1>Max burning efficiency:</h1>
-					<p>%</p>
-					<input
-						type="number"
-						defaultValue={engine.maxBurningEfficiency}
-						min="0"
-						step="0.01"
-						onChange={async (e) => {
-							if (e.target.value.length === 0) return;
-							await Database.Engines.update({
-								db: database,
-								id,
-								values: {
-									...engine,
-									maxBurningEfficiency: parseFloat(
-										e.target.value
-									),
-								},
-							});
-							setEngine({
-								...engine,
-								maxBurningEfficiency: parseFloat(e.target.value),
-							});
+						defaultValue={engine.simulation_frequency}
+						step={100}
+						min={1000}
+						max={100000}
+						required
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "simulation_frequency", value: e.target.value});
+							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
@@ -295,5 +268,5 @@ const General = ({ database }) => {
 	);
 };
 
-export { LoadingScreen, Inputs, Input };
+export { GeneralDiv, LoadingScreen, Inputs, Input };
 export default General;

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { LoadingScreen, Inputs, Input } from "./General";
+import { LoadingScreen, Inputs, Input } from "../src/pages/engines/edit/Main";
 import plus from "../../../images/plus.svg";
-import Header from "../../../components/Header/Header";
-import BankInline from "../../../components/Banks/BankInline";
-import Database from "../../../database/database";
+import Header from "../src/components/Header/Header";
+import BankInline from "../src/components/Banks/BankInline";
+import Database from "../src/database/database";
 import deleteIcon from "../../../images/delete.svg";
-import Cylinder from "../../../components/Cylinders/Cylinder";
+import Cylinder from "../src/components/Cylinders/Cylinder";
 
 const BanksDiv = styled.div`
 	width: 100%;

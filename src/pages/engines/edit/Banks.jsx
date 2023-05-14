@@ -1,117 +1,97 @@
+import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { LoadingScreen } from "./General";
-import plus from "../../../images/plus.svg";
 import Header from "../../../components/Header/Header";
-import BankInline from "../../../components/Banks/BankInline";
-import Database from "../../../database/database";
-import {
-	BanksDiv,
-	Editor,
-	InlineBanksDiv,
-	InternalEditor,
-	SideBar,
-	Top,
-} from "./Bank";
+import plus from "../../../images/plus.svg";
+import minus from "../../../images/minus.svg";
+import DB from "../../../database/db";
+import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
+import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
 
-const Banks = ({ database }) => {
+const Banks = () => {
 	let { id } = useParams();
-	id = parseInt(id);
 
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
-	const [banks, setBanks] = useState([]);
-	const [cylinders, setCylinders] = useState([]);
-
-	const addBank = async () => {
-		const bank = await Database.Banks.add({
-			db: database,
-			values: {
-				engine: engine.id,
-				bore: 70,
-				deck_height: 205,
-				angle: 0,
-			},
-		});
-		setBanks([...banks, bank]);
-	};
 
 	useEffect(() => {
-		if (!database) return;
+		setEngine(DB.GetEngine(id));
+	}, []);
 
-		const stuff = async () => {
-			const engine = await Database.Engines.getById({
-				db: database,
-				id,
-			});
-			setEngine({ ...engine, id });
-
-			const banks = await Database.Engines.Banks.all({
-				db: database,
-				id,
-			});
-			setBanks(banks);
-
-			const cylinders = await Database.Engines.Cylinders.all({
-				db: database,
-				id: engine.id,
-			});
-			setCylinders(cylinders);
-		};
-		stuff();
-	}, [database, id]);
-
-	if (engine === undefined) {
-		navigate("/");
-		return;
-	} else if (engine === null) {
+	if (engine === null) {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
-				<p>
-					Not Loading? <br /> Maybe the page encountered an error.
-					Check the console for more details
-				</p>
+				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
 		);
+	} else if (engine === undefined) {
+		navigate("/");
+		return;
 	}
-
 	return (
-		<BanksDiv>
-			<Header engine={engine} />
-			<Editor>
-				<SideBar>
-					<Top>
-						<h3>Banks</h3>
-						<img src={plus} alt="Add" onClick={addBank} />
-					</Top>
-					<InlineBanksDiv>
-						{banks.map((bank) => {
-							let count = 0;
-			
-							cylinders.forEach(element => {
-								if(element.bank === bank.id) {
-									count++;
-								}
-							});
-							return (
-							<BankInline
-								key={bank.id}
-								cylinderCount={count}
-								engineID={engine.id}
-								{...bank}
-								banks={banks}
-								setBanks={setBanks}
-								database={database}
-							/>);
-						})}
-					</InlineBanksDiv>
-				</SideBar>
-
-				<InternalEditor></InternalEditor>
-			</Editor>
-		</BanksDiv>
+		<GeneralDiv>
+			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
+			<Inputs>
+				<Input>
+					<table>
+						<thead>
+							<tr>
+								<td>Cylinders</td>
+								<td>Bank Angle</td>
+							</tr>
+						</thead>
+						<tbody>
+							{engine.banks.map((value, index) => {
+								return (<tr>
+									<td>
+										<input
+											type="number"
+											defaultValue={value.cylinders}
+											required
+											min={0}
+											step={0.01}
+										 	onChange={(e) => {
+												DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "banks[" + index + "].cylinders", value: e.target.value});
+												setEngine(DB.GetEngine(id));
+											}}/>
+									</td>
+									<td>
+										<input
+											type="number"
+											defaultValue={value.bank_angle}
+											required
+											min={0}
+											step={0.01}
+										 	onChange={(e) => {
+												DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "banks[" + index + "].bank_angle", value: e.target.value});
+												setEngine(DB.GetEngine(id));
+											}}/>
+									</td>
+								</tr>)
+							})}
+							<tr>
+								<td>
+									<button onClick={() => {
+										engine.banks.push({ cylinders: 1, bank_angle: 0 });
+										DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "banks", value: JSON.stringify(engine.banks)});
+										setEngine(DB.GetEngine(id));
+									}}><img src={plus} alt="plus"></img></button>
+								</td>
+								<td>
+									<button onClick={() => {
+										engine.banks.pop();
+										DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "banks", value: JSON.stringify(engine.banks)});
+										setEngine(DB.GetEngine(id));
+									}}><img src={minus} alt="minus"></img></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</Input>
+			</Inputs>
+		</GeneralDiv>
 	);
 };
-export { InlineBanksDiv, Top };
+
 export default Banks;

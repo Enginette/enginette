@@ -1,121 +1,22 @@
 import styled from "styled-components";
-import { useState, useEffect, setState } from "react";
+import plus from "../../../images/plus.svg";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
-import Database from "../../../database/database";
-import deleteIcon from "../../../images/delete.svg";
-import { LoadingScreen, Input } from "./General";
-import { InternalEditor, Editor, EditorTop } from "./Bank";
-import { MyInputs, ConnectingRodsDiv } from "./ConnectingRods";
+import DB from "../../../database/db";
+import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
+import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
+import minus from "../../../images/minus.svg";
 
-import TuningTable1D from "../../../components/TuningTables/1D";
-
-const DistributorDiv = styled(ConnectingRodsDiv)`
-	width: 100%;
-	height: calc(100% - 70px);
-	padding: 15px;
-	display: flex;
-	flex-direction: column;
-`;
-
-const MyInternalEditor = styled(InternalEditor)`
-	width: 100%;
-`;
-
-const Distributor = ({database}) => {
+const Distributor = () => {
 	let { id } = useParams();
-	id = parseInt(id);
+
 	const navigate = useNavigate();
 	const [engine, setEngine] = useState(null);
-	const [distributor, setDistributor] = useState(null);
-	const [someArray, setArray] = useState(null);
 
 	useEffect(() => {
-		if (!database) return;
-		const loadDatabase = async () => {
-			const distributor = await Database.Distributor.getById({ 
-				db: database,
-				id,
-			});
-			if (!distributor) return setDistributor(undefined);
-			setDistributor(distributor);
-
-			let count = parseInt(distributor.rpm);
-			let array = [];
-			for(let i = 0; i <= count; i += 1000) 
-			{
-				array.push([i, distributor.timings[i/1000]]);
-			}
-			setArray(array);
-
-			const engineID = distributor.engine;
-			//console.log(engineID);
-			const engine = await Database.Engines.getById({ 
-				db: database,
-				id: engineID,
-			});
-			if (!engine) return setEngine(undefined);
-			//console.log(engine);
-			setEngine(engine);
-		}
-		loadDatabase();
-	}, [database, id]);
-
-	const updated = async (e) => {
-		if (e.target.value.length === 0) return;
-		
-		let count = parseInt(e.target.value);
-		let array = [];
-		let array2 = [];
-		for(let i = 0; i <= count; i += 1000) 
-		{
-			if(distributor.timings[i/1000] === undefined) {
-				array.push([i, 30]);
-				array2.push(30);
-			}
-			else {
-				array.push([i, distributor.timings[i/1000]]);
-				array2.push(distributor.timings[i/1000]);
-			}
-		}
-		setArray(array);
-
-		await Database.Distributor.update({
-			db: database,
-			id,
-			values: {
-				...distributor,
-				rpm: parseInt(e.target.value),
-				timings: [
-					...array2,
-				],
-			},
-		});
-		setDistributor({
-			...distributor,
-			rpm: parseInt(e.target.value),
-			timings: [
-				...array2,
-			],
-		});
-	}
-
-	const updatedFOrder = async (e) => {
-		if (e.target.value.length === 0) return;
-
-		await Database.Distributor.update({
-			db: database,
-			id,
-			values: {
-				...distributor,
-				firing_order: e.target.value,
-			},
-		});
-		setDistributor({
-			...distributor,
-			firing_order: e.target.value,
-		});
-	}
+		setEngine(DB.GetEngine(id));
+	}, []);
 
 	if (engine === null) {
 		return (
@@ -129,55 +30,129 @@ const Distributor = ({database}) => {
 		return;
 	}
 	return (
-		<DistributorDiv>
-			<Header engine={engine} />
-			<Editor>
-				<MyInternalEditor>
-					<EditorTop>
-						<h1>Distributor</h1>
-						{/*
-						<img
-							src={deleteIcon}
-							alt="Delete"
-							style={{ transform: "none" }}
-						/>
-						*/}
-					</EditorTop>
-
-					<MyInputs>
-						<Input>
-							<h1>Rev limit:</h1>
-							<p>rpm</p>
-							<input
-								type="number"
-								defaultValue={distributor.rpm}
-								min="0"
-								step="100"
-								onChange={updated}
-							/>
-						</Input>
-						
-						{/* <h1>pls add a timing table idk how to do this</h1> */}
-						{/* <p>maybe even a graph? 👀</p> */}
-
-						{/* <Input>
-							<h1>Firing order (example: '1,4,2,3'):</h1>
-							<input
-								type="text"
-								defaultValue={distributor.firing_order}
-								onChange={updatedFOrder}
-							/>
-						</Input> */}
-						
-					</MyInputs>
-
-					<TuningTable1D rpms={someArray} distributor={distributor} database={database} setDistributor={setDistributor} id={id} setArray={setArray} />
-
-				</MyInternalEditor>
-			</Editor>
-		</DistributorDiv>
+		<GeneralDiv>
+			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
+			<Inputs>
+				<Input>
+					<h1>Rev Limit:</h1>
+					<p>rpm</p>
+					<input
+						type="number"
+						defaultValue={engine.distributor.rev_limit}
+						required
+						min="0"
+						step="100"
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "distributor.rev_limit", value: e.target.value});
+							setEngine(DB.GetEngine(id))
+						}}
+					/>
+				</Input>
+				<Input>
+					<h1>Limiter Duration:</h1>
+					<p>?</p>
+					<input
+						type="number"
+						defaultValue={engine.distributor.limiter_duration}
+						required
+						min="0"
+						step="0.01"
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "distributor.limiter_duration", value: e.target.value});
+							setEngine(DB.GetEngine(id))
+						}}
+					/>
+				</Input>
+				<Input>
+					<table border="1">
+						<thead>
+							Firing Order
+						</thead>
+						<tbody>
+							<tr>
+								{engine.distributor.firing_order.map((timing, index) => {
+									return (<td>
+										<input
+											type="number"
+											defaultValue={timing}
+											required
+											min={0}
+											step={1}
+										 	onChange={(e) => {
+												DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "distributor.firing_order[" + index + "]", value: e.target.value});
+												setEngine(DB.GetEngine(id));
+											}}/>
+									</td>)
+								})}
+								<td>
+									<button onClick={() => {
+										// let gears = transmission.gears;
+										engine.distributor.firing_order.push(1);
+										DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "distributor.firing_order", value: "[" + engine.distributor.firing_order + "]"});
+										setEngine(DB.GetEngine(id));
+									}}><img src={plus}></img></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</Input>
+				<Input>
+					<table border="1">
+						<thead>
+							Timing Curve
+						</thead>
+						<tbody>
+							{engine.distributor.timing_curve.map((value, index) => {
+								return (<tr>
+									<td>
+										<input
+											type="number"
+											defaultValue={value[0]}
+											required
+											min={0}
+											step={1000}
+											onChange={(e) => {
+												DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "head.intake_flow[" + index + "]", value: e.target.value});
+												setEngine(DB.GetEngine(id));
+											}}/>
+									</td>
+									<td>
+										<input
+											type="number"
+											defaultValue={value[1]}
+											required
+											min={0}
+											step={1}
+											onChange={(e) => {
+												DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "head.intake_flow[" + index + "]", value: e.target.value});
+												setEngine(DB.GetEngine(id));
+											}}/>
+									</td>
+								</tr>)
+							})}
+							<tr>
+								<td>
+									<button onClick={() => {
+										let last = engine.distributor.timing_curve[engine.distributor.timing_curve.length-1];
+										engine.distributor.timing_curve.push([last[0]+1000, last[1]]);
+										DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "distributor.timing_curve", value: "[" + engine.distributor.timing_curve.map(a => { return "[" + a.join(",") + "]"; }).join(",") + "]"});
+										setEngine(DB.GetEngine(id));
+									}}><img src={plus}></img></button>
+								</td>
+								<td>
+									<button onClick={() => {
+										engine.distributor.timing_curve.pop();
+										DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "distributor.timing_curve", value: "[" + engine.distributor.timing_curve.map(a => { return "[" + a.join(",") + "]"; }).join(",") + "]"});
+										setEngine(DB.GetEngine(id));
+									}}><img src={minus} alt="minus"></img></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</Input>
+			</Inputs>
+		</GeneralDiv>
 	);
 };
 
-export { MyInternalEditor };
 export default Distributor;
