@@ -6,7 +6,7 @@ import DB from "../../../database/db";
 import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
 
-const Exhaust = () => {
+const Sound = () => {
 	let { id } = useParams();
 
 	const navigate = useNavigate();
@@ -32,16 +32,46 @@ const Exhaust = () => {
 			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
 			<Inputs>
 				<Input>
-					<h1>Length:</h1>
-					<p>inch</p>
+					<h1>Low Frequency Noise:</h1>
 					<input
 						type="number"
-						defaultValue={engine.exhaust.exhaust_length}
+						defaultValue={engine.sound.noise}
 						required
 						min="0"
-						step="1"
+						step="0.01"
+						max="1"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "exhaust.length", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "sound.noise", value: e.target.value});
+							setEngine(DB.GetEngine(id))
+						}}
+					/>
+				</Input>
+				<Input>
+					<h1>High Frequency Noise:</h1>
+					<input
+						type="number"
+						defaultValue={engine.sound.jitter}
+						required
+						min="0"
+						step="0.01"
+						max="1"
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "sound.jitter", value: e.target.value});
+							setEngine(DB.GetEngine(id))
+						}}
+					/>
+				</Input>
+				<Input>
+					<h1>High Frequency Gain:</h1>
+					<input
+						type="number"
+						defaultValue={engine.sound.hf_gain}
+						required
+						min="0"
+						step="0.01"
+						max={1}
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "sound.hf_gain", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
@@ -51,4 +81,4 @@ const Exhaust = () => {
 	);
 };
 
-export default Exhaust;
+export default Sound;

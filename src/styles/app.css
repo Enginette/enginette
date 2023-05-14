@@ -18,6 +18,13 @@ html, body {
     height: 100%;
 }
 
+.routes {
+    min-height: calc(100vh - 60px);
+    /* height: calc(100vh - 60px); */
+    background-color: #1F2027;
+    color: #BEC2C8;
+}
+
 a {
     color: #65c0f2;
 }

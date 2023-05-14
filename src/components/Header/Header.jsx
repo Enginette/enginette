@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import back from "../../images/back.svg";
-import HeaderCategories from "./HeaderCategories";
+import EngineHeaderCategories from "./EngineHeaderCategories";
 import { Link } from "react-router-dom";
 
 const HeaderDiv = styled.div`
@@ -25,6 +25,9 @@ const Left = styled.div`
 		font-size: 36px;
 		font-weight: bold;
 		margin-right: 10px;
+		overflow: hidden;
+		word-wrap: normal;
+		max-width: 400px;
 	}
 	> a {
 		display: flex;
@@ -49,15 +52,15 @@ const Right = styled.div`
 	}
 `;
 
-const Header = ({ engine }) => {
+const Header = ({ name, categories }) => {
 	return (
 		<HeaderDiv>
 			<Left>
 				<Link to="/">
 					<img src={back} alt="back" />
 				</Link>
-				<h1>{engine.name}</h1>
-				<HeaderCategories engine={engine} />
+				<h1 title={name}>{name}</h1>
+				{categories}
 			</Left>
 			<Right>
 				<Link to="/guide">Guide</Link>

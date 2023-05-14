@@ -1,180 +1,204 @@
 import "./styles/app.css";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Footer from "./components/Footer/Footer";
+
+// MAIN SITES
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Guide from "./pages/Guide";
+import Generate from "./pages/Generate";
 
-import General from "./pages/engines/edit/General";
-import Cylinderhead from "./pages/engines/edit/Cylinderhead";
+// ENGINES
+import Engines from "./pages/engines/Engines";
+import EnginesGuide from "./pages/engines/Guide";
 
+import EnginesGeneral from "./pages/engines/edit/General";
+
+import Main from "./pages/engines/edit/Main";
 import Banks from "./pages/engines/edit/Banks";
-import Bank from "./pages/engines/edit/Bank";
-
-import Rods from "./pages/engines/edit/Rods";
-import ConnectingRods from "./pages/engines/edit/ConnectingRods";
-import JournalRods from "./pages/engines/edit/JournalRods";
-
-import Crankshafts from "./pages/engines/edit/Crankshafts";
-import Crankshaft from "./pages/engines/edit/Crankshaft";
-
-import Exhausts from "./pages/engines/edit/Exhausts";
-import Exhaust from "./pages/engines/edit/Exhaust";
-
-import Intakes from "./pages/engines/edit/Intakes";
 import Intake from "./pages/engines/edit/Intake";
-
-import Pistons from "./pages/engines/edit/Pistons";
-import Piston from "./pages/engines/edit/Piston";
-
-import Lobes from "./pages/engines/edit/Lobes";
-import Lobe from "./pages/engines/edit/Lobe";
-
+import Exhaust from "./pages/engines/edit/Exhaust";
+import Camshaft from "./pages/engines/edit/Camshaft";
+import IntakeCamshaft from "./pages/engines/edit/IntakeCamshaft";
+import ExhaustCamshaft from "./pages/engines/edit/ExhaustCamshaft";
+import Cylinderhead from "./pages/engines/edit/Cylinderhead";
 import Distributor from "./pages/engines/edit/Distributor";
+import Sound from "./pages/engines/edit/Sound";
 
-import { openDB } from "idb";
-import { useState, useEffect } from "react";
-import Database from "./database/database";
+// TRANSMISSIONS
+import Transmissions from "./pages/transmissions/Transmissions";
+import TransmissionsGuide from "./pages/transmissions/Guide";
+
+import TransmissionsGeneral from "./pages/transmissions/edit/General";
+
+// VEHICLES
+import Vehicles from "./pages/vehicles/Vehicles";
+import VehiclesGuide from "./pages/vehicles/Guide";
+
+import VehiclesGeneral from "./pages/vehicles/edit/General";
+
+// OTHER
+import DB from "./database/db.js";
+import Footer from "./components/Footer/Footer";
+import Page from "./components/Page";
+
 function App() {
-	const [database, setDatabase] = useState(null);
-
 	useEffect(() => {
-		const stuff = async () => {
-			const version = 3;
-			const db = await openDB("enginette", version, {
-				async upgrade(db, oldVersion, newVersion, transaction) {
-					const objectStores = [
-						"engines",
-						"cylinder_heads",
-						"banks",
-						"connecting_rods",
-						"journal_rods",
-						"crankshafts",
-						"exhausts",
-						"intakes",
-						"lobes",
-						"distributor",
-					];
-					for (let i = 0; i < objectStores.length; i++) {
-						try {
-							await db.deleteObjectStore(objectStores[i]);
-						} catch (error) {}
-					}
-					Database.initiate(db);
-				},
-			});
-			setDatabase(db);
-		};
-	    stuff();
+		DB.Init();
 	}, []);
 
 	return (
 		<div className="app">
-			<Routes>
-				{/* HOME AND OTHER STUFF */}
-				<Route path="/" element={<Home database={database}></Home>} />
-				<Route path="/about" element={<h1>b</h1>} />
-				<Route path="/guide" element={<Guide></Guide>} />
+			<div className="routes">
+				<Routes>
+					{/* HOME AND OTHER STUFF */}
+					<Route
+						path="/"
+						element={<Page title="Home">
+							<Home/>
+						</Page>}
+					/>
+					<Route
+						path="/guide"
+						element={<Page title="Guide - Home">
+							<Guide/>
+						</Page>}
+					/>
+					<Route
+						path="/generate"
+						element={<Page title="Generate">
+							<Generate/>
+						</Page>}
+					/>
 
-				{/* GENERAL */}
-				<Route
-					path="/engines/:id/edit/general"
-					element={<General database={database}></General>}
-				/>
+					{/* ENGINES */}
+					<Route
+						path="/engines"
+						element={<Page title="Engines">
+							<Engines/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/general"
+						element={<Page title=" - General" prependEngine={true}>
+							<EnginesGeneral/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/main"
+						element={<Page title=" - Measurements" prependEngine={true}>
+							<Main/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/banks"
+						element={<Page title=" - Banks" prependEngine={true}>
+							<Banks/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/intake"
+						element={<Page title=" - Intake" prependEngine={true}>
+							<Intake/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/exhaust"
+						element={<Page title=" - Exhaust" prependEngine={true}>
+							<Exhaust/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/camshaft"
+						element={<Page title=" - Camshaft" prependEngine={true}>
+							<Camshaft/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/camshaft/intake"
+						element={<Page title=" - Intake Camshaft" prependEngine={true}>
+							<IntakeCamshaft/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/camshaft/exhaust"
+						element={<Page title=" - Exhaust Camshaft" prependEngine={true}>
+							<ExhaustCamshaft/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/head"
+						element={<Page title=" - Cylinderhead" prependEngine={true}>
+							<Cylinderhead/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/distributor"
+						element={<Page title=" - Distributor" prependEngine={true}>
+							<Distributor/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/:id/edit/sound"
+						element={<Page title=" - Sound" prependEngine={true}>
+							<Sound/>
+						</Page>}
+					/>
+					<Route
+						path="/engines/guide"
+						element={<Page title="Guide - Engines">
+							<EnginesGuide/>
+						</Page>}
+					/>
+				
+					{/* TRANSMISSIONS */}
+					<Route
+						path="/transmissions"
+						element={<Page title="Transmissions">
+							<Transmissions/>
+						</Page>}
+					/>
+					<Route
+						path="/transmissions/:id/edit/general"
+						element={<Page title=" - General" prependTransmission={true}>
+							<TransmissionsGeneral/>
+						</Page>}
+					/>
+					<Route
+						path="/transmissions/guide"
+						element={<Page title="Guide - Transmissions">
+							<TransmissionsGuide/>
+						</Page>}
+					/>
 
-				{/* CYLINDER HEAD */}
-				<Route 
-					path="/engines/:id/edit/head"
-					element={<Cylinderhead database={database}></Cylinderhead>}
-				/>
+					{/* VEHICLES */}
+					<Route
+						path="/vehicles"
+						element={<Page title="Vehicles">
+							<Vehicles/>
+						</Page>}
+					/>
+					<Route
+						path="/vehicles/:id/edit/general"
+						element={<Page title=" - General" prependVehicle={true}>
+							<VehiclesGeneral/>
+						</Page>}
+					/>
+					<Route
+						path="/vehicles/guide"
+						element={<Page title="Guide - Vehicles">
+							<VehiclesGuide/>
+						</Page>}
+					/>
 
-				{/* BANKS */}
-				<Route
-					path="/engines/:id/edit/banks"
-					element={<Banks database={database}></Banks>}
-				/>
-				<Route
-					path="/engines/edit/banks/:id"
-					element={<Bank database={database}></Bank>}
-				/>
-
-				{/* RODS */}
-				<Route
-					path="/engines/:id/edit/rods"
-					element={<Rods database={database}></Rods>}
-				/>
-				<Route
-					path="/engines/edit/rods/connecting/:id"
-					element={
-						<ConnectingRods database={database}></ConnectingRods>
-					}
-				/>
-				<Route
-					path="/engines/edit/rods/journal/:id"
-					element={<JournalRods database={database}></JournalRods>}
-				/>
-
-				{/* CRANKSHAFTS */}
-				<Route
-					path="/engines/:id/edit/crankshafts"
-					element={<Crankshafts database={database}></Crankshafts>}
-				/>
-				<Route
-					path="/engines/edit/crankshaft/:id"
-					element={<Crankshaft database={database}></Crankshaft>}
-				/>
-
-				{/* LOBES */}
-				<Route
-					path="/engines/:id/edit/lobes"
-					element={<Lobes database={database}></Lobes>}
-				/>
-
-				<Route 
-					path="/engines/edit/lobe/:id" 
-					element={<Lobe database={database}></Lobe>} 
-				/>
-
-				{/* EXHAUSTS */}
-				<Route
-					path="/engines/:id/edit/exhausts"
-					element={<Exhausts database={database}></Exhausts>}
-				/>
-
-				<Route
-					path="/engines/edit/exhaust/:id"
-					element={<Exhaust database={database}></Exhaust>}
-				/>
-
-				{/* INTAKES */}
-				<Route
-					path="/engines/:id/edit/intakes"
-					element={<Intakes database={database}></Intakes>}
-				/>
-
-				<Route
-					path="/engines/edit/intake/:id"
-					element={<Intake database={database}></Intake>}
-				/>
-
-				{/* PISTONS */}
-				<Route
-					path="/engines/:id/edit/pistons"
-					element={<Pistons database={database}></Pistons>}
-				/>
-
-				<Route
-					path="/engines/edit/piston/:id"
-					element={<Piston database={database}></Piston>}
-				/>
-
-				{/* DISTRIBUTOR */}
-				<Route
-					path="/engines/:id/edit/distributor"
-					element={<Distributor database={database}></Distributor>}
-				/>
-				<Route path="*" element={<NotFound></NotFound>} />
-			</Routes>
+					<Route
+						path="*"
+						element={<Page title="404 Not Found">
+							<NotFound/>
+						</Page>}
+					/>
+				</Routes>
+			</div>
 			<Footer></Footer>
 		</div>
 	);
