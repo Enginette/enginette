@@ -41,7 +41,7 @@ const Exhaust = () => {
 						min="0"
 						step="1"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "exhaust.length", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "exhaust.exhaust_length", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
