@@ -12,12 +12,15 @@ class PythonGenerator {
     }
 
     static generate = async ({engine, transmission, vehicle, log, logLink}) => {
+        log(`Fetching Data...`)
+        const url_info = await (await fetch("https://raw.githubusercontent.com/enginette/enginette/dev/data/generator_url_current.json")).json();
+        log(`Engine Generator ${url_info.author}\\${url_info.branch}`);
         
-        let json = await (await fetch("https://api.github.com/repos/ange-yaghi/engine-generator/branches/master")).json()
-        // console.log(json);
-        log(`Engine Generator commit ${json.commit.commit.author.name} ${json.commit.commit.author.date} - '${json.commit.commit.message}'`)
-        let generated_function = `\n
-banks = []
+        const api = await (await fetch(url_info.api)).json()
+        log(`Engine Generator commit ${api.commit.commit.author.name} ${api.commit.commit.author.date} - '${api.commit.commit.message}'`)
+
+        const generated_function = `\n
+        banks = []
 ${engine.banks.map((bank) => `banks.append(Bank(range(${bank.cylinders}), ${bank.bank_angle}))`)}
 
 engine = Engine(banks, [${engine.distributor.firing_order}])
@@ -98,14 +101,16 @@ engine.vehicle.diff_ratio = ${vehicle.diff_ratio}
 engine.vehicle.tire_radius = ${vehicle.tire_radius}
 engine.vehicle.rolling_resistance = ${vehicle.rolling_resistance}
 
+# fuel
+engine.fuel.
+
 engine.generate()
 out = engine.write_to_string()
 `;
         
         log("Fetching Script...");
-        let script = await (await fetch("https://raw.githubusercontent.com/ange-yaghi/engine-generator/master/engine_generator.py")).text()
+        let script = await (await fetch(url_info.script)).text();
         script += generated_function;
-        console.log(script);
 
         log("Running Script...");
         try {

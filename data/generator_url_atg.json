@@ -1,0 +1,6 @@
+{
+    "author": "Ange Yaghi",
+    "branch": "master",
+    "api": "https://api.github.com/repos/ange-yaghi/engine-generator/branches/master",
+    "script": "https://raw.githubusercontent.com/ange-yaghi/engine-generator/master/engine_generator.py"
+}

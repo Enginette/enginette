@@ -47,6 +47,12 @@ function App() {
 		DB.Init();
 	}, []);
 
+	if(DB.GetDB() == undefined) {
+		return (<div className="app">
+			<h1>Please wait 5 seconds and refresh the page.</h1>
+		</div>)
+	}
+	
 	return (
 		<div className="app">
 			<div className="routes">
