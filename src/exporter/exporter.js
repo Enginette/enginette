@@ -15,7 +15,7 @@
                      - 17.09.22 12:43 YOOO IT WORKS!!!!  
 */
 
-import Database from "../database/database";
+import Database from "../../old/database";
 
 class Generator {
 
