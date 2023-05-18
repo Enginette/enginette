@@ -68,7 +68,7 @@ const Engines = () => {
 				<h1>Enginette</h1>
 				<pre>Welcome to Enginette!</pre>
 				<Link to={"/"}>Go back to home</Link>
-				<h4 style={{color: "yellow"}}>WARNING: Your engines may have dissapeared as the database was changed. You can still view your old engine parameters by clicking F11 and viewing the application tab.</h4>
+				<h4 style={{color: "yellow"}}>WARNING: Your engines may have dissapeared as the database was changed. You can still view your old engine parameters by clicking F12 and viewing the application tab.</h4>
 
 				{isDeleteActive && (
 					<DeleteThing
