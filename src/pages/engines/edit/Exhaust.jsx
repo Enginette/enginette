@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
+import HorizontalNav from "../../../components/HorizontalNav/HorizontalNav";
 import DB from "../../../database/db";
-import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
+import EngineNavCategories from "../../../components/HorizontalNav/EngineNavCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
 
 const Exhaust = () => {
@@ -29,7 +29,8 @@ const Exhaust = () => {
 	}
 	return (
 		<GeneralDiv>
-			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
+			{/* <Header name={engine.name} categories={<EngineHeaderCategories id={id} />} /> */}
+			<HorizontalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 					<h1>Length:</h1>

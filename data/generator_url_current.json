@@ -1,6 +1,6 @@
 {
     "author": "DDev247",
-    "branch": "patch-1",
-    "api": "https://api.github.com/repos/DDev247/engine-generator/patch-1/branches/master",
-    "script": "https://raw.githubusercontent.com/DDev247/engine-generator/patch-1/engine_generator.py"
+    "branch": "fuel-class",
+    "api": "https://api.github.com/repos/DDev247/engine-generator/branches/fuel-class",
+    "script": "https://raw.githubusercontent.com/DDev247/engine-generator/fuel-class/engine_generator.py"
 }

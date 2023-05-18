@@ -102,7 +102,15 @@ engine.vehicle.tire_radius = ${vehicle.tire_radius}
 engine.vehicle.rolling_resistance = ${vehicle.rolling_resistance}
 
 # fuel
-engine.fuel.
+engine.fuel.molecular_mass = ${engine.fuel.molecular_mass}
+engine.fuel.energy_density = ${engine.fuel.energy_density}
+engine.fuel.density = ${engine.fuel.density}
+engine.fuel.molecular_afr = ${engine.fuel.molecular_afr}
+engine.fuel.max_burning_efficiency = ${engine.fuel.max_burning_efficiency}
+engine.fuel.burning_efficiency_randomness = ${engine.fuel.burning_efficiency_randomness}
+engine.fuel.low_efficiency_attenuation = ${engine.fuel.low_efficiency_attenuation}
+engine.fuel.max_turbulence_effect = ${engine.fuel.max_turbulence_effect}
+engine.fuel.max_dilution_effect = ${engine.fuel.max_dilution_effect}
 
 engine.generate()
 out = engine.write_to_string()

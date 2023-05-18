@@ -84,6 +84,7 @@ const DeleteThing = ({
 		toggleIsDeleteActive();
 	};
 	const handleDeleteClick = async () => {
+		console.log(clicked);
 		DB.Thing.Delete({type, clicked});
 		handleCloseClick();
 	};

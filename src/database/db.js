@@ -209,6 +209,18 @@ class DB {
             { cylinders: 4, bank_angle: 0 }
         ],
 
+        fuel: {
+            molecular_mass: 100,
+            energy_density: 48.1,
+            density: 0.755,
+            molecular_afr: 25 / 2.0,
+            max_burning_efficiency: 0.8,
+            burning_efficiency_randomness: 0.5,
+            low_efficiency_attenuation: 0.6,
+            max_turbulence_effect: 2,
+            max_dilution_effect: 10
+        },
+
         simulation_frequency: 10000,
     }
     
@@ -342,6 +354,23 @@ class DB {
         })
 
         return returning;
+    }
+
+    static PotentialUpgrade = (item, key, data) => {
+        // If key not found, add it and set the things inside of it
+        if(!Object.keys(item).find((value) => value === key)) {
+            item[key] = data;
+        }
+        // Else, Check each key of `item` and if that key exists in the `item`,
+        // leave it. Otherwise add it.
+        else {
+            Object.keys(data).forEach((value) => {
+                if(item[key][value] === undefined) {
+                    item[key][value] = data[value];
+                    // console.log(`${value} = ${data[value]}`);
+                }
+            })
+        }
     }
 }
 
