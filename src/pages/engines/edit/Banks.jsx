@@ -51,7 +51,7 @@ const Banks = () => {
 											defaultValue={value.cylinders}
 											required
 											min={0}
-											step={0.01}
+											step={1}
 										 	onChange={(e) => {
 												DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "banks[" + index + "].cylinders", value: e.target.value});
 												setEngine(DB.GetEngine(id));
@@ -63,7 +63,7 @@ const Banks = () => {
 											defaultValue={value.bank_angle}
 											required
 											min={0}
-											step={0.01}
+											step={1}
 										 	onChange={(e) => {
 												DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "banks[" + index + "].bank_angle", value: e.target.value});
 												setEngine(DB.GetEngine(id));
