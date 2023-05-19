@@ -6,7 +6,7 @@ import DB from "../../../database/db";
 import EngineNavCategories from "../../../components/VerticalNav/EngineNavCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
 
-const Main = () => {
+const Fuel = () => {
 	let { id } = useParams();
 
 	const navigate = useNavigate();
@@ -16,12 +16,23 @@ const Main = () => {
 		setEngine(DB.GetEngine(id));
 	}, []);
 
+	useEffect(() => {
+		if (engine !== null) {
+			DB.PotentialUpgrade(engine, "fuel", DB.ENGINE_TEMPLATE.fuel);
+			DB.Thing.Set({ type: "engine", name: id, value: engine });
+		}
+	});
+
 	if (engine === null) {
 		return (
 			<LoadingScreen>
 				<h1>Loading...</h1>
 				<p>Not Loading? <br/> Maybe the page encountered an error. Check the console for more details</p>
 			</LoadingScreen>
+		);
+	} else if (engine.fuel === undefined) {
+		return (
+			<h1>Please Wait a few seconds and refresh.</h1>
 		);
 	} else if (engine === undefined) {
 		navigate("/");
@@ -33,151 +44,130 @@ const Main = () => {
 			<VerticalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<Inputs>
 				<Input>
-					<h1>Stroke:</h1>
-					<p>mm</p>
-					<input
-						type="number"
-						defaultValue={engine.main.stroke}
-						required
-						min="0"
-						step="1"
-						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.stroke", value: e.target.value});
-							setEngine(DB.GetEngine(id))
-						}}
-					/>
-				</Input>
-				<Input>
-					<h1>Bore:</h1>
-					<p>mm</p>
-					<input
-						type="number"
-						defaultValue={engine.main.bore}
-						required
-						min="0"
-						step="1"
-						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.bore", value: e.target.value});
-							setEngine(DB.GetEngine(id))
-						}}
-					/>
-				</Input>
-				<Input>
-					<h1>Rod Length:</h1>
-					<p>mm</p>
-					<input
-						type="number"
-						defaultValue={engine.main.rod_length}
-						required
-						min="0"
-						step="1"
-						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.rod_length", value: e.target.value});
-							setEngine(DB.GetEngine(id))
-						}}
-					/>
-				</Input>
-				<Input>
-					<h1>Rod Mass:</h1>
+					<h1>Molecular Mass:</h1>
 					<p>g</p>
 					<input
 						type="number"
-						defaultValue={engine.main.rod_mass}
+						defaultValue={engine.fuel.molecular_mass}
 						required
 						min="0"
 						step="1"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.rod_mass", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.molecular_mass", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Compression Height:</h1>
-					<p>mm</p>
+					<h1>Energy Density:</h1>
+					<p>kJ/g</p>
 					<input
 						type="number"
-						defaultValue={engine.main.compression_height}
+						defaultValue={engine.fuel.energy_density}
 						required
 						min="0"
-						step="1"
+						step="0.1"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.compression_height", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.energy_density", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Crank Mass:</h1>
-					<p>kg</p>
+					<h1>Density:</h1>
+					<p>kg/L</p>
 					<input
 						type="number"
-						defaultValue={engine.main.crank_mass}
+						defaultValue={engine.fuel.density}
 						required
 						min="0"
-						step="1"
+						step="0.1"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.crank_mass", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.density", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Flywheel Mass:</h1>
-					<p>kg</p>
+					<h1>Molecular AFR:</h1>
 					<input
 						type="number"
-						defaultValue={engine.main.flywheel_mass}
+						defaultValue={engine.fuel.molecular_afr}
 						required
 						min="0"
-						step="1"
+						step="0.1"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.flywheel_mass", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.molecular_afr", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Flywheel Radius:</h1>
-					<p>mm</p>
+					<h1>Max Burning Efficiency:</h1>
 					<input
 						type="number"
-						defaultValue={engine.main.flywheel_radius}
+						defaultValue={engine.fuel.max_burning_efficiency}
 						required
 						min="0"
-						step="1"
+						step="0.01"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.flywheel_radius", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.max_burning_efficiency", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Piston Mass:</h1>
-					<p>g</p>
+					<h1>Burning Efficiency Randomness:</h1>
 					<input
 						type="number"
-						defaultValue={engine.main.piston_mass}
+						defaultValue={engine.fuel.burning_efficiency_randomness}
 						required
 						min="0"
-						step="1"
+						step="0.01"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.piston_mass", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.burning_efficiency_randomness", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
 				</Input>
 				<Input>
-					<h1>Piston Blowby:</h1>
-					<p>k_28inH2O</p>
+					<h1>Low Efficiency Randomness:</h1>
 					<input
 						type="number"
-						defaultValue={engine.main.piston_blowby}
+						defaultValue={engine.fuel.low_efficiency_attenuation}
 						required
 						min="0"
-						step="1"
+						step="0.01"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "main.piston_blowby", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.low_efficiency_attenuation", value: e.target.value});
+							setEngine(DB.GetEngine(id))
+						}}
+					/>
+				</Input>
+				<Input>
+					<h1>Max Turbulence Effect:</h1>
+					<input
+						type="number"
+						defaultValue={engine.fuel.max_turbulence_effect}
+						required
+						min="0"
+						step="0.01"
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.max_turbulence_effect", value: e.target.value});
+							setEngine(DB.GetEngine(id))
+						}}
+					/>
+				</Input>
+				<Input>
+					<h1>Max Dilution Effect:</h1>
+					<input
+						type="number"
+						defaultValue={engine.fuel.max_dilution_effect}
+						required
+						min="0"
+						step="0.01"
+						onChange={(e) => {
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "fuel.max_dilution_effect", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>
@@ -187,4 +177,4 @@ const Main = () => {
 	);
 };
 
-export default Main;
+export default Fuel;

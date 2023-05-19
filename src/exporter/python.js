@@ -4,7 +4,7 @@ class PythonGenerator {
 
     static runScript = async (code) => {
         const pyodide = await window.loadPyodide({
-            indexURL : "https://cdn.jsdelivr.net/pyodide/v0.23.1/full/"
+            indexURL : "https://cdn.jsdelivr.net/pyodide/v0.23.2/full/"
         });
         
         await pyodide.runPythonAsync(code);
@@ -12,11 +12,15 @@ class PythonGenerator {
     }
 
     static generate = async ({engine, transmission, vehicle, log, logLink}) => {
+        log(`Fetching Data...`)
+        // const url_info = await (await fetch("https://raw.githubusercontent.com/enginette/enginette/dev/data/generator_url_current.json")).json();
+        const url_info = JSON.parse(`{"author": "DDev247","branch": "fuel-class","api": "https://api.github.com/repos/DDev247/engine-generator/branches/fuel-class","script": "https://raw.githubusercontent.com/DDev247/engine-generator/fuel-class/engine_generator.py"}`);
+        log(`Engine Generator ${url_info.author}\\${url_info.branch}`);
         
-        let json = await (await fetch("https://api.github.com/repos/ange-yaghi/engine-generator/branches/master")).json()
-        // console.log(json);
-        log(`Engine Generator commit ${json.commit.commit.author.name} ${json.commit.commit.author.date} - '${json.commit.commit.message}'`)
-        let generated_function = `\n
+        const api = await (await fetch(url_info.api)).json()
+        log(`Engine Generator commit ${api.commit.commit.author.name} ${api.commit.commit.author.date} - '${api.commit.commit.message}'`)
+
+        const generated_function = `\n
 banks = []
 ${engine.banks.map((bank) => `banks.append(Bank(range(${bank.cylinders}), ${bank.bank_angle}))`)}
 
@@ -98,14 +102,24 @@ engine.vehicle.diff_ratio = ${vehicle.diff_ratio}
 engine.vehicle.tire_radius = ${vehicle.tire_radius}
 engine.vehicle.rolling_resistance = ${vehicle.rolling_resistance}
 
+# fuel
+engine.fuel.molecular_mass = ${engine.fuel.molecular_mass}
+engine.fuel.energy_density = ${engine.fuel.energy_density}
+engine.fuel.density = ${engine.fuel.density}
+engine.fuel.molecular_afr = ${engine.fuel.molecular_afr}
+engine.fuel.max_burning_efficiency = ${engine.fuel.max_burning_efficiency}
+engine.fuel.burning_efficiency_randomness = ${engine.fuel.burning_efficiency_randomness}
+engine.fuel.low_efficiency_attenuation = ${engine.fuel.low_efficiency_attenuation}
+engine.fuel.max_turbulence_effect = ${engine.fuel.max_turbulence_effect}
+engine.fuel.max_dilution_effect = ${engine.fuel.max_dilution_effect}
+
 engine.generate()
 out = engine.write_to_string()
 `;
         
         log("Fetching Script...");
-        let script = await (await fetch("https://raw.githubusercontent.com/ange-yaghi/engine-generator/master/engine_generator.py")).text()
+        let script = await (await fetch(url_info.script)).text();
         script += generated_function;
-        console.log(script);
 
         log("Running Script...");
         try {

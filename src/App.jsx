@@ -24,6 +24,7 @@ import ExhaustCamshaft from "./pages/engines/edit/ExhaustCamshaft";
 import Cylinderhead from "./pages/engines/edit/Cylinderhead";
 import Distributor from "./pages/engines/edit/Distributor";
 import Sound from "./pages/engines/edit/Sound";
+import Fuel from "./pages/engines/edit/Fuel";
 
 // TRANSMISSIONS
 import Transmissions from "./pages/transmissions/Transmissions";
@@ -47,6 +48,12 @@ function App() {
 		DB.Init();
 	}, []);
 
+	if(DB.GetDB() === undefined) {
+		return (<div className="app">
+			<h1>Please wait 5 seconds and refresh the page.</h1>
+		</div>)
+	}
+	
 	return (
 		<div className="app">
 			<div className="routes">
@@ -142,6 +149,12 @@ function App() {
 						path="/engines/:id/edit/sound"
 						element={<Page title=" - Sound" prependEngine={true}>
 							<Sound/>
+						</Page>}
+					/>\
+					<Route
+						path="/engines/:id/edit/fuel"
+						element={<Page title=" - Fuel" prependEngine={true}>
+							<Fuel/>
 						</Page>}
 					/>
 					<Route

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import DB from "../../../database/db";
-import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
+import EngineNavCategories from "../../../components/VerticalNav/EngineNavCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
 
 const Exhaust = () => {
@@ -29,7 +29,8 @@ const Exhaust = () => {
 	}
 	return (
 		<GeneralDiv>
-			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
+			{/* <Header name={engine.name} categories={<EngineHeaderCategories id={id} />} /> */}
+			<VerticalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 					<h1>Length:</h1>
@@ -41,7 +42,7 @@ const Exhaust = () => {
 						min="0"
 						step="1"
 						onChange={(e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "exhaust.length", value: e.target.value});
+							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "exhaust.exhaust_length", value: e.target.value});
 							setEngine(DB.GetEngine(id))
 						}}
 					/>

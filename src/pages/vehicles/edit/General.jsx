@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import DB from "../../../database/db";
-import VehicleHeaderCategories from "../../../components/Header/VehicleHeaderCategories";
+import VehicleNavCategories from "../../../components/VerticalNav/VehicleNavCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "../../engines/edit/General";
 
 const General = () => {
@@ -29,7 +29,7 @@ const General = () => {
 	}
 	return (
 		<GeneralDiv>
-			<Header name={vehicle.name} categories={<VehicleHeaderCategories id={id} />} />
+			<VerticalNav name={vehicle.name} categories={<VehicleNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 					<h1>Name:</h1>

@@ -2,9 +2,9 @@ import styled from "styled-components";
 import plus from "../../../images/plus.svg";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import DB from "../../../database/db";
-import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
+import EngineNavCategories from "../../../components/VerticalNav/EngineNavCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
 import minus from "../../../images/minus.svg";
 
@@ -31,7 +31,8 @@ const Distributor = () => {
 	}
 	return (
 		<GeneralDiv>
-			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
+			{/* <Header name={engine.name} categories={<EngineHeaderCategories id={id} />} /> */}
+			<VerticalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 					<h1>Rev Limit:</h1>
@@ -66,7 +67,7 @@ const Distributor = () => {
 				<Input>
 					<table border="1">
 						<thead>
-							Firing Order
+							Firing Order (starts from 0 ex. 0,1,2 instead of 1,2,3)
 						</thead>
 						<tbody>
 							<tr>

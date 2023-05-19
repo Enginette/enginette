@@ -2,9 +2,9 @@ import styled from "styled-components";
 import plus from "../../../images/plus.svg";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import DB from "../../../database/db";
-import TransmissionHeaderCategories from "../../../components/Header/TransmissionHeaderCategories";
+import TransmissionNavCategories from "../../../components/VerticalNav/TransmissionNavCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "../../engines/edit/General";
 
 const General = () => {
@@ -30,7 +30,7 @@ const General = () => {
 	}
 	return (
 		<GeneralDiv>
-			<Header name={transmission.name} categories={<TransmissionHeaderCategories id={id} />} />
+			<VerticalNav name={transmission.name} categories={<TransmissionNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 				<h1>Name:</h1>

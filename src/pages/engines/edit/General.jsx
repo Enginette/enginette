@@ -1,17 +1,18 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import DB from "../../../database/db";
 import { HomeDiv } from "../Engines";
-import EngineHeaderCategories from "../../../components/Header/EngineHeaderCategories";
+import EngineNavCategories from "../../../components/VerticalNav/EngineNavCategories";
 
 const GeneralDiv = styled(HomeDiv)`
 	padding: 15px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: normal;
 	justify-content: normal;
+	gap: 20px;
 `;
 
 const LoadingScreen = styled.div`
@@ -55,6 +56,8 @@ const Inputs = styled.div`
 	/* justify-content: center; */
 	/* align-items: center; */
 	flex-wrap: wrap;
+	flex-grow: 1;
+	align-items: baseline;
 	padding: 20px;
 	background: #303237;
 	box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
@@ -180,7 +183,8 @@ const General = () => {
 	}
 	return (
 		<GeneralDiv>
-			<Header name={engine.name} categories={<EngineHeaderCategories id={id} />} />
+			{/* <Header name={engine.name} categories={<EngineHeaderCategories id={id} />} /> */}
+			<VerticalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 				<h1>Name:</h1>
