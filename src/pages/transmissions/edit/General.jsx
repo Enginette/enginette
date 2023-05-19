@@ -46,8 +46,14 @@ const General = () => {
 					/>
 					<button
 						onClick={async (e) => {
-							DB.Thing.ChangeParam({ type: "transmission", name: transmission.name, path: "name", value: document.getElementById("nameInput").value});
-							setTransmission(DB.GetTransmission(id))
+							let db = DB.GetDB();
+							const newName = document.getElementById("nameInput").value;
+							const newID = DB.ID(newName);
+							db.transmissions[id].name = newName;
+							db.transmissions[newID] = db.transmissions[id];
+							db.transmissions[id] = undefined;
+							DB.SetDB(db);
+							window.location.pathname = "/transmissions/" + newID + "/edit/general";
 						}}>
 							Submit
 					</button>

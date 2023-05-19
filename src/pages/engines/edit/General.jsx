@@ -200,8 +200,14 @@ const General = () => {
 					/>
 					<button
 						onClick={async (e) => {
-							DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "name", value: document.getElementById("nameInput").value});
-							setEngine(DB.GetEngine(id))
+							let db = DB.GetDB();
+							const newName = document.getElementById("nameInput").value;
+							const newID = DB.ID(newName);
+							db.engines[id].name = newName;
+							db.engines[newID] = db.engines[id];
+							db.engines[id] = undefined;
+							DB.SetDB(db);
+							window.location.pathname = "/engines/" + newID + "/edit/general";
 						}}>
 							Submit
 					</button>
