@@ -45,8 +45,14 @@ const General = () => {
 					/>
 					<button
 						onClick={(e) => {
-							DB.Thing.ChangeParam({ type: "vehicle", name: vehicle.name, path: "name", value: document.getElementById("nameInput").value});
-							setVehicle(DB.GetVehicle(id))
+							let db = DB.GetDB();
+							const newName = document.getElementById("nameInput").value;
+							const newID = DB.ID(newName);
+							db.vehicles[id].name = newName;
+							db.vehicles[newID] = db.vehicles[id];
+							db.vehicles[id] = undefined;
+							DB.SetDB(db);
+							window.location.pathname = "/vehicles/" + newID + "/edit/general";
 						}}>
 							Submit
 					</button>
