@@ -6,7 +6,7 @@
 ---
 
 # How to use
-  You can go to [Enginette](https://enginette.netlify.app) now to visit the website and start making engines. We are currently at version `0.1.0`.
+  You can go to [Enginette](https://enginette.netlify.app) now to visit the website and start making engines. We are currently at version `0.1.1`.
   
 # How does this work?
   This project works by taking all of the required parameters and generating them into a [Piranha](https://github.com/ange-yaghi/piranha) script using the [Python Engine Generator](https://github.com/ange-yaghi/engine-generator). Then it can be used by the game.
