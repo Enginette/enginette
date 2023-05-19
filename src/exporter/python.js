@@ -4,7 +4,7 @@ class PythonGenerator {
 
     static runScript = async (code) => {
         const pyodide = await window.loadPyodide({
-            indexURL : "https://cdn.jsdelivr.net/pyodide/v0.23.1/full/"
+            indexURL : "https://cdn.jsdelivr.net/pyodide/v0.23.2/full/"
         });
         
         await pyodide.runPythonAsync(code);
@@ -13,14 +13,15 @@ class PythonGenerator {
 
     static generate = async ({engine, transmission, vehicle, log, logLink}) => {
         log(`Fetching Data...`)
-        const url_info = await (await fetch("https://raw.githubusercontent.com/enginette/enginette/dev/data/generator_url_current.json")).json();
+        // const url_info = await (await fetch("https://raw.githubusercontent.com/enginette/enginette/dev/data/generator_url_current.json")).json();
+        const url_info = JSON.parse(`{"author": "DDev247","branch": "fuel-class","api": "https://api.github.com/repos/DDev247/engine-generator/branches/fuel-class","script": "https://raw.githubusercontent.com/DDev247/engine-generator/fuel-class/engine_generator.py"}`);
         log(`Engine Generator ${url_info.author}\\${url_info.branch}`);
         
         const api = await (await fetch(url_info.api)).json()
         log(`Engine Generator commit ${api.commit.commit.author.name} ${api.commit.commit.author.date} - '${api.commit.commit.message}'`)
 
         const generated_function = `\n
-        banks = []
+banks = []
 ${engine.banks.map((bank) => `banks.append(Bank(range(${bank.cylinders}), ${bank.bank_angle}))`)}
 
 engine = Engine(banks, [${engine.distributor.firing_order}])

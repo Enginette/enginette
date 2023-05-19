@@ -67,7 +67,7 @@ const Distributor = () => {
 				<Input>
 					<table border="1">
 						<thead>
-							Firing Order
+							Firing Order (starts from 0 ex. 0,1,2 instead of 1,2,3)
 						</thead>
 						<tbody>
 							<tr>
