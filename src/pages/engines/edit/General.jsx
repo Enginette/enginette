@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import HorizontalNav from "../../../components/HorizontalNav/HorizontalNav";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import DB from "../../../database/db";
 import { HomeDiv } from "../Engines";
-import EngineNavCategories from "../../../components/HorizontalNav/EngineNavCategories";
+import EngineNavCategories from "../../../components/VerticalNav/EngineNavCategories";
 
 const GeneralDiv = styled(HomeDiv)`
 	padding: 15px;
@@ -184,7 +184,7 @@ const General = () => {
 	return (
 		<GeneralDiv>
 			{/* <Header name={engine.name} categories={<EngineHeaderCategories id={id} />} /> */}
-			<HorizontalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
+			<VerticalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 				<h1>Name:</h1>

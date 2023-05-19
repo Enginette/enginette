@@ -4,7 +4,7 @@ import styled from "styled-components";
 import NavCategory from "./NavCategory";
 import back from "../../images/back.svg";
 
-const HorizontalNavDiv = styled.div`
+const VerticalNavDiv = styled.div`
 	height: 100%;
     flex-grow: 0.25;
     min-width: 200px;
@@ -36,9 +36,9 @@ const Bottom = styled(Top)`
     display: flex;
 `;
 
-const HorizontalNav = ({ name, categories }) => {
+const VerticalNav = ({ name, categories }) => {
     return (
-        <HorizontalNavDiv>
+        <VerticalNavDiv>
             <Top>
                 <Link to={"/"}>
                     <img src={back}/>
@@ -51,8 +51,8 @@ const HorizontalNav = ({ name, categories }) => {
             <Bottom>
                 <NavCategory to={"/"}>Go Back Home</NavCategory>
             </Bottom>
-        </HorizontalNavDiv>
+        </VerticalNavDiv>
     )
 };
 
-export default HorizontalNav;
+export default VerticalNav;

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import HorizontalNav from "../../../components/HorizontalNav/HorizontalNav";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import plus from "../../../images/plus.svg";
 import minus from "../../../images/minus.svg";
 import DB from "../../../database/db";
-import EngineNavCategories from "../../../components/HorizontalNav/EngineNavCategories";
+import EngineNavCategories from "../../../components/VerticalNav/EngineNavCategories";
 import { GeneralDiv, LoadingScreen, Inputs, Input } from "./General";
 
 const Banks = () => {
@@ -32,7 +32,7 @@ const Banks = () => {
 	return (
 		<GeneralDiv>
 			{/* <Header name={engine.name} categories={<EngineHeaderCategories id={id} />} /> */}
-			<HorizontalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
+			<VerticalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<Inputs>
 				<Input>
 					<table>

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import HorizontalNav from "../../../components/HorizontalNav/HorizontalNav";
+import VerticalNav from "../../../components/VerticalNav/VerticalNav";
 import DB from "../../../database/db";
-import EngineNavCategories from "../../../components/HorizontalNav/EngineNavCategories";
+import EngineNavCategories from "../../../components/VerticalNav/EngineNavCategories";
 import { GeneralDiv, LoadingScreen, Input } from "./General";
 import { InputsWithSidebar, Sidebar, SidebarInputs, SidebarItem } from "./Camshaft";
 
@@ -31,7 +31,7 @@ const IntakeCamshaft = () => {
 	return (
 		<GeneralDiv>
 			{/* <Header name={engine.name} categories={<EngineHeaderCategories id={id} />} /> */}
-			<HorizontalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
+			<VerticalNav name={engine.name} categories={<EngineNavCategories id={id} />} />
 			<InputsWithSidebar>
 				<Sidebar>
 					<Link style={{color: "transparent"}} to={`/engines/${id}/edit/camshaft/intake`}>
