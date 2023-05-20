@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import plus from "../../../images/plus.svg";
+import minus from "../../../images/minus.svg";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import VerticalNav from "../../../components/VerticalNav/VerticalNav";
@@ -98,6 +99,14 @@ const General = () => {
 										DB.Thing.ChangeParam({ type: "transmission", name: transmission.name, path: "gears", value: "[" + transmission.gears + "]"});
 										setTransmission(DB.GetTransmission(id));
 									}}><img src={plus}></img></button>
+								</td>
+								<td>
+									<button onClick={() => {
+										// let gears = transmission.gears;
+										transmission.gears.pop();
+										DB.Thing.ChangeParam({ type: "transmission", name: transmission.name, path: "gears", value: "[" + transmission.gears + "]"});
+										setTransmission(DB.GetTransmission(id));
+									}}><img src={minus}></img></button>
 								</td>
 							</tr>
 						</tbody>
