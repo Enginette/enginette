@@ -93,6 +93,14 @@ const Distributor = () => {
 										setEngine(DB.GetEngine(id));
 									}}><img src={plus}></img></button>
 								</td>
+								<td>
+									<button onClick={() => {
+										// let gears = transmission.gears;
+										engine.distributor.firing_order.pop();
+										DB.Thing.ChangeParam({ type: "engine", name: engine.name, path: "distributor.firing_order", value: "[" + engine.distributor.firing_order + "]"});
+										setEngine(DB.GetEngine(id));
+									}}><img src={minus}></img></button>
+								</td>
 							</tr>
 						</tbody>
 					</table>

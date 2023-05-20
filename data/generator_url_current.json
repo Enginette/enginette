@@ -1,6 +1,6 @@
 {
-    "author": "Ange Yaghi",
-    "branch": "master",
-    "api": "https://api.github.com/repos/ange-yaghi/engine-generator/branches/master",
-    "script": "https://raw.githubusercontent.com/ange-yaghi/engine-generator/master/engine_generator.py"
+    "author": "DDev247",
+    "branch": "fuel-class-patch",
+    "api": "https://api.github.com/repos/DDev247/engine-generator/branches/fuel-class-patch",
+    "script": "https://raw.githubusercontent.com/DDev247/engine-generator/fuel-class-patch/engine_generator.py"
 }
