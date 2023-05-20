@@ -125,7 +125,6 @@ class DB {
             hf_gain: 0.01,
             noise: 1.0,
             jitter: 0.1,
-            volume: 1.0,
         },
 
         main: {
